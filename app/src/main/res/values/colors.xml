@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="app_accent">#00C853</color>
+    <color name="app_primary">#4CAF50</color>
+    <color name="app_primary_dark">#388E3C</color>
+
+    <color name="drawer_color">#673AB7</color>
+    <color name="drawer_item_text">@android:color/primary_text_dark</color>
+    <color name="drawer_item_pressed">#cccccc</color>
+
+</resources>
