@@ -52,6 +52,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 R.string.navigation_drawer_close);
         drawerLayout.setDrawerListener(drawerToggle);
         drawerToggle.syncState();
+
+        navigate(navItemId);
     }
 
     @Override
@@ -95,10 +97,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
 
-        toolbar.setTitle(title);
         fragmentManager.beginTransaction()
                 .replace(R.id.container, fragment)
                 .commit();
+        toolbar.setTitle(title);
     }
 
     @Override

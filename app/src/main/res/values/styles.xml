@@ -1,14 +1,16 @@
 <resources>
 
     <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:actionBarStyle">@style/AppBaseTheme.Toolbar</item>
         <item name="colorPrimary">@color/app_primary</item>
         <item name="colorPrimaryDark">@color/app_primary_dark</item>
         <item name="colorAccent">@color/app_accent</item>
     </style>
 
-    <style name="AppBaseTheme.Toolbar" parent="Widget.AppCompat.Light.ActionBar.Solid">
-        <item name="android:background">@color/app_primary</item>
-        <item name="android:textColor">#ffffff</item>
+    <style name="AppBaseTheme.Toolbar.Title" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textColor">@color/toolbar_text</item>
+    </style>
+
+    <style name="ToolbarColoredBackArrow">
+        <item name="android:textColorSecondary">@color/toolbar_text</item>
     </style>
 </resources>

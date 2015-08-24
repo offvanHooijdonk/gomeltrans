@@ -19,8 +19,9 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/abc_action_bar_default_height_material"
             android:background="?attr/colorPrimary"
-            android:theme="@style/AppBaseTheme.Toolbar"
-            android:minHeight="?attr/actionBarSize"/>
+            android:minHeight="?attr/actionBarSize"
+            app:titleTextAppearance="@style/AppBaseTheme.Toolbar.Title"
+            app:theme="@style/ToolbarColoredBackArrow"/>
 
         <!-- Real content goes here -->
         <FrameLayout
@@ -35,8 +36,9 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="@color/drawer_color"
-        app:itemIconTint="@color/nav_item"
-        app:itemTextColor="@color/nav_item"
+        app:itemTextColor="@color/drawer_item_text"
+        app:itemIconTint="@color/drawer_item_text"
+        app:headerLayout="@layout/drawer_header"
         app:menu="@menu/drawer"/>
 
 </android.support.v4.widget.DrawerLayout>

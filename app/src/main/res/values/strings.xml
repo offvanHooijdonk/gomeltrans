@@ -6,6 +6,8 @@
     <string name="item_transport">Transport</string>
     <string name="item_stops">Stops</string>
 
+    <string name="drawer_header_image">Drawer header image</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>
