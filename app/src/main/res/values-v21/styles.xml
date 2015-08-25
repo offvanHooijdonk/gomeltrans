@@ -8,8 +8,4 @@
 
                 <item name="android:colorButtonNormal">@color/app_accent</item>
         </style>
-
-        <style name="Theme.AppTheme.NavDrawerItem" parent="Base.Theme.AppTheme.NavDrawerItem">
-                <item name="android:fontFamily">sans-serif-medium</item>
-        </style>
 </resources>
