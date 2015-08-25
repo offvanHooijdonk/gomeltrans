@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.gomeltrans.R;
+import com.gomeltrans.ui.favoutites.FavouritesFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -80,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         String title;
         switch (itemId) {
             case R.id.item_favourite : {
-                fragment = new FavouriteFragment();
+                fragment = new FavouritesFragment();
                 title = that.getString(R.string.item_favourite);
             } break;
             case R.id.item_transport : {
@@ -92,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 title = that.getString(R.string.item_stops);
             } break;
             default: {
-                fragment = new FavouriteFragment();
+                fragment = new FavouritesFragment();
                 title = that.getString(R.string.item_favourite);
             }
         }
