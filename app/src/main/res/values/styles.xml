@@ -4,6 +4,7 @@
         <item name="colorPrimary">@color/app_primary</item>
         <item name="colorPrimaryDark">@color/app_primary_dark</item>
         <item name="colorAccent">@color/app_accent</item>
+        <item name="textAppearanceListItem">@style/ListItemAppearance</item>
     </style>
 
     <style name="AppBaseTheme.Toolbar.Title" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
@@ -13,4 +14,24 @@
     <style name="ToolbarColoredBackArrow">
         <item name="android:textColorSecondary">@color/toolbar_text</item>
     </style>
+
+    <style name="ListItemAppearance">
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <resources>
+        <style name="Base.Theme.AppTheme.NavDrawerItem">
+            <item name="android:textSize">14sp</item>
+            <item name="android:textColor">@color/primary_text_default_material_light</item>
+        </style>
+
+        <style name="Theme.AppTheme.NavigationDrawer" parent="Base.Theme.AppTheme">
+            <item name="textAppearanceListItem">@style/Theme.SkillTree.NavDrawerItem</item>
+        </style>
+
+        <style name="Theme.AppTheme.NavDrawerItem" parent="Base.Theme.AppTheme.NavDrawerItem">
+            <item name="fontFamily">sans-serif</item>
+            <item name="android:textStyle">bold</item>
+        </style>
+    </resources>
 </resources>
