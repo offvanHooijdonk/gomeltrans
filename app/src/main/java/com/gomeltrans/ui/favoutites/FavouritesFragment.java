@@ -31,11 +31,18 @@ public class FavouritesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.frag_favourite, container, false);
 
-        ViewPager viewPager = (ViewPager) v.findViewById(R.id.viewpager);
-        viewPager.setAdapter(new FavouritesFragmentPagerAdapter(getChildFragmentManager(), parent));
+        FavouritesFragmentPagerAdapter adapter = new FavouritesFragmentPagerAdapter(getChildFragmentManager(), parent);
 
-        TabLayout tabLayout = (TabLayout) v.findViewById(R.id.sliding_tabs);
-        tabLayout.setupWithViewPager(viewPager);
+        final ViewPager viewPager = (ViewPager) v.findViewById(R.id.viewpager);
+        viewPager.setAdapter(adapter);
+
+        final TabLayout tabLayout = (TabLayout) v.findViewById(R.id.sliding_tabs);
+        tabLayout.post(new Runnable() { // this is a hack due to a bug in 22.2.1 design lib
+            @Override
+            public void run() {
+                tabLayout.setupWithViewPager(viewPager);
+            }
+        });
 
         return v;
     }

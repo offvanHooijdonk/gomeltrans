@@ -13,4 +13,10 @@
     <style name="ToolbarColoredBackArrow">
         <item name="android:textColorSecondary">@color/toolbar_text</item>
     </style>
+
+    <style name="AppBaseTheme.TabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorColor">@android:color/white</item>
+        <item name="tabTextColor">#b0ffffff</item>
+        <item name="tabSelectedTextColor">@android:color/white</item>
+    </style>
 </resources>

@@ -11,4 +11,9 @@
     <color name="drawer_item_text">#616161</color>
     <color name="drawer_item_pressed">#cccccc</color>
 
+    <color name="refresh_one">#00C853</color>
+    <color name="refresh_two">#F50057</color>
+    <color name="refresh_three">#FFC400</color>
+
+
 </resources>
