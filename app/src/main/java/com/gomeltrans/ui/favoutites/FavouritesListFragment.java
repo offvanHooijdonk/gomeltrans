@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.gomeltrans.R;
-import com.gomeltrans.model.Bus;
+import com.gomeltrans.model.Transport;
 import com.gomeltrans.ui.favoutites.adapter.FavouriteBusAdapter;
 
 import java.util.ArrayList;
@@ -58,17 +58,17 @@ public class FavouritesListFragment extends Fragment {
         recyclerList.setHasFixedSize(true);
         recyclerList.setLayoutManager(new LinearLayoutManager(ctx));
 
-        List<Bus> buses = new ArrayList<>();
-        Bus bus = new Bus();
-        bus.setId(16l);
-        bus.setNumberName("12a");
-        bus.setRouteName("ул. Зайцева - Завод самоходных комбайнов");
-        buses.add(bus);
-        bus = new Bus();
-        bus.setId(23l);
-        bus.setNumberName("17");
-        bus.setRouteName("Медгородок - м-р Клёнковский");
-        buses.add(bus);
+        List<Transport> buses = new ArrayList<>();
+        Transport transport = new Transport();
+        transport.setId(16l);
+        transport.setNumberName("12a");
+        transport.setRouteName("ул. Зайцева - Завод самоходных комбайнов");
+        buses.add(transport);
+        transport = new Transport();
+        transport.setId(23l);
+        transport.setNumberName("17");
+        transport.setRouteName("Медгородок - м-р Клёнковский");
+        buses.add(transport);
 
         FavouriteBusAdapter adapter = new FavouriteBusAdapter(ctx, buses);
         recyclerList.setAdapter(adapter);

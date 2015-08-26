@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.gomeltrans.R;
-import com.gomeltrans.model.Bus;
+import com.gomeltrans.model.Transport;
 import com.gomeltrans.ui.BusInfoActivity;
 
 import java.util.List;
@@ -19,9 +19,9 @@ import java.util.List;
  */
 public class FavouriteBusAdapter extends RecyclerView.Adapter<FavouriteBusAdapter.ViewHolder> {
     private Context ctx;
-    private List<Bus> buses;
+    private List<Transport> buses;
 
-    public FavouriteBusAdapter(Context context, List<Bus> buses) {
+    public FavouriteBusAdapter(Context context, List<Transport> buses) {
         this.ctx = context;
         this.buses = buses;
     }
@@ -34,10 +34,10 @@ public class FavouriteBusAdapter extends RecyclerView.Adapter<FavouriteBusAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder vh, int position) {
-        Bus bus = buses.get(position);
+        Transport transport = buses.get(position);
 
-        vh.numberName.setText(bus.getNumberName());
-        vh.routeName.setText(bus.getRouteName());
+        vh.numberName.setText(transport.getNumberName());
+        vh.routeName.setText(transport.getRouteName());
 
         vh.blockItem.setOnClickListener(new View.OnClickListener() {
             @Override
