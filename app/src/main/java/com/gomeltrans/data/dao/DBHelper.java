@@ -7,7 +7,9 @@ import android.util.Log;
 
 import com.gomeltrans.Constants;
 import com.gomeltrans.model.Stop;
+import com.gomeltrans.model.StopTable;
 import com.gomeltrans.model.Transport;
+import com.gomeltrans.model.TransportStops;
 
 /**
  * Created by Yahor_Fralou on 8/26/2015.
@@ -23,11 +25,18 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createStatement = "CREATE TABLE " + Transport.TABLE + " (" + Transport.ID +
-                " integer not null, " + Transport.NUMBER + " text not null, " + Transport.ROUTE + " text not null, " +
+        String createStatement = "CREATE TABLE " + Transport.TABLE + " (" + Transport.ID + " integer primary key, " +
+                Transport.NUMBER + " text not null, " + Transport.ROUTE + " text not null, " +
                 Transport.TYPE + " integer not null, " + Transport.FAVOURITE + " integer default 0, " + Transport.ACTIVE + " integer default 1 " + ");" +
-                " CREATE TABLE " + Stop.TABLE + " (" + Stop.ID + " integer not null, " + Stop.NAME + " text not null, " + Stop.COMMENT + " text, " +
-                Stop.FAVOURITE + " integer default 0, " + Stop.ACTIVE + " integer default 1 " + ");";
+                " CREATE TABLE " + Stop.TABLE + " (" + Stop.ID + " integer primary key, " + Stop.NAME + " text not null, " + Stop.COMMENT + " text, " +
+                Stop.FAVOURITE + " integer default 0, " + Stop.ACTIVE + " integer default 1 " + ");" +
+                " CREATE TABLE " + TransportStops.TABLE  + " (" + TransportStops.ID + " integer primary key autoincrement, " +
+                TransportStops.TRANSPORT_ID + " integer not null, " + TransportStops.STOP_ID + " integer not null, " +
+                TransportStops.DIRECTION + " integer not null, " + TransportStops.ORDER_NUMBER + " integer not null, " +
+                TransportStops.ACTIVE + " integer default 1 " + ");" +
+                " CREATE TABLE " + StopTable.TABLE  + " (" + StopTable.ID + " integer primary key autoincrement, " +
+                StopTable.TRANSPORT_STOP_ID + " integer not null, " +
+                StopTable.TIME + " text not null, " + StopTable.ACTIVE + " integer default 1 " + ");";
         try {
             String[] createQueries = createStatement.split(";");
             for (String q : createQueries) {
@@ -41,7 +50,10 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        String dropTables = "DROP TABLE reminders;";
+        String dropTables = "DROP TABLE " + StopTable.TABLE + "; " +
+                "DROP TABLE " + TransportStops.TABLE + "; " +
+                "DROP TABLE " + Transport.TABLE + "; " +
+                "DROP TABLE " + Stop.TABLE + "; ";
         try {
             String[] dropQueries = dropTables.split(";");
             for (String q : dropQueries) {

@@ -1,5 +1,7 @@
 package com.gomeltrans.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 /**
@@ -14,11 +16,11 @@ public class Transport {
     public static final String FAVOURITE = "favourite";
     public static final String ACTIVE = "active";
 
-    public enum TYPE {
+    public enum TRANSPORT_TYPE {
         BUS(0), TROLLEY(1);
         private int code;
 
-        TYPE(int num) {
+        TRANSPORT_TYPE(int num) {
             code = num;
         }
 
@@ -28,12 +30,16 @@ public class Transport {
     }
 
     private Long id;
+    @SerializedName("number")
     private String numberName;
+    @SerializedName("route")
     private String routeName;
-    private TYPE type;
+    private TRANSPORT_TYPE type;
+
     private List<Stop> stopsForward;
     private List<Stop> stopsBackward;
     private boolean favourite;
+    private boolean active;
 
     public Long getId() {
         return id;
@@ -59,11 +65,11 @@ public class Transport {
         this.routeName = routeName;
     }
 
-    public TYPE getType() {
+    public TRANSPORT_TYPE getType() {
         return type;
     }
 
-    public void setType(TYPE type) {
+    public void setType(TRANSPORT_TYPE type) {
         this.type = type;
     }
 
@@ -89,5 +95,13 @@ public class Transport {
 
     public void setStopsBackward(List<Stop> stopsBackward) {
         this.stopsBackward = stopsBackward;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

@@ -1,5 +1,7 @@
 package com.gomeltrans.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 /**
@@ -16,8 +18,10 @@ public class Stop {
     private Long id;
     private String name;
     private String comment;
+    @SerializedName("table")
     private List<StopTable> stopTables;
     private boolean favourite;
+    private boolean active;
 
     public Long getId() {
         return id;
@@ -57,5 +61,13 @@ public class Stop {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }
