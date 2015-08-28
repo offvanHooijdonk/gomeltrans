@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by yahor on 25.08.15.
  */
-public class Transport {
+public class Transport extends BaseBean {
     public static final String TABLE = "transport";
     public static final String ID = "id";
     public static final String NUMBER = "number_name";
@@ -29,25 +29,17 @@ public class Transport {
         }
     }
 
-    private Long id;
     @SerializedName("number")
     private String numberName;
     @SerializedName("route")
     private String routeName;
     private TRANSPORT_TYPE type;
+    private int typeNumber;
 
     private List<Stop> stopsForward;
     private List<Stop> stopsBackward;
     private boolean favourite;
     private boolean active;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getNumberName() {
         return numberName;
@@ -103,5 +95,14 @@ public class Transport {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public int getTypeNumber() {
+        return typeNumber;
+    }
+
+    public void setTypeNumber(int typeNumber) {
+        this.typeNumber = typeNumber;
+        setType(TRANSPORT_TYPE.values()[typeNumber]);
     }
 }

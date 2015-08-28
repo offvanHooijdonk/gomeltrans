@@ -8,15 +8,15 @@ import java.util.Map;
 /**
  * Created by Yahor_Fralou on 8/26/2015.
  */
-public class StopTable {
+public class StopTable extends BaseBean {
     public static final String TABLE = "stop_table";
     public static final String ID = "id";
     public static final String TRANSPORT_STOP_ID = "transport_stop_id";
-    public static final String TIME = "time";
+    public static final String TIME = "times";
     public static final String ACTIVE = "active";
 
     private Transport transport;
-    private List<String> time;
+    private List<String> times;
 
     public Transport getTransport() {
         return transport;
@@ -26,12 +26,12 @@ public class StopTable {
         this.transport = transport;
     }
 
-    public List<String> getTime() {
-        return time;
+    public List<String> getTimes() {
+        return times;
     }
 
-    public void setTime(List<String> time) {
-        this.time = time;
+    public void setTimes(List<String> times) {
+        this.times = times;
     }
 
     public class TimeComparator implements Comparator<String> {

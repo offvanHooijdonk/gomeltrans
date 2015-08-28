@@ -4,31 +4,33 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * Created by Yahor_Fralou on 8/27/2015.
  */
 public class LoadDataTask<T> extends AsyncTask<Void, Void, List<T>> {
-    private String url;
+    private int resId;
     private Gson gson;
     private OnResponseListener<T> listener;
     private Context ctx;
+    private Class clazz;
 
-    public LoadDataTask(Context context, String url, Gson gson, OnResponseListener<T> responseListener) {
+    public LoadDataTask(Context context, int resId, Gson gson, OnResponseListener<T> responseListener, Class clazzArray) {
         this.ctx = context;
-        this.url = url;
+        this.resId = resId;
         this.gson = gson;
         this.listener = responseListener;
     }
 
     @Override
     protected List<T> doInBackground(Void... params) {
-        List<T> list = gson.fromJson(new InputStreamReader(ctx.getResources().openRawResource(Integer.valueOf(url))), new TypeToken<List<T>>(){}.getType());
-        return list;
+        Object obj = gson.fromJson(new InputStreamReader(ctx.getResources().openRawResource(resId)), clazz/*new TypeToken<ArrayList<T>>(){}.getType()*/ /*List.class*/);
+        T[] array = (T[]) obj;
+        return Arrays.asList(array);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.gomeltrans.ui;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
@@ -14,9 +15,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.gomeltrans.R;
+import com.gomeltrans.data.ReloadDataBean;
 import com.gomeltrans.ui.favoutites.FavouritesFragment;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ReloadDataBean.OnReloadFinishedListener {
 
     private static final long DRAWER_CLOSE_DELAY_MS = 250;
     private static final String NAV_ITEM_ID = "nav_item_id";
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private MainActivity that;
     private int navItemId;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,20 +109,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
-        return super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        } else if (id == R.id.action_reload_data) {
+            progressDialog = new ProgressDialog(that);
+            progressDialog.show();
+            ReloadDataBean reloadDataBean = new ReloadDataBean(that, that);
+            reloadDataBean.reloadData();
         }
 
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     @Override
@@ -137,4 +144,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         outState.putInt(NAV_ITEM_ID, navItemId);
     }
 
+    @Override
+    public void onReloadDataFinished() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
+        // TODO implement fragment awareness of data load so they can refresh theirselves if on screen
+    }
 }

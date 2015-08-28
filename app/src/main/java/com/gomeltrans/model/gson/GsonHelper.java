@@ -11,7 +11,7 @@ import com.google.gson.GsonBuilder;
 public class GsonHelper {
     public static Gson getTransportGson() {
         GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(Stop.class, new StopFieldDeserializer());
+        gsonBuilder.serializeNulls().registerTypeAdapter(Stop.class, new StopFieldDeserializer());
         return gsonBuilder.create();
     }
 

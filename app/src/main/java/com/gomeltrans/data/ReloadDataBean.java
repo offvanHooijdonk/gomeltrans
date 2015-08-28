@@ -4,6 +4,10 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.gomeltrans.R;
+import com.gomeltrans.data.dao.StopTableDao;
+import com.gomeltrans.data.dao.StopsDao;
+import com.gomeltrans.data.dao.TransportDao;
+import com.gomeltrans.data.dao.TransportStopDao;
 import com.gomeltrans.data.web.LoadDataTask;
 import com.gomeltrans.model.Stop;
 import com.gomeltrans.model.Transport;
@@ -20,24 +24,27 @@ public class ReloadDataBean {
     private List<Stop> stops;
     private boolean loadedTransports;
     private boolean loadedStops;
+    private OnReloadFinishedListener listener;
 
-    public  ReloadDataBean(Context context) {
+    public  ReloadDataBean(Context context, OnReloadFinishedListener l) {
         this.ctx = context;
+        this.listener = l;
 
         loadedTransports = false;
         loadedStops = false;
     }
 
     public void reloadData() {
-        LoadDataTask<Transport> transportLoadDataTask = new LoadDataTask<>(ctx, String.valueOf(R.raw.transport), GsonHelper.getTransportGson(), new TransportUpdater());
+        LoadDataTask<Transport> transportLoadDataTask = new LoadDataTask<>(ctx, R.raw.transport, GsonHelper.getTransportGson(), new TransportUpdater(), Transport[].class);
         transportLoadDataTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
-        LoadDataTask<Stop> stopLoadDataTask = new LoadDataTask<>(ctx, String.valueOf(R.raw.stops), GsonHelper.getStopsGson(), new StopsUpdater());
+        LoadDataTask<Stop> stopLoadDataTask = new LoadDataTask<>(ctx, R.raw.stops, GsonHelper.getStopsGson(), new StopsUpdater(), Stop[].class);
         stopLoadDataTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private void storeData() {
-
+        DBStoreTask storeTask = new DBStoreTask();
+        storeTask.execute();
     }
 
     private void onDataLoaded() {
@@ -66,4 +73,45 @@ public class ReloadDataBean {
         }
     }
 
+    private void onDBUpdateFinished() {
+        if (listener != null) {
+            listener.onReloadDataFinished();
+        }
+    }
+
+    public interface OnReloadFinishedListener {
+        public void onReloadDataFinished();
+    }
+
+    private class DBStoreTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            TransportDao transportDao = new TransportDao(ctx);
+            StopsDao stopsDao = new StopsDao(ctx);
+            TransportStopDao trStDao = new TransportStopDao(ctx);
+            StopTableDao stopTableDao = new StopTableDao(ctx);
+
+            transportDao.storeList(transports);
+            transportDao.clearAllBut(transports);
+            stopsDao.storeList(stops);
+            stopsDao.clearAllBut(stops);
+
+            trStDao.clearAll();
+            for (Transport t : transports) {
+                trStDao.saveTransportStops(t);
+            }
+
+            stopTableDao.clearAll();
+            for (Stop s : stops) {
+                stopTableDao.saveStopTable(s);
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            onDBUpdateFinished();
+        }
+    }
 }

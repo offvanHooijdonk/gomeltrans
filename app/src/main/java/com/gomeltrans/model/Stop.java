@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by Yahor_Fralou on 8/26/2015.
  */
-public class Stop {
+public class Stop extends BaseBean {
     public static final String TABLE = "stops";
     public static final String ID = "id";
     public static final String NAME = "name";
@@ -15,21 +15,12 @@ public class Stop {
     public static final String FAVOURITE = "favourite";
     public static final String ACTIVE = "active";
 
-    private Long id;
     private String name;
     private String comment;
     @SerializedName("table")
     private List<StopTable> stopTables;
     private boolean favourite;
     private boolean active;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

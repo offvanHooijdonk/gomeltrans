@@ -28,6 +28,12 @@ public class TransportDao {
         }
     }
 
+    public void clearAllBut(List<Transport> list) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        db.delete(Transport.TABLE, Transport.ID + " IN (" + dbHelper.generatePlaceholders(list.size()) + ")", dbHelper.toIdsStringArray(list));
+    }
+
     public void save(Transport bean) {
         if (getById(bean.getId()) != null) {
             update(bean);

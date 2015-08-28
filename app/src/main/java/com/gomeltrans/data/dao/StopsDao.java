@@ -22,6 +22,18 @@ public class StopsDao {
         dbHelper = new DBHelper(ctx);
     }
 
+    public void storeList(List<Stop> list) {
+        for (Stop bean : list) {
+            save(bean);
+        }
+    }
+
+    public void clearAllBut(List<Stop> list) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        db.delete(Stop.TABLE, Stop.ID + " IN (" + dbHelper.generatePlaceholders(list.size()) + ")", dbHelper.toIdsStringArray(list));
+    }
+
     public void save(Stop bean) {
         if (getById(bean.getId()) != null) {
             update(bean);
