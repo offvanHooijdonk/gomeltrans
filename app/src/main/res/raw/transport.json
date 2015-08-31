@@ -53,5 +53,15 @@
       26,
       28
     ]
+  },
+  {
+    "id": 51,
+    "number": "8",
+    "typeNumber": 1,
+    "routeName": "Университет им. Сухого - Кольцевой",
+    "stopsForward": [
+    ],
+    "stopsBackward": [
+    ]
   }
 ]

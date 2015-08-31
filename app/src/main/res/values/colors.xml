@@ -12,8 +12,9 @@
     <color name="drawer_item_pressed">#cccccc</color>
 
     <color name="refresh_one">#00C853</color>
-    <color name="refresh_two">#F50057</color>
-    <color name="refresh_three">#FFC400</color>
+    <color name="refresh_two">#FFC400</color>
+    <color name="refresh_three">#F50057</color>
 
-
+    <color name="text_primary">#de000000</color>
+    <color name="text_secondary">@color/secondary_text_default_material_light</color>
 </resources>

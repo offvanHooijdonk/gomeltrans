@@ -121,6 +121,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return true;
         } else if (id == R.id.action_reload_data) {
             progressDialog = new ProgressDialog(that);
+            progressDialog.setCancelable(false);
             progressDialog.show();
             ReloadDataBean reloadDataBean = new ReloadDataBean(that, that);
             reloadDataBean.reloadData();

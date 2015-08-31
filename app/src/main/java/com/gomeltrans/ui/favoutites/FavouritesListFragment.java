@@ -13,8 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.gomeltrans.R;
+import com.gomeltrans.data.dao.StopsDao;
+import com.gomeltrans.data.dao.TransportDao;
+import com.gomeltrans.model.Stop;
 import com.gomeltrans.model.Transport;
-import com.gomeltrans.ui.favoutites.adapter.FavouriteBusAdapter;
+import com.gomeltrans.ui.favoutites.adapter.FavouriteStopAdapter;
+import com.gomeltrans.ui.favoutites.adapter.FavouriteTransportAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +27,9 @@ import java.util.List;
  * Created by Yahor_Fralou on 8/25/2015.
  */
 public class FavouritesListFragment extends Fragment {
+    public static final int TAB_POS_BUS = 0;
+    public static final int TAB_POS_TROLLEY = 1;
+    public static final int TAB_POS_STOPS = 2;
 
     private static final String ARG_PAGE_NUMBER = "arg_page_number";
     private int pageNumber;
@@ -30,7 +37,14 @@ public class FavouritesListFragment extends Fragment {
 
     private final Handler handler = new Handler();
     private RecyclerView recyclerList;
+    private FavouriteTransportAdapter transportAdapter;
+    private FavouriteStopAdapter stopAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
+
+    private TransportDao transportDao;
+    private StopsDao stopsDao;
+    private List<Transport> transportList = new ArrayList<>();
+    private List<Stop> stopsList = new ArrayList<>();
 
     public static FavouritesListFragment getInstance(int pageNumArg) {
         Bundle args = new Bundle();
@@ -58,29 +72,30 @@ public class FavouritesListFragment extends Fragment {
         recyclerList.setHasFixedSize(true);
         recyclerList.setLayoutManager(new LinearLayoutManager(ctx));
 
-        List<Transport> buses = new ArrayList<>();
-        Transport transport = new Transport();
-        transport.setId(16l);
-        transport.setNumberName("12a");
-        transport.setRouteName("ул. Зайцева - Завод самоходных комбайнов");
-        buses.add(transport);
-        transport = new Transport();
-        transport.setId(23l);
-        transport.setNumberName("17");
-        transport.setRouteName("Медгородок - м-р Клёнковский");
-        buses.add(transport);
+        if (pageNumber == TAB_POS_BUS || pageNumber == TAB_POS_TROLLEY) {
+            transportDao = new TransportDao(ctx);
 
-        FavouriteBusAdapter adapter = new FavouriteBusAdapter(ctx, buses);
-        recyclerList.setAdapter(adapter);
+            transportAdapter = new FavouriteTransportAdapter(ctx, transportList);
+            recyclerList.setAdapter(transportAdapter);
+            updateData();
+        } else if (pageNumber == TAB_POS_STOPS) {
+            stopsDao = new StopsDao(ctx);
+
+            stopAdapter = new FavouriteStopAdapter(ctx, stopsList);
+            recyclerList.setAdapter(stopAdapter);
+            updateData();
+        }
 
         swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeResources(R.color.refresh_one, R.color.refresh_two, R.color.refresh_three);
+
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 handler.postDelayed(new Runnable() {
                     @Override
-                    public void run() {
+                    public void run() {// just for fun
+                        updateData();
                         swipeRefreshLayout.setRefreshing(false);
                     }
                 }, 750);
@@ -109,5 +124,25 @@ public class FavouritesListFragment extends Fragment {
         }
 
         return title;
+    }
+
+    private void updateData() {
+        switch (pageNumber) {
+            case TAB_POS_BUS: {
+                transportList.clear();
+                transportList.addAll(transportDao.getList(Transport.TRANSPORT_TYPE.BUS.getCode(), false));
+                transportAdapter.notifyDataSetChanged();
+            } break;
+            case TAB_POS_TROLLEY: {
+                transportList.clear();
+                transportList.addAll(transportDao.getList(Transport.TRANSPORT_TYPE.TROLLEY.getCode(), false));
+                transportAdapter.notifyDataSetChanged();
+            } break;
+            case TAB_POS_STOPS: {
+                stopsList.clear();
+                stopsList.addAll(stopsDao.getList(false));
+                stopAdapter.notifyDataSetChanged();
+            } break;
+        }
     }
 }

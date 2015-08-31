@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-        <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
-                <item name="colorPrimary">@color/app_primary</item>
-                <item name="colorPrimaryDark">@color/app_primary_dark</item>
-                <item name="colorAccent">@color/app_accent</item>
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/app_primary</item>
+        <item name="colorPrimaryDark">@color/app_primary_dark</item>
+        <item name="colorAccent">@color/app_accent</item>
 
-                <item name="android:colorButtonNormal">@color/app_accent</item>
-        </style>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:colorButtonNormal">@color/app_accent</item>
+    </style>
 </resources>

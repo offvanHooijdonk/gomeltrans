@@ -17,19 +17,20 @@ public class LoadDataTask<T> extends AsyncTask<Void, Void, List<T>> {
     private Gson gson;
     private OnResponseListener<T> listener;
     private Context ctx;
-    private Class clazz;
+    private Class<T[]> clazz;
 
-    public LoadDataTask(Context context, int resId, Gson gson, OnResponseListener<T> responseListener, Class clazzArray) {
+    public LoadDataTask(Context context, int resId, Gson gson, OnResponseListener<T> responseListener, Class<T[]> clazzArray) {
         this.ctx = context;
         this.resId = resId;
         this.gson = gson;
         this.listener = responseListener;
+        this.clazz = clazzArray;
     }
 
     @Override
     protected List<T> doInBackground(Void... params) {
-        Object obj = gson.fromJson(new InputStreamReader(ctx.getResources().openRawResource(resId)), clazz/*new TypeToken<ArrayList<T>>(){}.getType()*/ /*List.class*/);
-        T[] array = (T[]) obj;
+        /*Object obj*/T[] array = gson.fromJson(new InputStreamReader(ctx.getResources().openRawResource(resId)), clazz/*new TypeToken<ArrayList<T>>(){}.getType()*/ /*List.class*/);
+        /*T[] array = (T[]) obj;*/
         return Arrays.asList(array);
     }
 

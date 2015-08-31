@@ -11,13 +11,13 @@ import com.google.gson.GsonBuilder;
 public class GsonHelper {
     public static Gson getTransportGson() {
         GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.serializeNulls().registerTypeAdapter(Stop.class, new StopFieldDeserializer());
+        gsonBuilder.serializeNulls().serializeNulls().excludeFieldsWithoutExposeAnnotation().registerTypeAdapter(Stop.class, new StopFieldDeserializer());
         return gsonBuilder.create();
     }
 
     public static Gson getStopsGson() {
         GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(Transport.class, new TransportFieldDeserializer());
+        gsonBuilder.serializeNulls().serializeNulls().excludeFieldsWithoutExposeAnnotation().registerTypeAdapter(Transport.class, new TransportFieldDeserializer());
         return gsonBuilder.create();
     }
 }

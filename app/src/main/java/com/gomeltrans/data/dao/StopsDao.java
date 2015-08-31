@@ -31,7 +31,7 @@ public class StopsDao {
     public void clearAllBut(List<Stop> list) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-        db.delete(Stop.TABLE, Stop.ID + " IN (" + dbHelper.generatePlaceholders(list.size()) + ")", dbHelper.toIdsStringArray(list));
+        db.delete(Stop.TABLE, Stop.ID + " NOT IN (" + dbHelper.generatePlaceholders(list.size()) + ")", dbHelper.toIdsStringArray(list));
     }
 
     public void save(Stop bean) {

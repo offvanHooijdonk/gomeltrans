@@ -1,5 +1,6 @@
 package com.gomeltrans.model;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -28,15 +29,17 @@ public class Transport extends BaseBean {
             return code;
         }
     }
-
+    @Expose
     @SerializedName("number")
     private String numberName;
-    @SerializedName("route")
+    @Expose
+    @SerializedName("routeName")
     private String routeName;
-    private TRANSPORT_TYPE type;
+    @Expose
     private int typeNumber;
-
+    @Expose
     private List<Stop> stopsForward;
+    @Expose
     private List<Stop> stopsBackward;
     private boolean favourite;
     private boolean active;
@@ -55,14 +58,6 @@ public class Transport extends BaseBean {
 
     public void setRouteName(String routeName) {
         this.routeName = routeName;
-    }
-
-    public TRANSPORT_TYPE getType() {
-        return type;
-    }
-
-    public void setType(TRANSPORT_TYPE type) {
-        this.type = type;
     }
 
     public boolean isFavourite() {
@@ -103,6 +98,5 @@ public class Transport extends BaseBean {
 
     public void setTypeNumber(int typeNumber) {
         this.typeNumber = typeNumber;
-        setType(TRANSPORT_TYPE.values()[typeNumber]);
     }
 }

@@ -31,7 +31,7 @@ public class TransportDao {
     public void clearAllBut(List<Transport> list) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-        db.delete(Transport.TABLE, Transport.ID + " IN (" + dbHelper.generatePlaceholders(list.size()) + ")", dbHelper.toIdsStringArray(list));
+        db.delete(Transport.TABLE, Transport.ID + " NOT IN (" + dbHelper.generatePlaceholders(list.size()) + ")", dbHelper.toIdsStringArray(list));
     }
 
     public void save(Transport bean) {
@@ -48,7 +48,7 @@ public class TransportDao {
         cv.put(Transport.ID, bean.getId());
         cv.put(Transport.NUMBER, bean.getNumberName());
         cv.put(Transport.ROUTE, bean.getRouteName());
-        cv.put(Transport.TYPE, bean.getType().getCode());
+        cv.put(Transport.TYPE, bean.getTypeNumber());
 
         db.insert(Transport.TABLE, null, cv);
     }
@@ -59,7 +59,7 @@ public class TransportDao {
 
         cv.put(Transport.NUMBER, bean.getNumberName());
         cv.put(Transport.ROUTE, bean.getRouteName());
-        cv.put(Transport.TYPE, bean.getType().getCode());
+        cv.put(Transport.TYPE, bean.getTypeNumber());
 
         db.update(Transport.TABLE, cv, Transport.ID + "=?", new String[]{String.valueOf(bean.getId())});
     }
@@ -76,15 +76,17 @@ public class TransportDao {
         return bean;
     }
 
-    public List<Transport> getList(boolean favouritesOnly) {
+    public List<Transport> getList(int type, boolean favouritesOnly) {
         List<Transport> list = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         Cursor cursor;
         if (favouritesOnly) {
-            cursor = db.query(Transport.TABLE, null, Transport.ACTIVE + "=?", new String[]{String.valueOf(1), String.valueOf(1)}, null, null, null);
+            cursor = db.query(Transport.TABLE, null, Transport.TYPE + " =? AND " + Transport.ACTIVE + "=? AND " + Transport.FAVOURITE + " =? ",
+                    new String[]{String.valueOf(type), String.valueOf(1), String.valueOf(1)}, null, null, null);
         } else {
-            cursor = db.query(Transport.TABLE, null, Transport.ACTIVE + "=?", new String[]{String.valueOf(1)}, null, null, null);
+            cursor = db.query(Transport.TABLE, null, Transport.TYPE + " =? aND " + Transport.ACTIVE + " =? ",
+                    new String[]{String.valueOf(type), String.valueOf(1)}, null, null, null);
         }
 
         while (cursor.moveToNext()) {
@@ -108,7 +110,7 @@ public class TransportDao {
         bean.setId(c.getLong(c.getColumnIndex(Transport.ID)));
         bean.setNumberName(c.getString(c.getColumnIndex(Transport.NUMBER)));
         bean.setRouteName(c.getString(c.getColumnIndex(Transport.ROUTE)));
-        bean.setType(Transport.TRANSPORT_TYPE.values()[(c.getInt(c.getColumnIndex(Transport.TYPE)))]);
+        bean.setTypeNumber(c.getInt(c.getColumnIndex(Transport.TYPE)));
         bean.setFavourite(c.getInt(c.getColumnIndex(Transport.FAVOURITE)) > 0);
         bean.setActive(c.getInt(c.getColumnIndex(Transport.ACTIVE)) > 0);
 

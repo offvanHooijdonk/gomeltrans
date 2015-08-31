@@ -10,7 +10,7 @@ public class TransportStops extends BaseBean {
     public static final String STOP_ID = "transport_stops";
     public static final String DIRECTION_INDEX = "direction";
     public static final String ORDER_NUMBER = "order_number";
-    public static final String ACTIVE = "order_number";
+    public static final String ACTIVE = "active";
 
     public enum DIRECTION {
         FORWARD(0), BACKWARD(1);

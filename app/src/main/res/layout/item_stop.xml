@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/blockItem"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?android:selectableItemBackground"
+                android:orientation="vertical"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp">
+
+    <TextView
+        android:id="@+id/stopName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="Завод Самоходных Комбайнов"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/stopComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginStart="12dp"
+        android:layout_below="@id/stopName"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="Конечная"
+        android:textSize="14sp"
+        android:textColor="@color/secondary_text_default_material_light"/>
+
+</RelativeLayout>

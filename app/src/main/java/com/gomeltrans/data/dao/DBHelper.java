@@ -23,7 +23,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "gomeltrans";
 
     public DBHelper(Context context) {
-        super(context, DB_NAME, null, 1);
+        super(context, DB_NAME, null, 5);
     }
 
     @Override
@@ -40,13 +40,14 @@ public class DBHelper extends SQLiteOpenHelper {
                 " CREATE TABLE " + StopTable.TABLE + " (" + StopTable.ID + " integer primary key autoincrement, " +
                 StopTable.TRANSPORT_STOP_ID + " integer not null, " +
                 StopTable.TIME + " text not null, " + StopTable.ACTIVE + " integer default 1 " + ");";
-        try {
-            String[] createQueries = createStatement.split(";");
-            for (String q : createQueries) {
+        String[] createQueries = createStatement.split(";");
+        for (String q : createQueries) {
+            try {
                 db.execSQL(q);
+
+            } catch (Exception e) {
+                Log.e(Constants.LOG_TAG, "Error creating DB.", e);
             }
-        } catch (Exception e) {
-            Log.e(Constants.LOG_TAG, "Error creating DB.", e);
         }
 
     }
@@ -57,16 +58,17 @@ public class DBHelper extends SQLiteOpenHelper {
                 "DROP TABLE " + TransportStops.TABLE + "; " +
                 "DROP TABLE " + Transport.TABLE + "; " +
                 "DROP TABLE " + Stop.TABLE + "; ";
-        try {
-            String[] dropQueries = dropTables.split(";");
-            for (String q : dropQueries) {
+        String[] dropQueries = dropTables.split(";");
+        for (String q : dropQueries) {
+            try {
                 db.execSQL(q);
-            }
-        } catch (Exception e) {
-            Log.w(Constants.LOG_TAG, e);
-        }
-        onCreate(db);
 
+            } catch (Exception e) {
+                Log.w(Constants.LOG_TAG, e);
+            }
+        }
+
+        onCreate(db);
     }
 
     public String generatePlaceholders(int size) {

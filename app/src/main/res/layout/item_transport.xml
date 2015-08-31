@@ -4,21 +4,30 @@
     android:id="@+id/blockItem"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:paddingTop="8dp"
     android:paddingBottom="8dp"
     android:background="?android:selectableItemBackground">
 
-    <TextView
-        android:id="@+id/numberName"
-        android:layout_width="48dp"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/imageCircle"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
-        android:gravity="start"
+        android:src="@drawable/circle"/>
+
+    <TextView
+        android:id="@+id/numberName"
+        android:layout_width="36dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_alignLeft="@id/imageCircle"
+        android:layout_alignStart="@id/imageCircle"
+        android:layout_marginTop="5dp"
         android:text="12a"
         android:maxLines="1"
-        android:textSize="26sp"/>
+        android:textSize="18sp"
+        android:textColor="#ffffff"/>
 
     <TextView
         android:id="@+id/routeName"
@@ -32,5 +41,5 @@
         android:maxLines="1"
         android:ellipsize="end"
         android:text="Солнечная - Медгородок"
-        android:textSize="14sp"/>
+        android:textSize="16sp"/>
 </RelativeLayout>

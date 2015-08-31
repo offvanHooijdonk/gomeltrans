@@ -1,5 +1,8 @@
 package com.gomeltrans.model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +18,10 @@ public class StopTable extends BaseBean {
     public static final String TIME = "times";
     public static final String ACTIVE = "active";
 
+    @Expose
     private Transport transport;
+    @Expose
+    @SerializedName("time")
     private List<String> times;
 
     public Transport getTransport() {

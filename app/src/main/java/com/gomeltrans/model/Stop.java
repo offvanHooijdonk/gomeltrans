@@ -1,5 +1,6 @@
 package com.gomeltrans.model;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -14,9 +15,11 @@ public class Stop extends BaseBean {
     public static final String COMMENT = "comment";
     public static final String FAVOURITE = "favourite";
     public static final String ACTIVE = "active";
-
+    @Expose
     private String name;
+    @Expose
     private String comment;
+    @Expose
     @SerializedName("table")
     private List<StopTable> stopTables;
     private boolean favourite;
