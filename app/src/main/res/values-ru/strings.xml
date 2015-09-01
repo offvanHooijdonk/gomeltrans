@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Гомель транспорт</string>
+
+    <string name="action_settings">Настройки</string>
+    <string name="action_reload_data">Обновить данные</string>
+    <string name="item_favourite">Избранное</string>
+    <string name="item_transport">Транспорт</string>
+    <string name="item_stops">Остановки</string>
+    <string name="last_updated">Обновлено на %s</string>
+
+    <string name="tab_bus">Автобусы</string>
+    <string name="tab_trolley">Троллейбусы</string>
+    <string name="tab_stop">Оставноки</string>
+</resources>

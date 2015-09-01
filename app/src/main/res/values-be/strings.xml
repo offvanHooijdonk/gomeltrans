@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Гомель транспарт</string>
+    <string name="action_reload_data">Абнавіць даныя</string>
+    <string name="action_settings">Налады</string>
+    <string name="item_favourite">Абранае</string>
+</resources>
