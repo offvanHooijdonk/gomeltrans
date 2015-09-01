@@ -18,7 +18,7 @@
         </activity>
 
         <activity
-            android:name=".ui.BusInfoActivity"
+            android:name=".ui.TransportInfoActivity"
             android:parentActivityName="com.gomeltrans.ui.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

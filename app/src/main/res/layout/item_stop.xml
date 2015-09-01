@@ -1,33 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/blockItem"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="?android:selectableItemBackground"
-                android:orientation="vertical"
-                android:paddingBottom="8dp"
-                android:paddingTop="8dp">
+<RelativeLayout
+    android:id="@+id/blockItem"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:selectableItemBackground"
+    android:paddingBottom="@dimen/abc_list_item_padding_horizontal_material"
+    android:paddingLeft="@dimen/abc_list_item_padding_horizontal_material"
+    android:paddingStart="@dimen/abc_list_item_padding_horizontal_material"
+    android:paddingTop="@dimen/abc_list_item_padding_horizontal_material">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imageCircle"
+            android:layout_width="@dimen/list_icon_size"
+            android:layout_height="@dimen/list_icon_size"
+            android:src="@drawable/circle"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_stop_white_solid_32dp"/>
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/stopName"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:text="Завод Самоходных Комбайнов"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginEnd="@dimen/abc_list_item_padding_horizontal_material"
+        android:layout_marginLeft="@dimen/list_text_margin_start"
+        android:layout_marginRight="@dimen/abc_list_item_padding_horizontal_material"
+        android:layout_marginStart="@dimen/list_text_margin_start"
+        android:layout_toLeftOf="@+id/blockFav"
+        android:layout_toStartOf="@+id/blockFav"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:text="Завод Самоходных Комбайнов Большоеслово"
         android:textSize="16sp"/>
 
     <TextView
         android:id="@+id/stopComment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@id/stopName"
+        android:layout_alignLeft="@id/stopName"
+        android:layout_alignRight="@id/stopName"
+        android:layout_alignStart="@id/stopName"
+        android:layout_below="@id/stopName"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:text="Конечная"
+        android:textColor="@color/secondary_text_default_material_light"
+        android:textSize="14sp"/>
+
+    <include
+        layout="@layout/block_favourite_toggler"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
-        android:layout_marginStart="12dp"
-        android:layout_below="@id/stopName"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:text="Конечная"
-        android:textSize="14sp"
-        android:textColor="@color/secondary_text_default_material_light"/>
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
+        android:layout_marginEnd="@dimen/abc_list_item_padding_horizontal_material"
+        android:layout_marginRight="@dimen/abc_list_item_padding_horizontal_material"/>
 
 </RelativeLayout>

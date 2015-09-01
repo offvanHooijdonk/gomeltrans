@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    android:id="@+id/blockFav"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/imageFavFalse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?android:selectableItemBackground"
+        android:src="@drawable/ic_star_outline_gray_24dp"/>
+
+    <ImageView
+        android:id="@+id/imageFavTrue"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:background="?android:selectableItemBackground"
+        android:src="@drawable/ic_star_gray_24dp"
+        android:tint="@color/fav_on"/>
+
+</FrameLayout>

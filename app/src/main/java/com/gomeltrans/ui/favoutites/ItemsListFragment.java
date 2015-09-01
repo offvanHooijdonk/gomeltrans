@@ -17,8 +17,8 @@ import com.gomeltrans.data.dao.StopsDao;
 import com.gomeltrans.data.dao.TransportDao;
 import com.gomeltrans.model.Stop;
 import com.gomeltrans.model.Transport;
-import com.gomeltrans.ui.favoutites.adapter.FavouriteStopAdapter;
-import com.gomeltrans.ui.favoutites.adapter.FavouriteTransportAdapter;
+import com.gomeltrans.ui.favoutites.adapter.StopAdapter;
+import com.gomeltrans.ui.favoutites.adapter.TransportAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,19 +26,21 @@ import java.util.List;
 /**
  * Created by Yahor_Fralou on 8/25/2015.
  */
-public class FavouritesListFragment extends Fragment {
+public class ItemsListFragment extends Fragment {
     public static final int TAB_POS_BUS = 0;
     public static final int TAB_POS_TROLLEY = 1;
     public static final int TAB_POS_STOPS = 2;
 
     private static final String ARG_PAGE_NUMBER = "arg_page_number";
+    private static final String ARG_FAVOURITES_ONLY = "arg_favourites_only";
     private int pageNumber;
     private Context ctx;
+    private boolean favouritesOnly;
 
     private final Handler handler = new Handler();
     private RecyclerView recyclerList;
-    private FavouriteTransportAdapter transportAdapter;
-    private FavouriteStopAdapter stopAdapter;
+    private TransportAdapter transportAdapter;
+    private StopAdapter stopAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
 
     private TransportDao transportDao;
@@ -46,11 +48,12 @@ public class FavouritesListFragment extends Fragment {
     private List<Transport> transportList = new ArrayList<>();
     private List<Stop> stopsList = new ArrayList<>();
 
-    public static FavouritesListFragment getInstance(int pageNumArg) {
+    public static ItemsListFragment getInstance(int pageNumArg, boolean favouritesOnly) {
         Bundle args = new Bundle();
         args.putInt(ARG_PAGE_NUMBER, pageNumArg);
+        args.putBoolean(ARG_FAVOURITES_ONLY, favouritesOnly);
 
-        FavouritesListFragment fragment = new FavouritesListFragment();
+        ItemsListFragment fragment = new ItemsListFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -58,7 +61,8 @@ public class FavouritesListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        pageNumber = getArguments().getInt(ARG_PAGE_NUMBER);
+        this.pageNumber = getArguments().getInt(ARG_PAGE_NUMBER);
+        this.favouritesOnly = getArguments().getBoolean(ARG_FAVOURITES_ONLY);
 
         this.ctx = getActivity();
     }
@@ -66,7 +70,7 @@ public class FavouritesListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.frag_fav_list, container, false);
+        View v = inflater.inflate(R.layout.frag_items_list, container, false);
 
         recyclerList = (RecyclerView) v.findViewById(R.id.recyclerList);
         recyclerList.setHasFixedSize(true);
@@ -75,13 +79,13 @@ public class FavouritesListFragment extends Fragment {
         if (pageNumber == TAB_POS_BUS || pageNumber == TAB_POS_TROLLEY) {
             transportDao = new TransportDao(ctx);
 
-            transportAdapter = new FavouriteTransportAdapter(ctx, transportList);
+            transportAdapter = new TransportAdapter(ctx, transportList, favouritesOnly);
             recyclerList.setAdapter(transportAdapter);
             updateData();
         } else if (pageNumber == TAB_POS_STOPS) {
             stopsDao = new StopsDao(ctx);
 
-            stopAdapter = new FavouriteStopAdapter(ctx, stopsList);
+            stopAdapter = new StopAdapter(ctx, stopsList, favouritesOnly);
             recyclerList.setAdapter(stopAdapter);
             updateData();
         }
@@ -130,17 +134,17 @@ public class FavouritesListFragment extends Fragment {
         switch (pageNumber) {
             case TAB_POS_BUS: {
                 transportList.clear();
-                transportList.addAll(transportDao.getList(Transport.TRANSPORT_TYPE.BUS.getCode(), false));
+                transportList.addAll(transportDao.getList(Transport.TRANSPORT_TYPE.BUS.getCode(), favouritesOnly));
                 transportAdapter.notifyDataSetChanged();
             } break;
             case TAB_POS_TROLLEY: {
                 transportList.clear();
-                transportList.addAll(transportDao.getList(Transport.TRANSPORT_TYPE.TROLLEY.getCode(), false));
+                transportList.addAll(transportDao.getList(Transport.TRANSPORT_TYPE.TROLLEY.getCode(), favouritesOnly));
                 transportAdapter.notifyDataSetChanged();
             } break;
             case TAB_POS_STOPS: {
                 stopsList.clear();
-                stopsList.addAll(stopsDao.getList(false));
+                stopsList.addAll(stopsDao.getList(favouritesOnly));
                 stopAdapter.notifyDataSetChanged();
             } break;
         }

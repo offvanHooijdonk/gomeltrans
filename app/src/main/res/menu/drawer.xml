@@ -4,17 +4,27 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/item_favourite"
-            android:icon="@drawable/ic_star_white"
+            android:icon="@drawable/ic_star_white_32dp"
             android:title="@string/item_favourite"/>
 
         <item
             android:id="@+id/item_transport"
-            android:icon="@drawable/ic_transport_white"
+            android:icon="@drawable/ic_transport_white_32dp"
             android:title="@string/item_transport"/>
 
         <item
             android:id="@+id/item_stops"
-            android:icon="@drawable/ic_stop_white"
+            android:icon="@drawable/ic_stop_white_32dp"
             android:title="@string/item_stops"/>
     </group>
+    <item
+        android:id="@+id/item_last_updated"
+        android:checkable="false"
+        android:title="Updated 6/08/2015 22:15">
+
+        <menu>
+            <item android:title="" android:enabled="false"/>
+        </menu>
+
+    </item>
 </menu>

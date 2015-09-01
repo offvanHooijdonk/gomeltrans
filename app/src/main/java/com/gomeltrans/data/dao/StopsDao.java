@@ -80,7 +80,7 @@ public class StopsDao {
 
         Cursor cursor;
         if (favouritesOnly) {
-            cursor = db.query(Stop.TABLE, null, Stop.ACTIVE + "=?", new String[]{String.valueOf(1), String.valueOf(1)}, null, null, null);
+            cursor = db.query(Stop.TABLE, null, Stop.ACTIVE + " =? AND " + Stop.FAVOURITE + " = ? ", new String[]{String.valueOf(1), String.valueOf(1)}, null, null, null);
         } else {
             cursor = db.query(Stop.TABLE, null, Stop.ACTIVE + "=?", new String[]{String.valueOf(1)}, null, null, null);
         }

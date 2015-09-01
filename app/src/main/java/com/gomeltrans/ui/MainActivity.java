@@ -14,9 +14,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.gomeltrans.Constants;
 import com.gomeltrans.R;
 import com.gomeltrans.data.ReloadDataBean;
-import com.gomeltrans.ui.favoutites.FavouritesFragment;
+import com.gomeltrans.ui.favoutites.TabbedListFragment;
+
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ReloadDataBean.OnReloadFinishedListener {
 
@@ -51,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             navItemId = savedInstanceState.getInt(NAV_ITEM_ID);
         }
         navigationView.getMenu().findItem(navItemId).setChecked(true);
+        setUpdateDateText();
 
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close);
@@ -84,19 +88,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         String title;
         switch (itemId) {
             case R.id.item_favourite : {
-                fragment = new FavouritesFragment();
+                fragment = TabbedListFragment.getInstance(TabbedListFragment.MODE.FAVOURITES_ALL);
                 title = that.getString(R.string.item_favourite);
             } break;
             case R.id.item_transport : {
-                fragment = new TransportFragment();
+                fragment = TabbedListFragment.getInstance(TabbedListFragment.MODE.TRANSPORT_ONLY);
                 title = that.getString(R.string.item_transport);
             } break;
             case R.id.item_stops : {
-                fragment = new StopsFragment();
+                fragment = TabbedListFragment.getInstance(TabbedListFragment.MODE.STOPS_ONLY);
                 title = that.getString(R.string.item_stops);
             } break;
             default: {
-                fragment = new FavouritesFragment();
+                fragment = TabbedListFragment.getInstance(TabbedListFragment.MODE.FAVOURITES_ALL);
                 title = that.getString(R.string.item_favourite);
             }
         }
@@ -147,9 +151,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onReloadDataFinished() {
+        // TODO in future this date comes from server
+        Constants.saveUpdateDate(that, new Date());
+        setUpdateDateText();
         if (progressDialog != null) {
             progressDialog.dismiss();
         }
         // TODO implement fragment awareness of data load so they can refresh theirselves if on screen
+    }
+
+    private void setUpdateDateText() {
+        navigationView.getMenu().findItem(R.id.item_last_updated).setTitle(that.getResources().getString(R.string.last_updated,
+                Constants.getUpdateDate(that)));
     }
 }
