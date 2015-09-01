@@ -4,4 +4,10 @@
     <string name="action_reload_data">Абнавіць даныя</string>
     <string name="action_settings">Налады</string>
     <string name="item_favourite">Абранае</string>
+    <string name="item_stops">Прыпынкi</string>
+    <string name="item_transport">Транспарт</string>
+    <string name="last_updated">Абноўлена на %s</string>
+    <string name="tab_bus">Аўтобусы</string>
+    <string name="tab_stop">Прыпынкі</string>
+    <string name="tab_trolley">Тралейбусы</string>
 </resources>
