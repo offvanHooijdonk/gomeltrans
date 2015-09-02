@@ -9,7 +9,8 @@
     <string name="item_stops">Остановки</string>
     <string name="last_updated">Обновлено на %s</string>
 
-    <string name="tab_bus">Автобусы</string>
-    <string name="tab_trolley">Троллейбусы</string>
+    <string name="tab_bus">Автобус</string>
+    <string name="tab_trolley">Троллейбус</string>
     <string name="tab_stop">Оставноки</string>
+    <string name="progress_data_update">Обновление данных…</string>
 </resources>

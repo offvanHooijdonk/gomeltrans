@@ -83,10 +83,10 @@ public class TransportDao {
         Cursor cursor;
         if (favouritesOnly) {
             cursor = db.query(Transport.TABLE, null, Transport.TYPE + " =? AND " + Transport.ACTIVE + "=? AND " + Transport.FAVOURITE + " =? ",
-                    new String[]{String.valueOf(type), String.valueOf(1), String.valueOf(1)}, null, null, null);
+                    new String[]{String.valueOf(type), String.valueOf(1), String.valueOf(1)}, null, null, "CAST(" + Transport.NUMBER + " as integer)");
         } else {
             cursor = db.query(Transport.TABLE, null, Transport.TYPE + " =? aND " + Transport.ACTIVE + " =? ",
-                    new String[]{String.valueOf(type), String.valueOf(1)}, null, null, null);
+                    new String[]{String.valueOf(type), String.valueOf(1)}, null, null, "CAST(" + Transport.NUMBER + " as integer)");
         }
 
         while (cursor.moveToNext()) {

@@ -13,7 +13,8 @@
     <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
     <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
 
-    <string name="tab_bus">Buses</string>
-    <string name="tab_trolley">Trolleys</string>
+    <string name="tab_bus">Bus</string>
+    <string name="tab_trolley">Trolley</string>
     <string name="tab_stop">Stops</string>
+    <string name="progress_data_update">Updating Data…</string>
 </resources>

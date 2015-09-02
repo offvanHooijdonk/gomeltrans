@@ -1,4 +1,4 @@
-package com.gomeltrans.ui.favoutites;
+package com.gomeltrans.ui.lists;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;

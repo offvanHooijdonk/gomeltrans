@@ -17,7 +17,7 @@ import android.view.MenuItem;
 import com.gomeltrans.Constants;
 import com.gomeltrans.R;
 import com.gomeltrans.data.ReloadDataBean;
-import com.gomeltrans.ui.favoutites.TabbedListFragment;
+import com.gomeltrans.ui.lists.TabbedListFragment;
 
 import java.util.Date;
 
@@ -125,6 +125,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return true;
         } else if (id == R.id.action_reload_data) {
             progressDialog = new ProgressDialog(that);
+            progressDialog.setMessage(that.getString(R.string.progress_data_update));
             progressDialog.setCancelable(false);
             progressDialog.show();
             ReloadDataBean reloadDataBean = new ReloadDataBean(that, that);

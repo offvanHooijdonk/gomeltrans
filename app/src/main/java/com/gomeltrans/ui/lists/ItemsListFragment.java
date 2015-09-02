@@ -1,4 +1,4 @@
-package com.gomeltrans.ui.favoutites;
+package com.gomeltrans.ui.lists;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -9,6 +9,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -17,8 +19,8 @@ import com.gomeltrans.data.dao.StopsDao;
 import com.gomeltrans.data.dao.TransportDao;
 import com.gomeltrans.model.Stop;
 import com.gomeltrans.model.Transport;
-import com.gomeltrans.ui.favoutites.adapter.StopAdapter;
-import com.gomeltrans.ui.favoutites.adapter.TransportAdapter;
+import com.gomeltrans.ui.lists.adapter.StopAdapter;
+import com.gomeltrans.ui.lists.adapter.TransportAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,6 +67,8 @@ public class ItemsListFragment extends Fragment {
         this.favouritesOnly = getArguments().getBoolean(ARG_FAVOURITES_ONLY);
 
         this.ctx = getActivity();
+
+        setHasOptionsMenu(true);
     }
 
     @Nullable
@@ -106,8 +110,13 @@ public class ItemsListFragment extends Fragment {
             }
         });
 
-
         return v;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.findItem(R.id.action_search_stop).setVisible(pageNumber == TAB_POS_STOPS);
     }
 
     public static String getTabTitle(Context ctx, int position) {

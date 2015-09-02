@@ -1,4 +1,4 @@
-package com.gomeltrans.ui.favoutites;
+package com.gomeltrans.ui.lists;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

@@ -1,4 +1,4 @@
-package com.gomeltrans.ui.favoutites.adapter;
+package com.gomeltrans.ui.lists.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,55 +10,55 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gomeltrans.R;
-import com.gomeltrans.data.dao.TransportDao;
-import com.gomeltrans.model.Transport;
-import com.gomeltrans.ui.TransportInfoActivity;
+import com.gomeltrans.data.dao.StopsDao;
+import com.gomeltrans.model.Stop;
+import com.gomeltrans.ui.StopInfoActivity;
 
 import java.util.List;
 
 /**
- * Created by yahor on 25.08.15.
+ * Created by Yahor_Fralou on 8/31/2015.
  */
-public class TransportAdapter extends RecyclerView.Adapter<TransportAdapter.ViewHolder> {
+public class StopAdapter extends RecyclerView.Adapter<StopAdapter.ViewHolder> {
     private Context ctx;
-    private List<Transport> buses;
+    private List<Stop> stops;
     private boolean favouritesOnly;
 
-    public TransportAdapter(Context context, List<Transport> buses, boolean favouritesOnly) {
+    public StopAdapter(Context context, List<Stop> stops, boolean favouritesOnly) {
         this.ctx = context;
-        this.buses = buses;
+        this.stops = stops;
         this.favouritesOnly = favouritesOnly;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(ctx).inflate(R.layout.item_transport, parent, false);
+        View v = LayoutInflater.from(ctx).inflate(R.layout.item_stop, parent, false);
         return new ViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder vh, int position) {
-        final Transport transport = buses.get(position);
+        final Stop stop = stops.get(position);
 
-        vh.numberName.setText(transport.getNumberName());
-        vh.routeName.setText(transport.getRouteName());
+        vh.name.setText(stop.getName());
+        vh.comment.setText(stop.getComment());
 
         if (favouritesOnly) {
             vh.blockFav.setVisibility(View.GONE);
         } else {
-            vh.imageFavFalse.setVisibility(transport.isFavourite() ? View.GONE : View.VISIBLE);
-            vh.imageFavTrue.setVisibility(transport.isFavourite() ? View.VISIBLE : View.GONE);
+            vh.imageFavFalse.setVisibility(stop.isFavourite() ? View.GONE : View.VISIBLE);
+            vh.imageFavTrue.setVisibility(stop.isFavourite() ? View.VISIBLE : View.GONE);
 
             vh.imageFavFalse.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    setItemFavourite(transport, true, vh);
+                    setItemFavourite(stop, true, vh);
                 }
             });
             vh.imageFavTrue.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    setItemFavourite(transport, false, vh);
+                    setItemFavourite(stop, false, vh);
                 }
             });
 
@@ -68,7 +68,7 @@ public class TransportAdapter extends RecyclerView.Adapter<TransportAdapter.View
         vh.blockItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ctx, TransportInfoActivity.class);
+                Intent intent = new Intent(ctx, StopInfoActivity.class);
                 ctx.startActivity(intent);
             }
         });
@@ -76,25 +76,25 @@ public class TransportAdapter extends RecyclerView.Adapter<TransportAdapter.View
 
     @Override
     public int getItemCount() {
-        return buses.size();
+        return stops.size();
     }
 
-    private void setItemFavourite(Transport transport, boolean favourite, ViewHolder vh) {
-        TransportDao dao = new TransportDao(ctx);
+    private void setItemFavourite(Stop stop, boolean favourite, ViewHolder vh) {
+        StopsDao dao = new StopsDao(ctx);
         if (favourite) {
-            dao.setFavourite(transport.getId(), true);
+            dao.setFavourite(stop.getId(), true);
             vh.imageFavFalse.setVisibility(View.GONE);
             vh.imageFavTrue.setVisibility(View.VISIBLE);
         } else {
-            dao.setFavourite(transport.getId(), false);
+            dao.setFavourite(stop.getId(), false);
             vh.imageFavFalse.setVisibility(View.VISIBLE);
             vh.imageFavTrue.setVisibility(View.GONE);
         }
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView numberName;
-        public TextView routeName;
+    public class ViewHolder extends RecyclerView.ViewHolder  {
+        public TextView name;
+        public TextView comment;
         public ViewGroup blockItem;
         public ViewGroup blockFav;
         public ImageView imageFavFalse;
@@ -103,8 +103,8 @@ public class TransportAdapter extends RecyclerView.Adapter<TransportAdapter.View
         public ViewHolder(View v) {
             super(v);
 
-            numberName = (TextView) v.findViewById(R.id.numberName);
-            routeName = (TextView) v.findViewById(R.id.routeName);
+            name = (TextView) v.findViewById(R.id.stopName);
+            comment = (TextView) v.findViewById(R.id.stopComment);
             blockItem = (ViewGroup) v.findViewById(R.id.blockItem);
             blockFav = (ViewGroup) v.findViewById(R.id.blockFav);
             imageFavFalse = (ImageView) v.findViewById(R.id.imageFavFalse);
