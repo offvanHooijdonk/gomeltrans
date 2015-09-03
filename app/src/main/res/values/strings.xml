@@ -17,4 +17,5 @@
     <string name="tab_trolley">Trolley</string>
     <string name="tab_stop">Stops</string>
     <string name="progress_data_update">Updating Data…</string>
+    <string name="search_hint">Search a stop</string>
 </resources>

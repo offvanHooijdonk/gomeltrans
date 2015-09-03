@@ -13,4 +13,5 @@
     <string name="tab_trolley">Троллейбус</string>
     <string name="tab_stop">Оставноки</string>
     <string name="progress_data_update">Обновление данных…</string>
+    <string name="search_hint">Искать остановку</string>
 </resources>

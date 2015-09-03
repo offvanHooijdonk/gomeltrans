@@ -18,7 +18,7 @@ import java.util.List;
  * Created by Yahor_Fralou on 8/26/2015.
  */
 public class DBHelper extends SQLiteOpenHelper {
-
+    public static final String WILDCARD_MULT = "%";
 
     private static final String DB_NAME = "gomeltrans";
 

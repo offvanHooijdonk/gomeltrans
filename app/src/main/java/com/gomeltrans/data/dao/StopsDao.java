@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.text.TextUtils;
 
 import com.gomeltrans.model.Stop;
 
@@ -14,6 +15,7 @@ import java.util.List;
  * Created by Yahor_Fralou on 8/27/2015.
  */
 public class StopsDao {
+
     private Context ctx;
     private DBHelper dbHelper;
 
@@ -86,6 +88,35 @@ public class StopsDao {
             cursor = db.query(Stop.TABLE, null, Stop.ACTIVE + "=?", new String[]{String.valueOf(1)}, null, null,
                     Stop.NAME + "," + Stop.COMMENT);
         }
+
+        while (cursor.moveToNext()) {
+            list.add(cursorToBean(cursor));
+        }
+        cursor.close();
+
+        return list;
+    }
+
+    public List<Stop> searchList(String searchName, boolean favouritesOnly) {
+        List<Stop> list = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        Cursor cursor;
+
+        String searchParameters = Stop.ACTIVE + " =? " + (favouritesOnly ? " AND " + Stop.FAVOURITE + " = ? " : "") +
+                (!TextUtils.isEmpty(searchName) ? " AND " + Stop.NAME + " like ? " : ""); // COLLATE NOCASE
+
+        List<String> paramsList = new ArrayList<>();
+        paramsList.add(String.valueOf(1));
+        if (favouritesOnly) {
+            paramsList.add(String.valueOf(1));
+        }
+        if (!TextUtils.isEmpty(searchName)) {
+            paramsList.add(DBHelper.WILDCARD_MULT + searchName + DBHelper.WILDCARD_MULT);
+        }
+
+        cursor = db.query(Stop.TABLE, null, searchParameters, paramsList.toArray(new String[]{}),
+                null, null, Stop.NAME + "," + Stop.COMMENT);
 
         while (cursor.moveToNext()) {
             list.add(cursorToBean(cursor));

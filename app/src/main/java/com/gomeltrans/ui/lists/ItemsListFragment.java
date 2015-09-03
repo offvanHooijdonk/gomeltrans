@@ -5,12 +5,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -49,6 +52,8 @@ public class ItemsListFragment extends Fragment {
     private StopsDao stopsDao;
     private List<Transport> transportList = new ArrayList<>();
     private List<Stop> stopsList = new ArrayList<>();
+
+    private String currentSearchText;
 
     public static ItemsListFragment getInstance(int pageNumArg, boolean favouritesOnly) {
         Bundle args = new Bundle();
@@ -103,7 +108,7 @@ public class ItemsListFragment extends Fragment {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {// just for fun
-                        updateData();
+                        updateData(currentSearchText);
                         swipeRefreshLayout.setRefreshing(false);
                     }
                 }, 750);
@@ -116,7 +121,36 @@ public class ItemsListFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        menu.findItem(R.id.action_search_stop).setVisible(pageNumber == TAB_POS_STOPS);
+        MenuItem searchItem = menu.findItem(R.id.action_search_stop).setVisible(pageNumber == TAB_POS_STOPS);
+
+        if (pageNumber == TAB_POS_STOPS) {
+            SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+            MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
+                @Override
+                public boolean onMenuItemActionExpand(MenuItem item) {
+                    return true;
+                }
+                @Override
+                public boolean onMenuItemActionCollapse(MenuItem item) {
+                    currentSearchText = null;
+                    return true;
+                }
+            });
+
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    return false;
+                }
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    currentSearchText = newText;
+                    updateData(newText);
+                    return true;
+                }
+            });
+
+        }
     }
 
     public static String getTabTitle(Context ctx, int position) {
@@ -140,6 +174,10 @@ public class ItemsListFragment extends Fragment {
     }
 
     private void updateData() {
+        updateData(null);
+    }
+
+    private void updateData(String searchText) {
         switch (pageNumber) {
             case TAB_POS_BUS: {
                 transportList.clear();
@@ -152,8 +190,9 @@ public class ItemsListFragment extends Fragment {
                 transportAdapter.notifyDataSetChanged();
             } break;
             case TAB_POS_STOPS: {
+                stopAdapter.setSearchText(searchText);
                 stopsList.clear();
-                stopsList.addAll(stopsDao.getList(favouritesOnly));
+                stopsList.addAll(stopsDao.searchList(searchText, favouritesOnly));
                 stopAdapter.notifyDataSetChanged();
             } break;
         }

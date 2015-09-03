@@ -3,6 +3,10 @@ package com.gomeltrans.ui.lists.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,11 +27,16 @@ public class StopAdapter extends RecyclerView.Adapter<StopAdapter.ViewHolder> {
     private Context ctx;
     private List<Stop> stops;
     private boolean favouritesOnly;
+    private String searchText;
 
     public StopAdapter(Context context, List<Stop> stops, boolean favouritesOnly) {
         this.ctx = context;
         this.stops = stops;
         this.favouritesOnly = favouritesOnly;
+    }
+
+    public void setSearchText(String searchText) {
+        this.searchText = searchText;
     }
 
     @Override
@@ -40,7 +49,17 @@ public class StopAdapter extends RecyclerView.Adapter<StopAdapter.ViewHolder> {
     public void onBindViewHolder(final ViewHolder vh, int position) {
         final Stop stop = stops.get(position);
 
-        vh.name.setText(stop.getName());
+        if (!TextUtils.isEmpty(searchText)) {
+            // TODO implement for all text entries?
+            String text = stop.getName();
+            SpannableStringBuilder ssb = new SpannableStringBuilder(text);
+            int start = text.toLowerCase().indexOf(searchText.toLowerCase());
+            int end = start + searchText.length();
+            ssb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), start, end, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+            vh.name.setText(ssb);
+        } else {
+            vh.name.setText(stop.getName());
+        }
         vh.comment.setText(stop.getComment());
 
         if (favouritesOnly) {
@@ -69,6 +88,7 @@ public class StopAdapter extends RecyclerView.Adapter<StopAdapter.ViewHolder> {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ctx, StopInfoActivity.class);
+                intent.putExtra(StopInfoActivity.EXTRA_STOP_ID, stop.getId());
                 ctx.startActivity(intent);
             }
         });

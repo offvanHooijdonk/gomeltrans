@@ -5,6 +5,8 @@
         <item name="colorPrimaryDark">@color/app_primary_dark</item>
         <item name="colorAccent">@color/app_accent</item>
         <item name="android:textColor">@color/text_primary</item>
+
+        <item name="searchViewStyle">@style/AppBaseTheme.SearchViewStyle</item>
     </style>
 
     <style name="AppBaseTheme.Toolbar.Title" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
@@ -13,6 +15,9 @@
 
     <style name="ToolbarColoredBackArrow">
         <item name="android:textColorSecondary">@color/toolbar_text</item>
+        <item name="android:editTextColor">@color/toolbar_text</item>
+        <item name="android:textColorHint">@color/search_hint_text</item>
+        <item name="searchViewStyle">@style/AppBaseTheme.SearchViewStyle</item>
     </style>
 
     <style name="AppBaseTheme.TabLayout" parent="Widget.Design.TabLayout">
@@ -20,5 +25,15 @@
         <item name="tabIndicatorColor">@android:color/white</item>
         <item name="tabTextColor">#b0ffffff</item>
         <item name="tabSelectedTextColor">@android:color/white</item>
+    </style>
+
+    <style name="AppBaseTheme.SearchViewStyle" parent="Widget.AppCompat.SearchView">
+        <!--<item name="android:textCursorDrawable">@drawable/white_cursor</item>-->
+        <item name="queryBackground">@android:color/transparent</item>
+        <!--<item name="searchIcon">@drawable/icon_toolbar_search</item>-->
+        <!--<item name="closeIcon">@drawable/icon_toolbar_clear</item>-->
+        <item name="queryHint">@string/search_hint</item>
+        <item name="android:imeActionId">6</item>
+        <item name="android:voiceSearchMode">showVoiceSearchButton</item>
     </style>
 </resources>

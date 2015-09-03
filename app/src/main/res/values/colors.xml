@@ -5,6 +5,7 @@
     <color name="app_primary_dark">#388E3C</color>
 
     <color name="toolbar_text">#ffffff</color>
+    <color name="search_hint_text">#deffffff</color>
 
     <color name="drawer_color">#EEEEEE</color>
     <color name="drawer_header">#673AB7</color>
