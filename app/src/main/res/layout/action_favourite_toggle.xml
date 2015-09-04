@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/blockFav"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/abc_action_bar_icon_vertical_padding_material"
+    android:background="?android:selectableItemBackground">
+
+    <ImageView
+        android:id="@+id/imageFavTrue"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_star_white_24dp"/>
+
+    <ImageView
+        android:id="@+id/imageFavFalse"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_star_border_white_24dp"/>
+
+</FrameLayout>

@@ -1,7 +1,6 @@
 package com.gomeltrans.ui.lists.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +11,7 @@ import android.widget.TextView;
 import com.gomeltrans.R;
 import com.gomeltrans.data.dao.TransportDao;
 import com.gomeltrans.model.Transport;
-import com.gomeltrans.ui.TransportInfoActivity;
+import com.gomeltrans.util.IntentsHelper;
 
 import java.util.List;
 
@@ -32,7 +31,7 @@ public class TransportAdapter extends RecyclerView.Adapter<TransportAdapter.View
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(ctx).inflate(R.layout.item_transport, parent, false);
+        View v = LayoutInflater.from(ctx).inflate(R.layout.item_transport_list, parent, false);
         return new ViewHolder(v);
     }
 
@@ -68,8 +67,7 @@ public class TransportAdapter extends RecyclerView.Adapter<TransportAdapter.View
         vh.blockItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ctx, TransportInfoActivity.class);
-                ctx.startActivity(intent);
+                IntentsHelper.startTransportInfo(ctx, transport.getId());
             }
         });
     }

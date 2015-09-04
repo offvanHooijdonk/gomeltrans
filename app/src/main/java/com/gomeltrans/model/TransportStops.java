@@ -24,4 +24,41 @@ public class TransportStops extends BaseBean {
             return code;
         }
     }
+
+    private Transport transport;
+    private Stop stop;
+    private String nextTime;
+    private String firstTime;
+
+    public Transport getTransport() {
+        return transport;
+    }
+
+    public void setTransport(Transport transport) {
+        this.transport = transport;
+    }
+
+    public Stop getStop() {
+        return stop;
+    }
+
+    public void setStop(Stop stop) {
+        this.stop = stop;
+    }
+
+    public String getNextTime() {
+        return nextTime;
+    }
+
+    public void setNextTime(String nextTime) {
+        this.nextTime = nextTime;
+    }
+
+    public String getFirstTime() {
+        return firstTime;
+    }
+
+    public void setFirstTime(String firstTime) {
+        this.firstTime = firstTime;
+    }
 }

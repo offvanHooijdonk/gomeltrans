@@ -48,6 +48,8 @@ public class ItemsListFragment extends Fragment {
     private StopAdapter stopAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
 
+    private boolean justCreated;
+
     private TransportDao transportDao;
     private StopsDao stopsDao;
     private List<Transport> transportList = new ArrayList<>();
@@ -115,7 +117,19 @@ public class ItemsListFragment extends Fragment {
             }
         });
 
+        justCreated = true;
+
         return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!justCreated) {
+            updateData(currentSearchText);
+        } else {
+            justCreated = false;
+        }
     }
 
     @Override

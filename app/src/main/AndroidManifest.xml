@@ -20,11 +20,7 @@
         </activity>
 
         <activity
-            android:name=".ui.TransportInfoActivity"
-            android:parentActivityName="com.gomeltrans.ui.MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.gomeltrans.ui.MainActivity"/>
+            android:name=".ui.TransportInfoActivity">
         </activity>
 
         <activity

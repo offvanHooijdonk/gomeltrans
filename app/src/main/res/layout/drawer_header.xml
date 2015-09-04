@@ -16,5 +16,5 @@
         android:layout_margin="16dp"
         android:contentDescription="@string/drawer_header_image"
         android:scaleType="fitXY"
-        android:src="@drawable/ic_transport_white_140dp_a80"/>
+        android:src="@drawable/ic_transport_white_156dp_a80"/>
 </RelativeLayout>

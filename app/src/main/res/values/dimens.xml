@@ -8,6 +8,7 @@
     <dimen name="navigation_drawer_width">240dp</dimen>
 
     <dimen name="list_padding_vertical">8dp</dimen>
+    <dimen name="list_fav_padding_end">8dp</dimen>
     <dimen name="list_text_margin_start">56dp</dimen>
     <dimen name="list_icon_size">40dp</dimen>
 </resources>

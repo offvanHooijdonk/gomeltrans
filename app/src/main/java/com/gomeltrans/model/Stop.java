@@ -21,6 +21,7 @@ public class Stop extends BaseBean {
     private String comment;
     @Expose
     @SerializedName("table")
+    // TODO implement tables for working days and weekends
     private List<StopTable> stopTables;
     private boolean favourite;
     private boolean active;

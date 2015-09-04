@@ -134,7 +134,7 @@ public class StopsDao {
         db.update(Stop.TABLE, cv, Stop.ID + "=?", new String[]{String.valueOf(id)});
     }
 
-    private Stop cursorToBean(Cursor c) {
+    public Stop cursorToBean(Cursor c) {
         Stop bean = new Stop();
         bean.setId(c.getLong(c.getColumnIndex(Stop.ID)));
         bean.setName(c.getString(c.getColumnIndex(Stop.NAME)));

@@ -20,6 +20,11 @@ public class Constants {
         return new SimpleDateFormat(android.text.format.DateFormat.is24HourFormat(ctx) ? "HH:mm" : "hh:mm a");
     }
 
+    @SuppressLint("SimpleDateFormat")
+    public static DateFormat getDBTimeFormat() {
+        return new SimpleDateFormat("HH:mm");
+    }
+
     public static String getUpdateDate(Context ctx) {
         String dateString = ctx.getSharedPreferences(FILE_PREF_LOCAL, Context.MODE_PRIVATE).getString(PREF_UPDATE_DATE, null);
         return dateString != null ? dateString : "?";

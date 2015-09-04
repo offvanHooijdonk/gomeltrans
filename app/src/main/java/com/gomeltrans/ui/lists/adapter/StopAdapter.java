@@ -1,7 +1,6 @@
 package com.gomeltrans.ui.lists.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -16,7 +15,7 @@ import android.widget.TextView;
 import com.gomeltrans.R;
 import com.gomeltrans.data.dao.StopsDao;
 import com.gomeltrans.model.Stop;
-import com.gomeltrans.ui.StopInfoActivity;
+import com.gomeltrans.util.IntentsHelper;
 
 import java.util.List;
 
@@ -41,7 +40,7 @@ public class StopAdapter extends RecyclerView.Adapter<StopAdapter.ViewHolder> {
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(ctx).inflate(R.layout.item_stop, parent, false);
+        View v = LayoutInflater.from(ctx).inflate(R.layout.item_stop_list, parent, false);
         return new ViewHolder(v);
     }
 
@@ -87,9 +86,7 @@ public class StopAdapter extends RecyclerView.Adapter<StopAdapter.ViewHolder> {
         vh.blockItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ctx, StopInfoActivity.class);
-                intent.putExtra(StopInfoActivity.EXTRA_STOP_ID, stop.getId());
-                ctx.startActivity(intent);
+                IntentsHelper.startStopInfo(ctx, stop.getId());
             }
         });
     }

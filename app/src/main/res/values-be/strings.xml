@@ -12,4 +12,5 @@
     <string name="tab_trolley">Тралейбус</string>
     <string name="progress_data_update">Абнаўленне даных…</string>
     <string name="search_hint">Шукаць прыпынак</string>
+    <string name="action_favourite">Абранае</string>
 </resources>

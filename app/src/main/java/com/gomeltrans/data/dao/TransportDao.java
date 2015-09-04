@@ -4,10 +4,14 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.text.TextUtils;
 
+import com.gomeltrans.model.Stop;
 import com.gomeltrans.model.Transport;
+import com.gomeltrans.model.TransportStops;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -103,6 +107,48 @@ public class TransportDao {
 
         cv.put(Transport.FAVOURITE, favourite);
         db.update(Transport.TABLE, cv, Transport.ID + "=?", new String[]{String.valueOf(id)});
+    }
+
+    public List<TransportStops> getStopsForTransport(Transport transport, TransportStops.DIRECTION direction) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        List<TransportStops> list = new ArrayList<>();
+
+        Cursor cursor = db.rawQuery("SELECT " + "s.*, ts." + TransportStops.ID + " as ts_id FROM " + Stop.TABLE + " s," + TransportStops.TABLE + " ts " +
+                        " WHERE s." + Stop.ID + " = ts." + TransportStops.STOP_ID + " AND ts." + TransportStops.TRANSPORT_ID + "=? AND ts." +
+                        TransportStops.DIRECTION_INDEX + " =? AND ts." + TransportStops.ACTIVE + " = ? ORDER BY " + TransportStops.ORDER_NUMBER,
+                new String[]{String.valueOf(transport.getId()), String.valueOf(direction.getCode()), String.valueOf(1)});
+
+        StopsDao stopsDao = new StopsDao(ctx);
+        while (cursor.moveToNext()) {
+            TransportStops ts = new TransportStops();
+            Stop stop = stopsDao.cursorToBean(cursor);
+            ts.setStop(stop);
+            ts.setTransport(transport);
+            ts.setId(cursor.getLong(cursor.getColumnIndex("ts_id")));
+            list.add(ts);
+        }
+        cursor.close();
+
+        return list;
+    }
+
+    public List<TransportStops> getTransportStopNextTable(Transport transport, TransportStops.DIRECTION direction, Date date) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        List<TransportStops> list = getStopsForTransport(transport, direction);
+
+        StopTableDao stopTableDao = new StopTableDao(ctx);
+        for (TransportStops ts : list) {
+            String nextTime = stopTableDao.getNextTimeToday(ts.getId(), date);
+            if (!TextUtils.isEmpty(nextTime)) {
+                ts.setNextTime(nextTime);
+            } else {
+                String firstTime = stopTableDao.getFirstTime(ts.getId());
+                ts.setFirstTime(firstTime);
+            }
+        }
+
+        return list;
     }
 
     private Transport cursorToBean(Cursor c) {
