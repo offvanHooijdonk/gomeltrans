@@ -44,6 +44,12 @@ public class TransportStopAdapter extends RecyclerView.Adapter<TransportStopAdap
             vh.textNextTime.setText(ts.getFirstTime());
         }
 
+        if (ts.getStop().isFavourite()) {
+            vh.blockBackground.setBackgroundColor(0x3f000000 | (0xffffff & ctx.getResources().getColor(R.color.fav_item_bckgr)));
+        } else {
+            vh.blockBackground.setBackgroundColor(ctx.getResources().getColor(android.R.color.transparent));
+        }
+
         vh.blockItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,6 +65,7 @@ public class TransportStopAdapter extends RecyclerView.Adapter<TransportStopAdap
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ViewGroup blockItem;
+        ViewGroup blockBackground;
         TextView textName;
         TextView textComment;
         TextView textNextTime;
@@ -67,6 +74,7 @@ public class TransportStopAdapter extends RecyclerView.Adapter<TransportStopAdap
             super(v);
 
             blockItem = (ViewGroup) v.findViewById(R.id.blockItem);
+            blockBackground = (ViewGroup) v.findViewById(R.id.blockBackground);
             textName = (TextView) v.findViewById(R.id.textName);
             textComment = (TextView) v.findViewById(R.id.textComment);
             textNextTime = (TextView) v.findViewById(R.id.textNextTime);

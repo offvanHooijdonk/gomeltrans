@@ -1,46 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
     android:id="@+id/blockItem"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:selectableItemBackground"
-    android:padding="@dimen/abc_list_item_padding_horizontal_material">
+    android:background="?android:selectableItemBackground">
 
-    <TextView
-        android:id="@+id/textName"
+    <RelativeLayout
+        android:id="@+id/blockBackground"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/textNextTime"
-        android:layout_toStartOf="@id/textNextTime"
-        android:ellipsize="marquee"
-        android:singleLine="true"
-        android:textSize="16sp"
-        android:text="Завод Самоходных Комбайнов"/>
+        android:padding="@dimen/abc_list_item_padding_horizontal_material">
 
-    <TextView
-        android:id="@+id/textComment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@id/textName"
-        android:layout_alignLeft="@id/textName"
-        android:layout_alignRight="@id/textName"
-        android:layout_alignStart="@id/textName"
-        android:layout_below="@id/textName"
-        android:ellipsize="marquee"
-        android:singleLine="true"
-        android:textColor="@color/text_secondary"
-        android:textSize="14sp"
-        android:text="Конечная"/>
+        <TextView
+            android:id="@+id/textName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/textNextTime"
+            android:layout_toStartOf="@id/textNextTime"
+            android:ellipsize="marquee"
+            android:singleLine="true"
+            android:text="Завод Самоходных Комбайнов"
+            android:textSize="16sp"/>
 
-    <TextView
-        android:id="@+id/textNextTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:textSize="16sp"
-        android:layout_centerVertical="true"
-        android:text="16:22"/>
+        <TextView
+            android:id="@+id/textComment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@id/textName"
+            android:layout_alignLeft="@id/textName"
+            android:layout_alignRight="@id/textName"
+            android:layout_alignStart="@id/textName"
+            android:layout_below="@id/textName"
+            android:ellipsize="marquee"
+            android:singleLine="true"
+            android:text="Конечная"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp"/>
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/textNextTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="16:22"
+            android:textSize="16sp"/>
+    </RelativeLayout>
+</FrameLayout>

@@ -35,6 +35,7 @@ public class TransportInfoActivity extends AppCompatActivity implements Favourit
     private Transport transportBean;
     private TransportDao transportDao;
     private List<TransportStops> transportStopsList;
+    private boolean justCreated;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,12 +65,24 @@ public class TransportInfoActivity extends AppCompatActivity implements Favourit
                 recyclerView.setAdapter(adapter);
 
                 updateList();
+
+                justCreated = true;
             } else {
                 onNoTransport();
             }
 
         } else {
             onNoTransport();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!justCreated) {
+            updateList();
+        } else {
+            justCreated = false;
         }
     }
 
