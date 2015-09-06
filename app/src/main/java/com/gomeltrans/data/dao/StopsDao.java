@@ -97,7 +97,7 @@ public class StopsDao {
         return list;
     }
 
-    public List<Stop> searchList(String searchName, boolean favouritesOnly) {
+    public List<Stop> searchList(String searchName, boolean favouritesOnly, boolean sortOnFavourites) {
         List<Stop> list = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
@@ -116,7 +116,7 @@ public class StopsDao {
         }
 
         cursor = db.query(Stop.TABLE, null, searchParameters, paramsList.toArray(new String[]{}),
-                null, null, Stop.NAME + "," + Stop.COMMENT);
+                null, null, (sortOnFavourites ? Stop.FAVOURITE + " desc," : "") + Stop.NAME + "," + Stop.COMMENT);
 
         while (cursor.moveToNext()) {
             list.add(cursorToBean(cursor));

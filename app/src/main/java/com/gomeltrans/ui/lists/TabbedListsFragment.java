@@ -16,19 +16,15 @@ import com.gomeltrans.ui.MainActivity;
 /**
  * Created by Yahor_Fralou on 8/24/2015.
  */
-public class TabbedListFragment extends Fragment {
+public class TabbedListsFragment extends Fragment {
     private static final String ARG_MODE = "arg_mode";
 
     private MainActivity parent;
-    private MODE mode;
 
-    public enum MODE {FAVOURITES_ALL, TRANSPORT_ONLY, STOPS_ONLY};
-
-    public static TabbedListFragment getInstance(MODE mode) {
+    public static TabbedListsFragment getInstance() {
         Bundle args = new Bundle();
-        args.putString(ARG_MODE, mode.toString());
 
-        TabbedListFragment fragment = new TabbedListFragment();
+        TabbedListsFragment fragment = new TabbedListsFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -36,13 +32,8 @@ public class TabbedListFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.mode = MODE.valueOf(getArguments().getString(ARG_MODE));
 
         parent = ((MainActivity) getActivity());
-        // FIXME this fixes issue when on app start header is not set. Need better fix
-        if (mode == MODE.FAVOURITES_ALL) {
-            parent.getSupportActionBar().setTitle(getActivity().getString(R.string.item_favourite));
-        }
     }
 
     @Nullable
@@ -50,11 +41,9 @@ public class TabbedListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v;
 
-        if (mode == MODE.FAVOURITES_ALL || mode == MODE.TRANSPORT_ONLY) {
             v = inflater.inflate(R.layout.frag_tabs, container, false);
 
-            TabbedFragmentPagerAdapter adapter = new TabbedFragmentPagerAdapter(getChildFragmentManager(), parent,
-                    mode == MODE.TRANSPORT_ONLY ? TabbedFragmentPagerAdapter.MODE.TRANSPORT_ONLY : TabbedFragmentPagerAdapter.MODE.FAVOURITES_ALL);
+            TabbedListsPagerAdapter adapter = new TabbedListsPagerAdapter(getChildFragmentManager(), parent);
 
             final ViewPager viewPager = (ViewPager) v.findViewById(R.id.viewpager);
             viewPager.setAdapter(adapter);
@@ -66,13 +55,7 @@ public class TabbedListFragment extends Fragment {
                     tabLayout.setupWithViewPager(viewPager);
                 }
             });
-        } else { // MODE.STOPS_ONLY
-            v = inflater.inflate(R.layout.frag_no_tabs_list, container, false);
-            FragmentManager fragmentManager = parent.getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.containerForList, ItemsListFragment.getInstance(ItemsListFragment.TAB_POS_STOPS, false))
-                    .commit();
-        }
+
         return v;
     }
 }

@@ -3,19 +3,10 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/item_favourite"
+            android:id="@+id/item_timetable"
             android:icon="@drawable/ic_action_star"
-            android:title="@string/item_favourite"/>
+            android:title="@string/item_timetable"/>
 
-        <item
-            android:id="@+id/item_transport"
-            android:icon="@drawable/ic_transport_white_32dp"
-            android:title="@string/item_transport"/>
-
-        <item
-            android:id="@+id/item_stops"
-            android:icon="@drawable/ic_stop_white_32dp"
-            android:title="@string/item_stops"/>
     </group>
     <item
         android:id="@+id/item_last_updated"

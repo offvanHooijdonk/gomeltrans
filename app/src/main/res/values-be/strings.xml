@@ -13,4 +13,6 @@
     <string name="progress_data_update">Абнаўленне даных…</string>
     <string name="search_hint">Шукаць прыпынак</string>
     <string name="action_favourite">Абранае</string>
+    <string name="item_direction_backward">Назад</string>
+    <string name="item_direction_forward">Наперад</string>
 </resources>

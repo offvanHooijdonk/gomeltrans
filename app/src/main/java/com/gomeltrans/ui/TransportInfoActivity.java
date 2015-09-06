@@ -1,10 +1,10 @@
 package com.gomeltrans.ui;
 
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,29 +13,20 @@ import android.widget.Toast;
 import com.gomeltrans.R;
 import com.gomeltrans.data.dao.TransportDao;
 import com.gomeltrans.model.Transport;
-import com.gomeltrans.model.TransportStops;
-import com.gomeltrans.ui.actionbar.FavouritesActionProvider;
-import com.gomeltrans.ui.lists.adapter.TransportStopAdapter;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import com.gomeltrans.ui.actionbar.FavouriteActionProvider;
+import com.gomeltrans.ui.lists.TransportStopsPagerAdapter;
 
 /**
  * Created by yahor on 25.08.15.
  */
-public class TransportInfoActivity extends AppCompatActivity implements FavouritesActionProvider.ToggleListener {
+public class TransportInfoActivity extends AppCompatActivity implements FavouriteActionProvider.ToggleListener {
     public static final String EXTRA_TRANSPORT_ID = "extra_transport_id";
 
     private TransportInfoActivity that;
     private Toolbar toolbar;
-    private RecyclerView recyclerView;
-    private TransportStopAdapter adapter;
 
     private Transport transportBean;
     private TransportDao transportDao;
-    private List<TransportStops> transportStopsList;
-    private boolean justCreated;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,18 +46,18 @@ public class TransportInfoActivity extends AppCompatActivity implements Favourit
             if (transportBean != null) {
                 getSupportActionBar().setTitle(String.format("%s %s", transportBean.getNumberName(), transportBean.getRouteName()));
 
-                // init recycler
-                recyclerView = (RecyclerView) findViewById(R.id.listStops);
-                recyclerView.setHasFixedSize(true);
-                recyclerView.setLayoutManager(new LinearLayoutManager(that));
+                // init tabs
+                TransportStopsPagerAdapter pagerAdapter = new TransportStopsPagerAdapter(getSupportFragmentManager(), that, transportId);
+                final ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+                viewPager.setAdapter(pagerAdapter);
 
-                transportStopsList = new ArrayList<>();
-                adapter = new TransportStopAdapter(that, transportStopsList);
-                recyclerView.setAdapter(adapter);
-
-                updateList();
-
-                justCreated = true;
+                final TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+                tabLayout.post(new Runnable() { // this is a hack due to a bug in 22.2.1 design lib
+                    @Override
+                    public void run() {
+                        tabLayout.setupWithViewPager(viewPager);
+                    }
+                });
             } else {
                 onNoTransport();
             }
@@ -77,21 +68,11 @@ public class TransportInfoActivity extends AppCompatActivity implements Favourit
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        if (!justCreated) {
-            updateList();
-        } else {
-            justCreated = false;
-        }
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.transport_info, menu);
 
         if (transportBean != null) {
-            FavouritesActionProvider provider = (FavouritesActionProvider) MenuItemCompat.getActionProvider(menu.findItem(R.id.action_favourite_toggle));
+            FavouriteActionProvider provider = (FavouriteActionProvider) MenuItemCompat.getActionProvider(menu.findItem(R.id.action_favourite_toggle));
             provider.setFavourite(transportBean.isFavourite());
             provider.addToggleListener(this);
         } else {
@@ -111,14 +92,8 @@ public class TransportInfoActivity extends AppCompatActivity implements Favourit
     }
 
     @Override
-    public void onStateChanged(boolean newValue) {
+    public void onFavTogglerStateChanged(boolean newValue) {
         transportDao.setFavourite(transportBean.getId(), newValue);
-    }
-
-    private void updateList() {
-        transportStopsList.clear();
-        transportStopsList.addAll(transportDao.getTransportStopNextTable(transportBean, TransportStops.DIRECTION.FORWARD, new Date()));
-        adapter.notifyDataSetChanged();
     }
 
     private void onNoTransport() {

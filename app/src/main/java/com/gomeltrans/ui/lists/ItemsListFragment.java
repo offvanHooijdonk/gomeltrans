@@ -17,11 +17,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.gomeltrans.Constants;
 import com.gomeltrans.R;
 import com.gomeltrans.data.dao.StopsDao;
 import com.gomeltrans.data.dao.TransportDao;
 import com.gomeltrans.model.Stop;
 import com.gomeltrans.model.Transport;
+import com.gomeltrans.ui.actionbar.FavouriteFilterActionProvider;
 import com.gomeltrans.ui.lists.adapter.StopAdapter;
 import com.gomeltrans.ui.lists.adapter.TransportAdapter;
 
@@ -31,16 +33,15 @@ import java.util.List;
 /**
  * Created by Yahor_Fralou on 8/25/2015.
  */
-public class ItemsListFragment extends Fragment {
+public class ItemsListFragment extends Fragment implements FavouriteFilterActionProvider.OnFavFilterChangeListener {
     public static final int TAB_POS_BUS = 0;
     public static final int TAB_POS_TROLLEY = 1;
     public static final int TAB_POS_STOPS = 2;
 
     private static final String ARG_PAGE_NUMBER = "arg_page_number";
-    private static final String ARG_FAVOURITES_ONLY = "arg_favourites_only";
     private int pageNumber;
     private Context ctx;
-    private boolean favouritesOnly;
+    private FavouriteFilterActionProvider.SHOW_MODE favMode;
 
     private final Handler handler = new Handler();
     private RecyclerView recyclerList;
@@ -57,10 +58,9 @@ public class ItemsListFragment extends Fragment {
 
     private String currentSearchText;
 
-    public static ItemsListFragment getInstance(int pageNumArg, boolean favouritesOnly) {
+    public static ItemsListFragment getInstance(int pageNumArg) {
         Bundle args = new Bundle();
         args.putInt(ARG_PAGE_NUMBER, pageNumArg);
-        args.putBoolean(ARG_FAVOURITES_ONLY, favouritesOnly);
 
         ItemsListFragment fragment = new ItemsListFragment();
         fragment.setArguments(args);
@@ -71,7 +71,6 @@ public class ItemsListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.pageNumber = getArguments().getInt(ARG_PAGE_NUMBER);
-        this.favouritesOnly = getArguments().getBoolean(ARG_FAVOURITES_ONLY);
 
         this.ctx = getActivity();
 
@@ -83,6 +82,12 @@ public class ItemsListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.frag_items_list, container, false);
 
+        try {
+            favMode = FavouriteFilterActionProvider.SHOW_MODE.valueOf(Constants.getFavFilter(ctx));
+        } catch (Exception e) {
+            favMode = FavouriteFilterActionProvider.SHOW_MODE.SHOW_ALL;
+        }
+
         recyclerList = (RecyclerView) v.findViewById(R.id.recyclerList);
         recyclerList.setHasFixedSize(true);
         recyclerList.setLayoutManager(new LinearLayoutManager(ctx));
@@ -90,13 +95,13 @@ public class ItemsListFragment extends Fragment {
         if (pageNumber == TAB_POS_BUS || pageNumber == TAB_POS_TROLLEY) {
             transportDao = new TransportDao(ctx);
 
-            transportAdapter = new TransportAdapter(ctx, transportList, favouritesOnly);
+            transportAdapter = new TransportAdapter(ctx, transportList);
             recyclerList.setAdapter(transportAdapter);
             updateData();
         } else if (pageNumber == TAB_POS_STOPS) {
             stopsDao = new StopsDao(ctx);
 
-            stopAdapter = new StopAdapter(ctx, stopsList, favouritesOnly);
+            stopAdapter = new StopAdapter(ctx, stopsList);
             recyclerList.setAdapter(stopAdapter);
             updateData();
         }
@@ -135,8 +140,13 @@ public class ItemsListFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        MenuItem searchItem = menu.findItem(R.id.action_search_stop).setVisible(pageNumber == TAB_POS_STOPS);
 
+        MenuItem favFilterItem = menu.findItem(R.id.action_fav_filter);
+        FavouriteFilterActionProvider favFilterAP = (FavouriteFilterActionProvider) MenuItemCompat.getActionProvider(favFilterItem);
+        favFilterAP.setShowMode(favMode);
+        favFilterAP.addListener(this);
+
+        MenuItem searchItem = menu.findItem(R.id.action_search_stop).setVisible(pageNumber == TAB_POS_STOPS);
         if (pageNumber == TAB_POS_STOPS) {
             SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
             MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
@@ -167,6 +177,13 @@ public class ItemsListFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onFavFilterChanged(FavouriteFilterActionProvider.SHOW_MODE newValue) {
+        favMode = newValue;
+        Constants.saveFavFilter(ctx, newValue.toString());
+        updateData(currentSearchText);
+    }
+
     public static String getTabTitle(Context ctx, int position) {
         String title;
         switch (position) {
@@ -195,20 +212,24 @@ public class ItemsListFragment extends Fragment {
         switch (pageNumber) {
             case TAB_POS_BUS: {
                 transportList.clear();
-                transportList.addAll(transportDao.getList(Transport.TRANSPORT_TYPE.BUS.getCode(), favouritesOnly));
+                transportList.addAll(transportDao.getList(Transport.TRANSPORT_TYPE.BUS.getCode(),
+                        favMode == FavouriteFilterActionProvider.SHOW_MODE.FAV_ONLY, favMode == FavouriteFilterActionProvider.SHOW_MODE.FAV_FIRST));
                 transportAdapter.notifyDataSetChanged();
             } break;
             case TAB_POS_TROLLEY: {
                 transportList.clear();
-                transportList.addAll(transportDao.getList(Transport.TRANSPORT_TYPE.TROLLEY.getCode(), favouritesOnly));
+                transportList.addAll(transportDao.getList(Transport.TRANSPORT_TYPE.TROLLEY.getCode(),
+                        favMode == FavouriteFilterActionProvider.SHOW_MODE.FAV_ONLY, favMode == FavouriteFilterActionProvider.SHOW_MODE.FAV_FIRST));
                 transportAdapter.notifyDataSetChanged();
             } break;
             case TAB_POS_STOPS: {
                 stopAdapter.setSearchText(searchText);
                 stopsList.clear();
-                stopsList.addAll(stopsDao.searchList(searchText, favouritesOnly));
+                stopsList.addAll(stopsDao.searchList(searchText,
+                        favMode == FavouriteFilterActionProvider.SHOW_MODE.FAV_ONLY, favMode == FavouriteFilterActionProvider.SHOW_MODE.FAV_FIRST));
                 stopAdapter.notifyDataSetChanged();
             } break;
         }
     }
+
 }

@@ -12,12 +12,12 @@ import android.widget.Toast;
 import com.gomeltrans.R;
 import com.gomeltrans.data.dao.StopsDao;
 import com.gomeltrans.model.Stop;
-import com.gomeltrans.ui.actionbar.FavouritesActionProvider;
+import com.gomeltrans.ui.actionbar.FavouriteActionProvider;
 
 /**
  * Created by Yahor_Fralou on 8/31/2015.
  */
-public class StopInfoActivity extends AppCompatActivity implements FavouritesActionProvider.ToggleListener {
+public class StopInfoActivity extends AppCompatActivity implements FavouriteActionProvider.ToggleListener {
     public static final String EXTRA_STOP_ID = "extra_stop_id";
 
     private Toolbar toolbar;
@@ -64,7 +64,7 @@ public class StopInfoActivity extends AppCompatActivity implements FavouritesAct
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.stop_info, menu);
         if (stopBean != null) {
-            FavouritesActionProvider provider = (FavouritesActionProvider) MenuItemCompat.getActionProvider(menu.findItem(R.id.action_favourite_toggle));
+            FavouriteActionProvider provider = (FavouriteActionProvider) MenuItemCompat.getActionProvider(menu.findItem(R.id.action_favourite_toggle));
             provider.setFavourite(stopBean.isFavourite());
             provider.addToggleListener(this);
         } else {
@@ -88,7 +88,7 @@ public class StopInfoActivity extends AppCompatActivity implements FavouritesAct
     }
 
     @Override
-    public void onStateChanged(boolean newValue) {
+    public void onFavTogglerStateChanged(boolean newValue) {
         stopsDao.setFavourite(stopBean.getId(), newValue);
     }
 }

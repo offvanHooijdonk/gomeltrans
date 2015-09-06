@@ -21,12 +21,10 @@ import java.util.List;
 public class TransportAdapter extends RecyclerView.Adapter<TransportAdapter.ViewHolder> {
     private Context ctx;
     private List<Transport> buses;
-    private boolean favouritesOnly;
 
-    public TransportAdapter(Context context, List<Transport> buses, boolean favouritesOnly) {
+    public TransportAdapter(Context context, List<Transport> buses) {
         this.ctx = context;
         this.buses = buses;
-        this.favouritesOnly = favouritesOnly;
     }
 
     @Override
@@ -42,27 +40,23 @@ public class TransportAdapter extends RecyclerView.Adapter<TransportAdapter.View
         vh.numberName.setText(transport.getNumberName());
         vh.routeName.setText(transport.getRouteName());
 
-        if (favouritesOnly) {
-            vh.blockFav.setVisibility(View.GONE);
-        } else {
-            vh.imageFavFalse.setVisibility(transport.isFavourite() ? View.GONE : View.VISIBLE);
-            vh.imageFavTrue.setVisibility(transport.isFavourite() ? View.VISIBLE : View.GONE);
+        vh.imageFavFalse.setVisibility(transport.isFavourite() ? View.GONE : View.VISIBLE);
+        vh.imageFavTrue.setVisibility(transport.isFavourite() ? View.VISIBLE : View.GONE);
 
-            vh.imageFavFalse.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    setItemFavourite(transport, true, vh);
-                }
-            });
-            vh.imageFavTrue.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    setItemFavourite(transport, false, vh);
-                }
-            });
+        vh.imageFavFalse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setItemFavourite(transport, true, vh);
+            }
+        });
+        vh.imageFavTrue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setItemFavourite(transport, false, vh);
+            }
+        });
 
-            vh.blockFav.setVisibility(View.VISIBLE);
-        }
+        vh.blockFav.setVisibility(View.VISIBLE);
 
         vh.blockItem.setOnClickListener(new View.OnClickListener() {
             @Override

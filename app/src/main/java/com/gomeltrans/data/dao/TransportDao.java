@@ -80,7 +80,7 @@ public class TransportDao {
         return bean;
     }
 
-    public List<Transport> getList(int type, boolean favouritesOnly) {
+    public List<Transport> getList(int type, boolean favouritesOnly, boolean sortOnFavourites) {
         List<Transport> list = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
@@ -90,7 +90,9 @@ public class TransportDao {
                     new String[]{String.valueOf(type), String.valueOf(1), String.valueOf(1)}, null, null, "CAST(" + Transport.NUMBER + " as integer)");
         } else {
             cursor = db.query(Transport.TABLE, null, Transport.TYPE + " =? aND " + Transport.ACTIVE + " =? ",
-                    new String[]{String.valueOf(type), String.valueOf(1)}, null, null, "CAST(" + Transport.NUMBER + " as integer)");
+                    new String[]{String.valueOf(type), String.valueOf(1)}, null, null, (sortOnFavourites ? Transport.FAVOURITE + " desc," :
+                            "") +
+                            "CAST(" + Transport.NUMBER + " as integer)");
         }
 
         while (cursor.moveToNext()) {

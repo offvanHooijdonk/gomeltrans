@@ -25,13 +25,11 @@ import java.util.List;
 public class StopAdapter extends RecyclerView.Adapter<StopAdapter.ViewHolder> {
     private Context ctx;
     private List<Stop> stops;
-    private boolean favouritesOnly;
     private String searchText;
 
-    public StopAdapter(Context context, List<Stop> stops, boolean favouritesOnly) {
+    public StopAdapter(Context context, List<Stop> stops) {
         this.ctx = context;
         this.stops = stops;
-        this.favouritesOnly = favouritesOnly;
     }
 
     public void setSearchText(String searchText) {
@@ -61,27 +59,23 @@ public class StopAdapter extends RecyclerView.Adapter<StopAdapter.ViewHolder> {
         }
         vh.comment.setText(stop.getComment());
 
-        if (favouritesOnly) {
-            vh.blockFav.setVisibility(View.GONE);
-        } else {
-            vh.imageFavFalse.setVisibility(stop.isFavourite() ? View.GONE : View.VISIBLE);
-            vh.imageFavTrue.setVisibility(stop.isFavourite() ? View.VISIBLE : View.GONE);
+        vh.imageFavFalse.setVisibility(stop.isFavourite() ? View.GONE : View.VISIBLE);
+        vh.imageFavTrue.setVisibility(stop.isFavourite() ? View.VISIBLE : View.GONE);
 
-            vh.imageFavFalse.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    setItemFavourite(stop, true, vh);
-                }
-            });
-            vh.imageFavTrue.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    setItemFavourite(stop, false, vh);
-                }
-            });
+        vh.imageFavFalse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setItemFavourite(stop, true, vh);
+            }
+        });
+        vh.imageFavTrue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setItemFavourite(stop, false, vh);
+            }
+        });
 
-            vh.blockFav.setVisibility(View.VISIBLE);
-        }
+        vh.blockFav.setVisibility(View.VISIBLE);
 
         vh.blockItem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,7 +103,7 @@ public class StopAdapter extends RecyclerView.Adapter<StopAdapter.ViewHolder> {
         }
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder  {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView name;
         public TextView comment;
         public ViewGroup blockItem;

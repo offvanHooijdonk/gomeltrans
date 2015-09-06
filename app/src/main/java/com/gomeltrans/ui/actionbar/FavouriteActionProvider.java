@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Created by Yahor_Fralou on 9/4/2015.
  */
-public class FavouritesActionProvider extends ActionProvider {
+public class FavouriteActionProvider extends ActionProvider {
     private List<ToggleListener> listeners = new ArrayList<>();
     private Context ctx;
     private boolean isFavourite;
@@ -22,7 +22,7 @@ public class FavouritesActionProvider extends ActionProvider {
     private ImageView imageFavFalse;
 
     // TODO make reverse listener for activity allows state change
-    public FavouritesActionProvider(Context context) {
+    public FavouriteActionProvider(Context context) {
         super(context);
 
         this.ctx = context;
@@ -54,7 +54,7 @@ public class FavouritesActionProvider extends ActionProvider {
                 isFavourite = !isFavourite;
                 for (ToggleListener l : listeners) {
                     if (l != null) {
-                        l.onStateChanged(isFavourite);
+                        l.onFavTogglerStateChanged(isFavourite);
                     }
                 }
                 setImagesVisibility();
@@ -75,6 +75,6 @@ public class FavouritesActionProvider extends ActionProvider {
         /**
          * @param newValue New value that should be applied: favourite id <code>true</code>, non-favourite id <code>false</code>
          */
-        void onStateChanged(boolean newValue);
+        void onFavTogglerStateChanged(boolean newValue);
     }
 }

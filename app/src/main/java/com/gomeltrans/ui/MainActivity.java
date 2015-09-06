@@ -17,7 +17,7 @@ import android.view.MenuItem;
 import com.gomeltrans.Constants;
 import com.gomeltrans.R;
 import com.gomeltrans.data.ReloadDataBean;
-import com.gomeltrans.ui.lists.TabbedListFragment;
+import com.gomeltrans.ui.lists.TabbedListsFragment;
 
 import java.util.Date;
 
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
 
         if (null == savedInstanceState) {
-            navItemId = R.id.item_favourite;
+            navItemId = R.id.item_timetable;
         } else {
             navItemId = savedInstanceState.getInt(NAV_ITEM_ID);
         }
@@ -85,30 +85,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FragmentManager fragmentManager = getSupportFragmentManager();
 
         Fragment fragment;
-        String title;
-        switch (itemId) {
-            case R.id.item_favourite : {
-                fragment = TabbedListFragment.getInstance(TabbedListFragment.MODE.FAVOURITES_ALL);
-                title = that.getString(R.string.item_favourite);
-            } break;
-            case R.id.item_transport : {
-                fragment = TabbedListFragment.getInstance(TabbedListFragment.MODE.TRANSPORT_ONLY);
-                title = that.getString(R.string.item_transport);
-            } break;
-            case R.id.item_stops : {
-                fragment = TabbedListFragment.getInstance(TabbedListFragment.MODE.STOPS_ONLY);
-                title = that.getString(R.string.item_stops);
-            } break;
-            default: {
-                fragment = TabbedListFragment.getInstance(TabbedListFragment.MODE.FAVOURITES_ALL);
-                title = that.getString(R.string.item_favourite);
-            }
+
+        if (itemId == R.id.item_timetable) {
+            fragment = TabbedListsFragment.getInstance();
+        } else {
+            // TODO make better
+            return;
         }
 
         fragmentManager.beginTransaction()
                 .replace(R.id.container, fragment)
                 .commit();
-        toolbar.setTitle(title);
     }
 
     @Override

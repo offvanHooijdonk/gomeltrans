@@ -7,6 +7,9 @@
     <string name="item_favourite">Favorite</string>
     <string name="item_transport">Transport</string>
     <string name="item_stops">Stops</string>
+    <string name="item_timetable">Time Table</string>
+    <string name="item_direction_forward">Forward</string>
+    <string name="item_direction_backward">Backward</string>
     <string name="last_updated">Updated on %s</string>
 
     <string name="drawer_header_image" translatable="false">Drawer header image</string>
@@ -19,4 +22,6 @@
     <string name="tab_stop">Stops</string>
     <string name="progress_data_update">Updating Data…</string>
     <string name="search_hint">Search a stop</string>
+    <string name="action_search_stop">search</string>
+    <string name="action_fav_filter">Show filter</string>
 </resources>
