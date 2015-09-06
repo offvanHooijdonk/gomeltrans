@@ -10,6 +10,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -48,8 +49,8 @@ public class ItemsListFragment extends Fragment implements FavouriteFilterAction
     private StopAdapter stopAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
 
-    private boolean justCreated;
-
+    private Boolean justCreated;
+    private FavouriteFilterActionProvider.SHOW_MODE showMode;
     private TransportDao transportDao;
     private StopsDao stopsDao;
     private List<Transport> transportList = new ArrayList<>();
@@ -81,6 +82,7 @@ public class ItemsListFragment extends Fragment implements FavouriteFilterAction
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.frag_items_list, container, false);
 
+        showMode = getShowMode();
         recyclerList = (RecyclerView) v.findViewById(R.id.recyclerList);
         recyclerList.setHasFixedSize(true);
         recyclerList.setLayoutManager(new LinearLayoutManager(ctx));
@@ -129,6 +131,14 @@ public class ItemsListFragment extends Fragment implements FavouriteFilterAction
             justCreated = false;
         }
     }
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && justCreated != null && !justCreated) {
+            showMode = getShowMode();
+            updateData();
+        }
+    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -173,6 +183,7 @@ public class ItemsListFragment extends Fragment implements FavouriteFilterAction
     @Override
     public void onFavFilterChanged(FavouriteFilterActionProvider.SHOW_MODE newValue) {
         Constants.saveFavFilter(ctx, newValue.toString());
+        showMode = newValue;
         updateData(currentSearchText);
     }
 
@@ -196,12 +207,12 @@ public class ItemsListFragment extends Fragment implements FavouriteFilterAction
         return title;
     }
 
-    private void updateData() {
-        updateData(null);
-    }
-
     private FavouriteFilterActionProvider.SHOW_MODE getShowMode() {
         return FavouriteFilterActionProvider.SHOW_MODE.valueOf(Constants.getFavFilter(ctx));
+    }
+
+    private void updateData() {
+        updateData(null);
     }
 
     private void updateData(String searchText) {
@@ -209,21 +220,21 @@ public class ItemsListFragment extends Fragment implements FavouriteFilterAction
             case TAB_POS_BUS: {
                 transportList.clear();
                 transportList.addAll(transportDao.getList(Transport.TRANSPORT_TYPE.BUS.getCode(),
-                        getShowMode() == FavouriteFilterActionProvider.SHOW_MODE.FAV_ONLY, getShowMode() == FavouriteFilterActionProvider.SHOW_MODE
+                        showMode == FavouriteFilterActionProvider.SHOW_MODE.FAV_ONLY, showMode == FavouriteFilterActionProvider.SHOW_MODE
                                 .FAV_FIRST));
                 transportAdapter.notifyDataSetChanged();
             } break;
             case TAB_POS_TROLLEY: {
                 transportList.clear();
                 transportList.addAll(transportDao.getList(Transport.TRANSPORT_TYPE.TROLLEY.getCode(),
-                        getShowMode() == FavouriteFilterActionProvider.SHOW_MODE.FAV_ONLY, getShowMode() == FavouriteFilterActionProvider.SHOW_MODE.FAV_FIRST));
+                        showMode == FavouriteFilterActionProvider.SHOW_MODE.FAV_ONLY, showMode == FavouriteFilterActionProvider.SHOW_MODE.FAV_FIRST));
                 transportAdapter.notifyDataSetChanged();
             } break;
             case TAB_POS_STOPS: {
                 stopAdapter.setSearchText(searchText);
                 stopsList.clear();
                 stopsList.addAll(stopsDao.searchList(searchText,
-                        getShowMode() == FavouriteFilterActionProvider.SHOW_MODE.FAV_ONLY, getShowMode() == FavouriteFilterActionProvider.SHOW_MODE.FAV_FIRST));
+                        showMode == FavouriteFilterActionProvider.SHOW_MODE.FAV_ONLY, showMode == FavouriteFilterActionProvider.SHOW_MODE.FAV_FIRST));
                 stopAdapter.notifyDataSetChanged();
             } break;
         }

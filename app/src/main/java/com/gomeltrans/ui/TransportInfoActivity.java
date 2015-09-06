@@ -6,6 +6,7 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -47,7 +48,7 @@ public class TransportInfoActivity extends AppCompatActivity implements Favourit
                 getSupportActionBar().setTitle(String.format("%s %s", transportBean.getNumberName(), transportBean.getRouteName()));
 
                 // init tabs
-                TransportStopsPagerAdapter pagerAdapter = new TransportStopsPagerAdapter(getSupportFragmentManager(), that, transportId);
+                final TransportStopsPagerAdapter pagerAdapter = new TransportStopsPagerAdapter(getSupportFragmentManager(), that, transportId);
                 final ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
                 viewPager.setAdapter(pagerAdapter);
 
@@ -56,6 +57,23 @@ public class TransportInfoActivity extends AppCompatActivity implements Favourit
                     @Override
                     public void run() {
                         tabLayout.setupWithViewPager(viewPager);
+                    }
+                });
+
+                viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                    @Override
+                    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                        Log.i("gml", "onPageScrolled " + position);
+                    }
+
+                    @Override
+                    public void onPageSelected(int position) {
+                        Log.i("gml", "onPageSelected " + position);
+                    }
+
+                    @Override
+                    public void onPageScrollStateChanged(int state) {
+                        Log.i("gml", "onPageScrollStateChanged " + state);
                     }
                 });
             } else {
@@ -81,6 +99,8 @@ public class TransportInfoActivity extends AppCompatActivity implements Favourit
 
         return true;
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

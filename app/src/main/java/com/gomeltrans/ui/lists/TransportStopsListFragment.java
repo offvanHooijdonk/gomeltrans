@@ -116,9 +116,6 @@ public class TransportStopsListFragment extends Fragment {
     private void updateList() {
         transportStopsList.clear();
         transportStopsList.addAll(transportDao.getTransportStopNextTable(transportBean, getDirection(pageNumber), new Date()));
-        //
-        transportStopsList.addAll(transportDao.getTransportStopNextTable(transportBean, getDirection(pageNumber), new Date()));
-        transportStopsList.addAll(transportDao.getTransportStopNextTable(transportBean, getDirection(pageNumber), new Date()));
         adapter.notifyDataSetChanged();
     }
 
