@@ -41,7 +41,6 @@ public class ItemsListFragment extends Fragment implements FavouriteFilterAction
     private static final String ARG_PAGE_NUMBER = "arg_page_number";
     private int pageNumber;
     private Context ctx;
-    private FavouriteFilterActionProvider.SHOW_MODE favMode;
 
     private final Handler handler = new Handler();
     private RecyclerView recyclerList;
@@ -81,12 +80,6 @@ public class ItemsListFragment extends Fragment implements FavouriteFilterAction
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.frag_items_list, container, false);
-
-        try {
-            favMode = FavouriteFilterActionProvider.SHOW_MODE.valueOf(Constants.getFavFilter(ctx));
-        } catch (Exception e) {
-            favMode = FavouriteFilterActionProvider.SHOW_MODE.SHOW_ALL;
-        }
 
         recyclerList = (RecyclerView) v.findViewById(R.id.recyclerList);
         recyclerList.setHasFixedSize(true);
@@ -143,7 +136,7 @@ public class ItemsListFragment extends Fragment implements FavouriteFilterAction
 
         MenuItem favFilterItem = menu.findItem(R.id.action_fav_filter);
         FavouriteFilterActionProvider favFilterAP = (FavouriteFilterActionProvider) MenuItemCompat.getActionProvider(favFilterItem);
-        favFilterAP.setShowMode(favMode);
+        favFilterAP.setShowMode(getShowMode());
         favFilterAP.addListener(this);
 
         MenuItem searchItem = menu.findItem(R.id.action_search_stop).setVisible(pageNumber == TAB_POS_STOPS);
@@ -179,7 +172,6 @@ public class ItemsListFragment extends Fragment implements FavouriteFilterAction
 
     @Override
     public void onFavFilterChanged(FavouriteFilterActionProvider.SHOW_MODE newValue) {
-        favMode = newValue;
         Constants.saveFavFilter(ctx, newValue.toString());
         updateData(currentSearchText);
     }
@@ -208,25 +200,30 @@ public class ItemsListFragment extends Fragment implements FavouriteFilterAction
         updateData(null);
     }
 
+    private FavouriteFilterActionProvider.SHOW_MODE getShowMode() {
+        return FavouriteFilterActionProvider.SHOW_MODE.valueOf(Constants.getFavFilter(ctx));
+    }
+
     private void updateData(String searchText) {
         switch (pageNumber) {
             case TAB_POS_BUS: {
                 transportList.clear();
                 transportList.addAll(transportDao.getList(Transport.TRANSPORT_TYPE.BUS.getCode(),
-                        favMode == FavouriteFilterActionProvider.SHOW_MODE.FAV_ONLY, favMode == FavouriteFilterActionProvider.SHOW_MODE.FAV_FIRST));
+                        getShowMode() == FavouriteFilterActionProvider.SHOW_MODE.FAV_ONLY, getShowMode() == FavouriteFilterActionProvider.SHOW_MODE
+                                .FAV_FIRST));
                 transportAdapter.notifyDataSetChanged();
             } break;
             case TAB_POS_TROLLEY: {
                 transportList.clear();
                 transportList.addAll(transportDao.getList(Transport.TRANSPORT_TYPE.TROLLEY.getCode(),
-                        favMode == FavouriteFilterActionProvider.SHOW_MODE.FAV_ONLY, favMode == FavouriteFilterActionProvider.SHOW_MODE.FAV_FIRST));
+                        getShowMode() == FavouriteFilterActionProvider.SHOW_MODE.FAV_ONLY, getShowMode() == FavouriteFilterActionProvider.SHOW_MODE.FAV_FIRST));
                 transportAdapter.notifyDataSetChanged();
             } break;
             case TAB_POS_STOPS: {
                 stopAdapter.setSearchText(searchText);
                 stopsList.clear();
                 stopsList.addAll(stopsDao.searchList(searchText,
-                        favMode == FavouriteFilterActionProvider.SHOW_MODE.FAV_ONLY, favMode == FavouriteFilterActionProvider.SHOW_MODE.FAV_FIRST));
+                        getShowMode() == FavouriteFilterActionProvider.SHOW_MODE.FAV_ONLY, getShowMode() == FavouriteFilterActionProvider.SHOW_MODE.FAV_FIRST));
                 stopAdapter.notifyDataSetChanged();
             } break;
         }

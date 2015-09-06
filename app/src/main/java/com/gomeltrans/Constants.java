@@ -3,6 +3,8 @@ package com.gomeltrans;
 import android.annotation.SuppressLint;
 import android.content.Context;
 
+import com.gomeltrans.ui.actionbar.FavouriteFilterActionProvider;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -36,7 +38,8 @@ public class Constants {
     }
 
     public static String getFavFilter(Context ctx) {
-        return ctx.getSharedPreferences(FILE_PREF_LOCAL, Context.MODE_PRIVATE).getString(PREF_FAV_FILTER, null);
+        return ctx.getSharedPreferences(FILE_PREF_LOCAL, Context.MODE_PRIVATE).getString(PREF_FAV_FILTER, FavouriteFilterActionProvider
+                .SHOW_MODE.SHOW_ALL.toString());
     }
 
     public static void saveFavFilter(Context ctx, String filterValue) {
