@@ -48,7 +48,6 @@ public class StopTableDao {
     }
 
     /**
-     *
      * @param transportStopId
      * @param timeFrom
      * @return next time this transport comes to this stop, or null if it will not today
@@ -59,8 +58,9 @@ public class StopTableDao {
 
         String timeFromShifted = shiftTimeForDB(Constants.getDBTimeFormat().format(timeFrom));
 
-        Cursor cursor = db.query(true, StopTable.TABLE, new String[]{"MIN(" + StopTable.TIME + ")"}, StopTable.TRANSPORT_STOP_ID + " =? AND " + StopTable.TIME + " >=? " +
-                " AND " + StopTable.DAY_TYPE_CODE + " =? ",
+        Cursor cursor = db.query(true, StopTable.TABLE, new String[]{"MIN(" + StopTable.TIME + ")"}, StopTable.TRANSPORT_STOP_ID + " =? AND " +
+                        " CAST(" + StopTable.TIME + " as integer) >=CAST(? as integer) " +
+                        " AND " + StopTable.DAY_TYPE_CODE + " =? ",
                 new String[]{String.valueOf(transportStopId), shiftTimeForDB(timeFromShifted), String.valueOf(dayType)}, null, null, null, null);
 
         if (cursor.moveToFirst()) {
