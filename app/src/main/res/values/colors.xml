@@ -5,6 +5,7 @@
     <color name="app_primary_dark">#388E3C</color>
 
     <color name="toolbar_text">#ffffff</color>
+    <color name="snackbar_text">#ffffff</color>
     <color name="search_hint_text">#deffffff</color>
 
     <color name="drawer_color">#EEEEEE</color>
@@ -21,4 +22,6 @@
 
     <color name="text_primary">#de000000</color>
     <color name="text_secondary">@color/secondary_text_default_material_light</color>
+
+    <color name="time_next_day">#D32F2F</color>
 </resources>

@@ -21,9 +21,10 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String WILDCARD_MULT = "%";
 
     private static final String DB_NAME = "gomeltrans";
+    private static final int DB_VERSION = 6;
 
     public DBHelper(Context context) {
-        super(context, DB_NAME, null, 5);
+        super(context, DB_NAME, null, DB_VERSION);
     }
 
     @Override
@@ -38,7 +39,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 TransportStops.DIRECTION_INDEX + " integer not null, " + TransportStops.ORDER_NUMBER + " integer not null, " +
                 TransportStops.ACTIVE + " integer default 1 " + ");" +
                 " CREATE TABLE " + StopTable.TABLE + " (" + StopTable.ID + " integer primary key autoincrement, " +
-                StopTable.TRANSPORT_STOP_ID + " integer not null, " +
+                StopTable.TRANSPORT_STOP_ID + " integer not null, " + StopTable.DAY_TYPE_CODE + " integer not null, " +
                 StopTable.TIME + " text not null, " + StopTable.ACTIVE + " integer default 1 " + ");";
         String[] createQueries = createStatement.split(";");
         for (String q : createQueries) {

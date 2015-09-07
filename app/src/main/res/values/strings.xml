@@ -22,6 +22,16 @@
     <string name="tab_stop">Stops</string>
     <string name="progress_data_update">Updating Data…</string>
     <string name="search_hint">Search a stop</string>
-    <string name="action_search_stop">search</string>
+    <string name="action_search_stop">Search</string>
     <string name="action_fav_filter">Show filter</string>
+    <string name="action_day">Pick day</string>
+    <string name="actions_day_today">Today</string>
+    <string name="actions_day_working">Working</string>
+    <string name="actions_day_weekend">Weekend</string>
+    <string name="actions_day_pick">Pick day</string>
+
+    <string name="time_none">-</string>
+    <string name="info_weekend_day">Weekend</string>
+    <string name="info_working_day">Working day</string>
+    <string name="info_today">Today</string>
 </resources>

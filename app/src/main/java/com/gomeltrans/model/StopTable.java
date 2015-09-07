@@ -3,26 +3,51 @@ package com.gomeltrans.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Comparator;
-import java.util.HashMap;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Yahor_Fralou on 8/26/2015.
  */
 public class StopTable extends BaseBean {
+    public static final int HOUR_SHIFT_START_WITH = 0;
+    public static final int HOUR_SHIFT_END_WITH = 4;
+    public static final int HOUR_SHIFT_BY = 24;
+    public static final String TIME_DELIMITER = ":";
+
     public static final String TABLE = "stop_table";
     public static final String ID = "id";
     public static final String TRANSPORT_STOP_ID = "transport_stop_id";
+    public static final String DAY_TYPE_CODE = "day_type";
     public static final String TIME = "times";
     public static final String ACTIVE = "active";
+
+
+    public enum DAY_TYPE {
+        WORKING(0), WEEKEND(1);
+
+        private int code;
+
+        DAY_TYPE(int num) {
+            code = num;
+        }
+
+        public int getCode() {
+            return code;
+        }
+    }
+
+    ;
 
     @Expose
     private Transport transport;
     @Expose
     @SerializedName("time")
     private List<String> times;
+    @Expose
+    @SerializedName("dayType")
+    private int dayTypeCode;
 
     public Transport getTransport() {
         return transport;
@@ -40,7 +65,14 @@ public class StopTable extends BaseBean {
         this.times = times;
     }
 
-    public class TimeComparator implements Comparator<String> {
+    public int getDayTypeCode() {
+        return dayTypeCode;
+    }
+
+    public void setDayTypeCode(int dayTypeCode) {
+        this.dayTypeCode = dayTypeCode;
+    }
+/*public class TimeComparator implements Comparator<String> {
         private final Map<String, Integer> ranks = new HashMap<>();
 
         {
@@ -80,5 +112,41 @@ public class StopTable extends BaseBean {
                 return ranks.get(lhs).compareTo(ranks.get(rhs));
             }
         }
+    }*/
+
+    public static DAY_TYPE getDayType(Date date) {
+        DAY_TYPE dayType;
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int dayOfWeek = getDayOfWeekWithShift(calendar);
+        switch (dayOfWeek) {
+            case Calendar.MONDAY:
+            case Calendar.TUESDAY:
+            case Calendar.WEDNESDAY:
+            case Calendar.THURSDAY:
+            case Calendar.FRIDAY: {
+                dayType = DAY_TYPE.WORKING;
+            }
+            break;
+            case Calendar.SATURDAY:
+            case Calendar.SUNDAY: {
+                dayType = DAY_TYPE.WEEKEND;
+            }
+            break;
+            default:
+                dayType = DAY_TYPE.WORKING;
+        }
+
+        return dayType;
+    }
+
+    private static int getDayOfWeekWithShift(Calendar calendar) {
+        int dayOfWeek;
+        int hour  = calendar.get(Calendar.HOUR_OF_DAY);
+        if (HOUR_SHIFT_START_WITH <= hour && hour <= HOUR_SHIFT_END_WITH) {
+            calendar.add(Calendar.DAY_OF_MONTH, -1);
+        }
+
+        return calendar.get(Calendar.DAY_OF_WEEK);
     }
 }

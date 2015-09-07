@@ -11,10 +11,22 @@
 
     <string name="tab_bus">Автобус</string>
     <string name="tab_trolley">Троллейбус</string>
-    <string name="tab_stop">Оставноки</string>
+    <string name="tab_stop">Остановки</string>
     <string name="progress_data_update">Обновление данных…</string>
     <string name="search_hint">Искать остановку</string>
     <string name="action_favourite">Избранное</string>
     <string name="item_direction_backward">Назад</string>
     <string name="item_direction_forward">Вперёд</string>
+    <string name="item_timetable">Расписание</string>
+    <string name="action_fav_filter">Фильтр</string>
+    <string name="action_search_stop">Поиск</string>
+    <string name="action_day">Выбрать день</string>
+    <string name="actions_day_pick">Выбрать день</string>
+    <string name="actions_day_today">Сегодня</string>
+    <string name="actions_day_weekend">Выходной</string>
+    <string name="actions_day_working">Рабочий день</string>
+    <string name="time_none">-</string>
+    <string name="info_today">Сегодня</string>
+    <string name="info_weekend_day">Выходной</string>
+    <string name="info_working_day">Рабочий день</string>
 </resources>

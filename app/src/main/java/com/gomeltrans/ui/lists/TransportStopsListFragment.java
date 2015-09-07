@@ -14,11 +14,14 @@ import android.view.ViewGroup;
 
 import com.gomeltrans.R;
 import com.gomeltrans.data.dao.TransportDao;
+import com.gomeltrans.model.StopTable;
 import com.gomeltrans.model.Transport;
 import com.gomeltrans.model.TransportStops;
+import com.gomeltrans.ui.TransportInfoActivity;
 import com.gomeltrans.ui.lists.adapter.TransportStopAdapter;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -32,6 +35,7 @@ public class TransportStopsListFragment extends Fragment {
     private static final String ARG_TRANSPORT_ID = "arg_transport_id";
 
     private Context ctx;
+    private TransportInfoActivity parent;
     private final Handler handler = new Handler();
 
     private RecyclerView recyclerList;
@@ -63,6 +67,7 @@ public class TransportStopsListFragment extends Fragment {
         this.transportId = getArguments().getLong(ARG_TRANSPORT_ID);
 
         this.ctx = getActivity();
+        this.parent = (TransportInfoActivity) getActivity();
     }
 
     @Nullable
@@ -115,8 +120,27 @@ public class TransportStopsListFragment extends Fragment {
 
     private void updateList() {
         transportStopsList.clear();
-        transportStopsList.addAll(transportDao.getTransportStopNextTable(transportBean, getDirection(pageNumber), new Date()));
+        transportStopsList.addAll(transportDao.getTransportStopNextTable(transportBean, getDirection(pageNumber), getDatePicked(), getDayTypePicked()));
         adapter.notifyDataSetChanged();
+    }
+
+    private Date getDatePicked() {
+        Calendar calendar = Calendar.getInstance();
+        Date datePicked = parent.getDatePicked();
+        if (datePicked != null) {
+            Calendar calendarPicked = Calendar.getInstance();
+            calendarPicked.setTime(datePicked);
+            calendar.set(Calendar.YEAR, calendarPicked.get(Calendar.YEAR));
+            calendar.set(Calendar.MONTH, calendarPicked.get(Calendar.MONTH));
+            calendar.set(Calendar.DAY_OF_MONTH, calendarPicked.get(Calendar.DAY_OF_MONTH));
+        }
+
+        return calendar.getTime();
+    }
+
+    private StopTable.DAY_TYPE getDayTypePicked() {
+        StopTable.DAY_TYPE dayType = parent.getDayType();
+        return dayType/* != null ? dayType : StopTable.getDayType(getDatePicked())*/;
     }
 
     private TransportStops.DIRECTION getDirection(int position) {

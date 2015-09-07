@@ -1,9 +1,9 @@
 <!-- A DrawerLayout is intended to be used as the top-level content view using match_parent for both width and height to consume the full space available. -->
 <android.support.v4.widget.DrawerLayout
+    android:id="@+id/drawer_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
@@ -14,14 +14,27 @@
         android:orientation="vertical">
 
         <!-- Toolbar instead of ActionBar so the drawer can slide on top -->
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+        <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/abc_action_bar_default_height_material"
-            android:background="?attr/colorPrimary"
-            android:minHeight="?attr/actionBarSize"
-            app:titleTextAppearance="@style/AppBaseTheme.Toolbar.Title"
-            app:theme="@style/ToolbarColoredBackArrow"/>
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/abc_action_bar_default_height_material"
+                android:background="?attr/colorPrimary"
+                android:minHeight="?attr/actionBarSize"
+                app:theme="@style/ToolbarColoredBackArrow"
+                app:titleTextAppearance="@style/AppBaseTheme.Toolbar.Title"/>
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/sliding_tabs"
+                style="@style/AppBaseTheme.TabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tabGravity="fill"
+                app:tabMode="fixed"/>
+        </android.support.design.widget.AppBarLayout>
 
         <!-- Real content goes here -->
         <FrameLayout
@@ -30,15 +43,16 @@
             android:layout_height="0dp"
             android:layout_weight="1"/>
     </LinearLayout>
+
     <android.support.design.widget.NavigationView
         android:id="@+id/navigation_drawer"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="@color/drawer_color"
-        app:itemTextColor="@color/primary_text_default_material_light"
-        app:itemIconTint="@color/primary_text_default_material_light"
         app:headerLayout="@layout/drawer_header"
+        app:itemIconTint="@color/primary_text_default_material_light"
+        app:itemTextColor="@color/primary_text_default_material_light"
         app:menu="@menu/drawer"/>
 
 </android.support.v4.widget.DrawerLayout>

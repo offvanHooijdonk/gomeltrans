@@ -16,8 +16,8 @@
             android:id="@+id/textName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/textNextTime"
-            android:layout_toStartOf="@id/textNextTime"
+            android:layout_toLeftOf="@+id/blockTime"
+            android:layout_toStartOf="@id/blockTime"
             android:ellipsize="marquee"
             android:singleLine="true"
             android:text="Завод Самоходных Комбайнов"
@@ -38,14 +38,29 @@
             android:textColor="@color/text_secondary"
             android:textSize="14sp"/>
 
-        <TextView
-            android:id="@+id/textNextTime"
+        <FrameLayout
+            android:id="@+id/blockTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:text="16:22"
-            android:textSize="16sp"/>
+            android:layout_centerVertical="true">
+
+            <TextView
+                android:id="@+id/textNextTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="16:22"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:id="@+id/textNextDay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="6:20"
+                android:textColor="@color/time_next_day"
+                android:textSize="16sp"/>
+
+        </FrameLayout>
     </RelativeLayout>
 </FrameLayout>

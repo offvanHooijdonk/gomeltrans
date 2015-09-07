@@ -40,12 +40,20 @@ public class TransportStopAdapter extends RecyclerView.Adapter<TransportStopAdap
         vh.textComment.setText(ts.getStop().getComment());
         if (!TextUtils.isEmpty(ts.getNextTime())) {
             vh.textNextTime.setText(ts.getNextTime());
+            vh.textNextTime.setVisibility(View.VISIBLE);
+            vh.textNextDay.setVisibility(View.GONE);
+        } else if (!TextUtils.isEmpty(ts.getFirstTime())) {
+            vh.textNextDay.setText(ts.getFirstTime());
+            vh.textNextTime.setVisibility(View.GONE);
+            vh.textNextDay.setVisibility(View.VISIBLE);
         } else {
-            vh.textNextTime.setText(ts.getFirstTime());
+            vh.textNextTime.setText(R.string.time_none);
+            vh.textNextTime.setVisibility(View.VISIBLE);
+            vh.textNextDay.setVisibility(View.GONE);
         }
 
         if (ts.getStop().isFavourite()) {
-            vh.blockBackground.setBackgroundColor(0x3f000000 | (0xffffff & ctx.getResources().getColor(R.color.fav_item_bckgr)));
+            vh.blockBackground.setBackgroundColor(0x3fffffff & ctx.getResources().getColor(R.color.fav_item_bckgr));
         } else {
             vh.blockBackground.setBackgroundColor(ctx.getResources().getColor(android.R.color.transparent));
         }
@@ -69,6 +77,7 @@ public class TransportStopAdapter extends RecyclerView.Adapter<TransportStopAdap
         TextView textName;
         TextView textComment;
         TextView textNextTime;
+        TextView textNextDay;
 
         public ViewHolder(View v) {
             super(v);
@@ -78,6 +87,7 @@ public class TransportStopAdapter extends RecyclerView.Adapter<TransportStopAdap
             textName = (TextView) v.findViewById(R.id.textName);
             textComment = (TextView) v.findViewById(R.id.textComment);
             textNextTime = (TextView) v.findViewById(R.id.textNextTime);
+            textNextDay = (TextView) v.findViewById(R.id.textNextDay);
         }
     }
 }

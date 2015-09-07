@@ -4,7 +4,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/item_timetable"
-            android:icon="@drawable/ic_action_star"
+            android:icon="@drawable/ic_drawer_view_list"
             android:title="@string/item_timetable"/>
 
     </group>

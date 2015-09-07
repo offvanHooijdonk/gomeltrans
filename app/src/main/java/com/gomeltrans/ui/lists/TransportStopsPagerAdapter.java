@@ -5,8 +5,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.gomeltrans.R;
-
 /**
  * Created by yahor on 06.09.15.
  */
@@ -31,6 +29,11 @@ public class TransportStopsPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         return TABS_COUNT;
+    }
+
+    @Override
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
     }
 
     @Override

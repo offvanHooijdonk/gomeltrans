@@ -60,8 +60,10 @@
     "typeNumber": 1,
     "routeName": "Университет им. Сухого - Кольцевой",
     "stopsForward": [
+      15
     ],
     "stopsBackward": [
+      29
     ]
   }
 ]

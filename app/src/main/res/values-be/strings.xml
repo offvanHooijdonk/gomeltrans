@@ -15,4 +15,16 @@
     <string name="action_favourite">Абранае</string>
     <string name="item_direction_backward">Назад</string>
     <string name="item_direction_forward">Наперад</string>
+    <string name="item_timetable">Расклад</string>
+    <string name="action_fav_filter">Фільтр</string>
+    <string name="action_search_stop">Шукаць</string>
+    <string name="action_day">Абраць дзень</string>
+    <string name="actions_day_pick">Абраць дзень</string>
+    <string name="actions_day_today">Сёння</string>
+    <string name="actions_day_weekend">Выхадны</string>
+    <string name="actions_day_working">Працоўны дзень</string>
+    <string name="info_today">Сёння</string>
+    <string name="info_weekend_day">Выхадны</string>
+    <string name="info_working_day">Працоўны дзень</string>
+    <string name="time_none">-</string>
 </resources>

@@ -7,10 +7,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
 
 import com.gomeltrans.model.Stop;
+import com.gomeltrans.model.StopTable;
 import com.gomeltrans.model.Transport;
 import com.gomeltrans.model.TransportStops;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -134,23 +136,32 @@ public class TransportDao {
         return list;
     }
 
-    public List<TransportStops> getTransportStopNextTable(Transport transport, TransportStops.DIRECTION direction, Date date) {
+    public List<TransportStops> getTransportStopNextTable(Transport transport, TransportStops.DIRECTION direction, Date date, StopTable.DAY_TYPE dayType) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         List<TransportStops> list = getStopsForTransport(transport, direction);
 
         StopTableDao stopTableDao = new StopTableDao(ctx);
         for (TransportStops ts : list) {
-            String nextTime = stopTableDao.getNextTimeToday(ts.getId(), date);
+            int dayTypeCode = dayType == null ? StopTable.getDayType(date).getCode() : dayType.getCode();
+            String nextTime = stopTableDao.getNextTimeThisDay(ts.getId(), date, dayTypeCode);
             if (!TextUtils.isEmpty(nextTime)) {
                 ts.setNextTime(nextTime);
             } else {
-                String firstTime = stopTableDao.getFirstTime(ts.getId());
+                int nextDayTypeCode = dayType == null ? StopTable.getDayType(addDay(date)).getCode() : dayType.getCode();
+                String firstTime = stopTableDao.getFirstTime(ts.getId(), nextDayTypeCode);
                 ts.setFirstTime(firstTime);
             }
         }
 
         return list;
+    }
+
+    private Date addDay(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+        return calendar.getTime();
     }
 
     private Transport cursorToBean(Cursor c) {
