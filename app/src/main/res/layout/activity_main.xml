@@ -24,8 +24,8 @@
                 android:layout_height="@dimen/abc_action_bar_default_height_material"
                 android:background="?attr/colorPrimary"
                 android:minHeight="?attr/actionBarSize"
-                app:theme="@style/ToolbarColoredBackArrow"
-                app:titleTextAppearance="@style/AppBaseTheme.Toolbar.Title"/>
+                app:theme="@style/ToolbarSearchHint"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
             <android.support.design.widget.TabLayout
                 android:id="@+id/sliding_tabs"

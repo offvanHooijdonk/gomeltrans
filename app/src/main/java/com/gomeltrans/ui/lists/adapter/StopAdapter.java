@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.gomeltrans.R;
 import com.gomeltrans.data.dao.StopsDao;
 import com.gomeltrans.model.Stop;
-import com.gomeltrans.util.IntentsHelper;
+import com.gomeltrans.helper.IntentsHelper;
 
 import java.util.List;
 

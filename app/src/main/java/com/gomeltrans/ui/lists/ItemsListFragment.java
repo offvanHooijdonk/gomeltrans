@@ -10,7 +10,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -142,15 +141,14 @@ public class ItemsListFragment extends Fragment implements FavouriteFilterAction
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-
         MenuItem favFilterItem = menu.findItem(R.id.action_fav_filter);
         FavouriteFilterActionProvider favFilterAP = (FavouriteFilterActionProvider) MenuItemCompat.getActionProvider(favFilterItem);
         favFilterAP.setShowMode(getShowMode());
         favFilterAP.addListener(this);
 
-        MenuItem searchItem = menu.findItem(R.id.action_search_stop).setVisible(pageNumber == TAB_POS_STOPS);
         if (pageNumber == TAB_POS_STOPS) {
+            final MenuItem searchItem = menu.findItem(R.id.action_search_stop).setVisible(true);
+
             SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
             MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
                 @Override
@@ -178,6 +176,7 @@ public class ItemsListFragment extends Fragment implements FavouriteFilterAction
             });
 
         }
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override

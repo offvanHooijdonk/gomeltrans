@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.gomeltrans"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -25,6 +26,17 @@
 
         <activity
             android:name=".ui.StopInfoActivity">
+        </activity>
+
+        <activity
+            android:name=".ui.preferences.PreferenceActivity"
+            android:label="@string/action_settings"
+            android:parentActivityName=".ui.MainActivity"
+            android:theme="@style/AppBaseTheme.Preferences"
+            tools:ignore="UnusedAttribute">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.MainActivity" />
         </activity>
     </application>
 

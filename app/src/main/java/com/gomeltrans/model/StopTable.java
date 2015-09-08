@@ -118,7 +118,8 @@ public class StopTable extends BaseBean {
         DAY_TYPE dayType;
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        int dayOfWeek = getDayOfWeekWithShift(calendar);
+        calendar.setTime(getDateWithShift(calendar));
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
         switch (dayOfWeek) {
             case Calendar.MONDAY:
             case Calendar.TUESDAY:
@@ -140,13 +141,13 @@ public class StopTable extends BaseBean {
         return dayType;
     }
 
-    private static int getDayOfWeekWithShift(Calendar calendar) {
+    public static Date getDateWithShift(Calendar calendar) {
         int dayOfWeek;
         int hour  = calendar.get(Calendar.HOUR_OF_DAY);
         if (HOUR_SHIFT_START_WITH <= hour && hour <= HOUR_SHIFT_END_WITH) {
             calendar.add(Calendar.DAY_OF_MONTH, -1);
         }
 
-        return calendar.get(Calendar.DAY_OF_WEEK);
+        return calendar.getTime();
     }
 }

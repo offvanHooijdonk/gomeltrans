@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.gomeltrans.R;
 import com.gomeltrans.data.dao.TransportDao;
 import com.gomeltrans.model.Transport;
-import com.gomeltrans.util.IntentsHelper;
+import com.gomeltrans.helper.IntentsHelper;
 
 import java.util.List;
 

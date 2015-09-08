@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import com.gomeltrans.Constants;
 import com.gomeltrans.R;
 import com.gomeltrans.data.ReloadDataBean;
+import com.gomeltrans.helper.IntentsHelper;
 import com.gomeltrans.ui.lists.TabbedListsFragment;
 
 import java.util.Date;
@@ -66,18 +67,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(final MenuItem menuItem) {
-        menuItem.setChecked(true);
-        navItemId = menuItem.getItemId();
+        if (menuItem.getItemId() == R.id.item_settings) {
+            IntentsHelper.startPreference(that);
+        } else { // then must be main navigation
+            menuItem.setChecked(true);
+            navItemId = menuItem.getItemId();
 
-        // allow some time after closing the drawer before performing real navigation
-        // so the user can see what is happening
-        drawerLayout.closeDrawer(GravityCompat.START);
-        drawerActionHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                navigate(menuItem.getItemId());
-            }
-        }, DRAWER_CLOSE_DELAY_MS);
+            // allow some time after closing the drawer before performing real navigation
+            // so the user can see what is happening
+            drawerLayout.closeDrawer(GravityCompat.START);
+            drawerActionHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    navigate(menuItem.getItemId());
+                }
+            }, DRAWER_CLOSE_DELAY_MS);
+        }
         return true;
     }
 
@@ -108,9 +113,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
-            return true;
-        } else if (id == R.id.action_reload_data) {
+        if (id == R.id.action_reload_data) {
             progressDialog = new ProgressDialog(that);
             progressDialog.setMessage(that.getString(R.string.progress_data_update));
             progressDialog.setCancelable(false);

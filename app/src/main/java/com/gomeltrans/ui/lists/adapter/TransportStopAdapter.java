@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.gomeltrans.R;
 import com.gomeltrans.model.TransportStops;
-import com.gomeltrans.util.IntentsHelper;
+import com.gomeltrans.helper.IntentsHelper;
 
 import java.util.List;
 

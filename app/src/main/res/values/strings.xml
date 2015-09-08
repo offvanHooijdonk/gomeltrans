@@ -34,4 +34,24 @@
     <string name="info_weekend_day">Weekend</string>
     <string name="info_working_day">Working day</string>
     <string name="info_today">Today</string>
+
+    <string name="pref_check_update_rate_key">check_update_rate_key</string>
+    <string name="pref_check_update_rate_title">Check for data updated interval</string>
+    <string name="pref_check_update_rate_summary">How often application will be checking if data updated</string>
+    <string-array name="pref_check_update_rate_entries">
+        <item>1h</item>
+        <item>3h</item>
+        <item>6h</item>
+        <item>12h</item>
+        <item>24h</item>
+        <item>Manually only</item>
+    </string-array>
+    <string-array name="pref_check_update_rate_values">
+        <item>1</item>
+        <item>3</item>
+        <item>6</item>
+        <item>12</item>
+        <item>24</item>
+        <item>-1</item>
+    </string-array>
 </resources>

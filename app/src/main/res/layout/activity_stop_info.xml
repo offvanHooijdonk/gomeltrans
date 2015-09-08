@@ -6,6 +6,7 @@
     android:layout_height="match_parent">
 
     <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/coordinator"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -44,8 +45,8 @@
                 android:layout_height="@dimen/abc_action_bar_default_height_material"
                 android:background="?attr/colorPrimary"
                 android:minHeight="?attr/actionBarSize"
-                app:theme="@style/ToolbarColoredBackArrow"
-                app:titleTextAppearance="@style/AppBaseTheme.Toolbar.Title"/>
+                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
         </android.support.design.widget.AppBarLayout>
     </android.support.design.widget.CoordinatorLayout>
 </FrameLayout>
