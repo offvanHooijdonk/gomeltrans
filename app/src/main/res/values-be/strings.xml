@@ -27,4 +27,17 @@
     <string name="info_weekend_day">Выхадны</string>
     <string name="info_working_day">Працоўны дзень</string>
     <string name="time_none">-</string>
+    <string name="pref_check_update_rate_title">Iнтэрвал праверкі абнаўленняў</string>
+    <string name="pref_check_update_rate_summary">Як часта прыкладанне будзе правяраць абнаўленне даных</string>
+    <string-array name="pref_check_update_rate_entries">
+        <item>1г</item>
+        <item>3г</item>
+        <item>6г</item>
+        <item>12г</item>
+        <item>24г</item>
+        <item>Толькі ўручную</item>
+    </string-array>
+    <string name="pref_bel_title">Абраць беларускi язык</string>
+    <string name="pref_bel_sum">Выкарыстоўваць беларускую мову замест мовы па змаўчанні</string>
+    <string name="restart_app_for_locale">Перазапусціце, калі ласка, прыкладанне каб мова змянілася</string>
 </resources>

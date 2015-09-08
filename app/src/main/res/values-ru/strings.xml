@@ -29,4 +29,17 @@
     <string name="info_today">Сегодня</string>
     <string name="info_weekend_day">Выходной</string>
     <string name="info_working_day">Рабочий день</string>
+    <string name="pref_check_update_rate_title">Интервал проверки обновлений</string>
+    <string name="pref_check_update_rate_summary">Как часто приложение будет проверять обновление данных</string>
+    <string-array name="pref_check_update_rate_entries">
+        <item>1ч</item>
+        <item>3ч</item>
+        <item>6ч</item>
+        <item>12ч</item>
+        <item>24ч</item>
+        <item>Только вручную</item>
+    </string-array>
+    <string name="pref_bel_title">Выбрать беларуский язык</string>
+    <string name="pref_bel_sum">Использовать беларуский язык вместо языка по умолчанию</string>
+    <string name="restart_app_for_locale">Пожалуйста, перезапустите приложение чтобы язык изменился</string>
 </resources>

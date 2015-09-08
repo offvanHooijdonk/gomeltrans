@@ -3,6 +3,7 @@ package com.gomeltrans.data;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import com.gomeltrans.Constants;
 import com.gomeltrans.R;
 import com.gomeltrans.data.dao.StopTableDao;
 import com.gomeltrans.data.dao.StopsDao;
@@ -13,6 +14,7 @@ import com.gomeltrans.model.Stop;
 import com.gomeltrans.model.Transport;
 import com.gomeltrans.model.gson.GsonHelper;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -74,6 +76,8 @@ public class ReloadDataBean {
     }
 
     private void onDBUpdateFinished() {
+        // TODO in future this date comes from server
+        Constants.saveUpdateDate(ctx, new Date());
         if (listener != null) {
             listener.onReloadDataFinished();
         }

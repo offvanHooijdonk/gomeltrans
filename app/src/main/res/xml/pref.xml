@@ -6,5 +6,11 @@
         android:summary="@string/pref_check_update_rate_summary"
         android:entries="@array/pref_check_update_rate_entries"
         android:entryValues="@array/pref_check_update_rate_values"
-        android:defaultValue="12"/>
+        android:defaultValue="@string/pref_check_update_rate_default"/>
+
+    <CheckBoxPreference
+        android:key="@string/pref_bel_key"
+        android:title="@string/pref_bel_title"
+        android:summary="@string/pref_bel_sum"
+        android:defaultValue="false"/>
 </PreferenceScreen>

@@ -35,9 +35,15 @@
     <string name="info_working_day">Working day</string>
     <string name="info_today">Today</string>
 
-    <string name="pref_check_update_rate_key">check_update_rate_key</string>
-    <string name="pref_check_update_rate_title">Check for data updated interval</string>
+    <string name="restart_app_for_locale">Please restart your app for changes to take effect</string>
+
+    <string name="pref_check_update_rate_key" translatable="false">check_update_rate_key</string>
+    <string name="pref_check_update_rate_title">Data update check interval</string>
     <string name="pref_check_update_rate_summary">How often application will be checking if data updated</string>
+    <string name="pref_check_update_rate_default" translatable="false">12</string>
+    <string name="pref_bel_key" translatable="false">pref_bel</string>
+    <string name="pref_bel_title">Force Belarusian language</string>
+    <string name="pref_bel_sum">Pick to use application in Belarusian language</string>
     <string-array name="pref_check_update_rate_entries">
         <item>1h</item>
         <item>3h</item>

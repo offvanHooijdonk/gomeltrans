@@ -3,6 +3,7 @@ package com.gomeltrans.ui;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,10 +18,10 @@ import android.view.MenuItem;
 import com.gomeltrans.Constants;
 import com.gomeltrans.R;
 import com.gomeltrans.data.ReloadDataBean;
+import com.gomeltrans.data.ScheduleHelper;
+import com.gomeltrans.helper.AppHelper;
 import com.gomeltrans.helper.IntentsHelper;
 import com.gomeltrans.ui.lists.TabbedListsFragment;
-
-import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ReloadDataBean.OnReloadFinishedListener {
 
@@ -43,6 +44,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         that = this;
 
+        PreferenceManager.setDefaultValues(that, R.xml.pref, false);
+        AppHelper.applyLocale(getBaseContext());
+
         navigationView = (NavigationView) findViewById(R.id.navigation_drawer);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView.setNavigationItemSelectedListener(this);
@@ -57,12 +61,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.getMenu().findItem(navItemId).setChecked(true);
         setUpdateDateText();
 
-        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open,
-                R.string.navigation_drawer_close);
+        drawerToggle = new ActionBarDrawerToggle(that, drawerLayout, toolbar, R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close) {
+            @Override
+            public void onDrawerStateChanged(int newState) {
+                super.onDrawerStateChanged(newState);
+                that.setUpdateDateText();
+            }
+        };
         drawerLayout.setDrawerListener(drawerToggle);
         drawerToggle.syncState();
 
         navigate(navItemId);
+
+        if (Constants.isFirstTimeLaunched(that)) {
+            startDataUpdate();
+            Constants.setAlreadyLaunched(that);
+            ScheduleHelper.scheduleUpdate(that);
+        }
     }
 
     @Override
@@ -75,7 +91,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             // allow some time after closing the drawer before performing real navigation
             // so the user can see what is happening
-            drawerLayout.closeDrawer(GravityCompat.START);
             drawerActionHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -83,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }, DRAWER_CLOSE_DELAY_MS);
         }
+        drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
@@ -114,12 +130,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.action_reload_data) {
-            progressDialog = new ProgressDialog(that);
-            progressDialog.setMessage(that.getString(R.string.progress_data_update));
-            progressDialog.setCancelable(false);
-            progressDialog.show();
-            ReloadDataBean reloadDataBean = new ReloadDataBean(that, that);
-            reloadDataBean.reloadData();
+            startDataUpdate();
         }
 
         return true;
@@ -142,13 +153,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onReloadDataFinished() {
-        // TODO in future this date comes from server
-        Constants.saveUpdateDate(that, new Date());
         setUpdateDateText();
         if (progressDialog != null) {
             progressDialog.dismiss();
         }
         // TODO implement fragment awareness of data load so they can refresh theirselves if on screen
+    }
+
+    private void startDataUpdate() {
+        progressDialog = new ProgressDialog(that);
+        progressDialog.setMessage(that.getString(R.string.progress_data_update));
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        ReloadDataBean reloadDataBean = new ReloadDataBean(that, that);
+        reloadDataBean.reloadData();
     }
 
     private void setUpdateDateText() {

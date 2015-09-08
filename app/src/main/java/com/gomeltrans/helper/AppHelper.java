@@ -1,6 +1,8 @@
 package com.gomeltrans.helper;
 
 import android.content.Context;
+import android.content.res.Configuration;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -13,6 +15,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Yahor_Fralou on 9/8/2015.
@@ -59,5 +62,30 @@ public class AppHelper {
         SpannableStringBuilder ssb = new SpannableStringBuilder(text);
         ssb.setSpan(new ForegroundColorSpan(ctx.getResources().getColor(R.color.snackbar_text)), 0, text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         return ssb;
+    }
+
+    public static void applyLocale(Context baseContext) {
+        Locale locale;
+        if (AppHelper.Pref.getForceBelarus(baseContext)) {
+            String languageToLoad = "be";
+            locale = new Locale(languageToLoad);
+        } else {
+            locale = Locale.getDefault();
+        }
+
+        Configuration config = new Configuration();
+        config.locale = locale;
+        baseContext.getResources().updateConfiguration(config,
+                baseContext.getResources().getDisplayMetrics());
+    }
+
+    public static class Pref {
+        public static String getUpdateFrequency(Context ctx) {
+            return PreferenceManager.getDefaultSharedPreferences(ctx).getString(ctx.getString(R.string.pref_check_update_rate_key), ctx.getString(R.string.pref_check_update_rate_default));
+        }
+
+        public static boolean getForceBelarus(Context ctx) {
+            return PreferenceManager.getDefaultSharedPreferences(ctx).getBoolean(ctx.getString(R.string.pref_bel_key), Boolean.FALSE);
+        }
     }
 }
