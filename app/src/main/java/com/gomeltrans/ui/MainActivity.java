@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
+    private Fragment fragmentCurrent;
 
     private MainActivity that;
     private int navItemId;
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(R.string.app_name);
 
         if (null == savedInstanceState) {
             navItemId = R.id.item_timetable;
@@ -105,17 +107,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void navigate(final int itemId) {
         FragmentManager fragmentManager = getSupportFragmentManager();
 
-        Fragment fragment;
-
         if (itemId == R.id.item_timetable) {
-            fragment = TabbedListsFragment.getInstance();
+            fragmentCurrent = TabbedListsFragment.getInstance();
         } else {
             // TODO make better
             return;
         }
 
         fragmentManager.beginTransaction()
-                .replace(R.id.container, fragment)
+                .replace(R.id.container, fragmentCurrent)
                 .commit();
     }
 
@@ -157,7 +157,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (progressDialog != null) {
             progressDialog.dismiss();
         }
-        // TODO implement fragment awareness of data load so they can refresh theirselves if on screen
+        // if a fragment with data lists - make it redraw lists
+        if (fragmentCurrent != null && (fragmentCurrent instanceof TabbedListsFragment)) {
+            ((TabbedListsFragment) fragmentCurrent).refreshLists();
+        }
     }
 
     private void startDataUpdate() {

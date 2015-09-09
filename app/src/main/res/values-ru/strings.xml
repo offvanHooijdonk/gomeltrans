@@ -42,4 +42,10 @@
     <string name="pref_bel_title">Выбрать беларуский язык</string>
     <string name="pref_bel_sum">Использовать беларуский язык вместо языка по умолчанию</string>
     <string name="restart_app_for_locale">Пожалуйста, перезапустите приложение чтобы язык изменился</string>
+    <string name="notif_updated_text">Расписание актуально на %s</string>
+    <string name="notif_updated_title">Распиание обновлено</string>
+    <string name="pref_category_data_title">Данные</string>
+    <string name="pref_category_interface_title">Интерфейс</string>
+    <string name="pref_show_update_notification_title">Показывать оповещение об обновлении</string>
+    <string name="pref_show_update_notification_summary">Показывать оповещение когда расписание было обновлено в фоне</string>
 </resources>

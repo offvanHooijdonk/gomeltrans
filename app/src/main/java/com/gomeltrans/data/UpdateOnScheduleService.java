@@ -3,6 +3,8 @@ package com.gomeltrans.data;
 import android.app.IntentService;
 import android.content.Intent;
 
+import com.gomeltrans.helper.NotificationsUtil;
+
 /**
  * Created by Yahor_Fralou on 9/8/2015.
  */
@@ -31,6 +33,8 @@ public class UpdateOnScheduleService extends IntentService implements ReloadData
 
     @Override
     public void onReloadDataFinished() {
+        NotificationsUtil notificationsUtil = new NotificationsUtil(this);
+        notificationsUtil.notifyUpdateIfEnabled();
         ScheduleHelper.scheduleUpdate(this);
         this.stopSelf();
     }

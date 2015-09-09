@@ -19,6 +19,7 @@ public class TabbedListsFragment extends Fragment {
     private static final String ARG_MODE = "arg_mode";
 
     private MainActivity parent;
+    private TabbedListsPagerAdapter adapter;
 
     public static TabbedListsFragment getInstance() {
         Bundle args = new Bundle();
@@ -42,7 +43,7 @@ public class TabbedListsFragment extends Fragment {
 
         v = inflater.inflate(R.layout.frag_tabs, container, false);
 
-        TabbedListsPagerAdapter adapter = new TabbedListsPagerAdapter(getChildFragmentManager(), parent);
+        adapter = new TabbedListsPagerAdapter(getChildFragmentManager(), parent);
 
         final ViewPager viewPager = (ViewPager) v.findViewById(R.id.viewpager);
         viewPager.setAdapter(adapter);
@@ -59,5 +60,11 @@ public class TabbedListsFragment extends Fragment {
         }
 
         return v;
+    }
+
+    public void refreshLists() {
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
     }
 }

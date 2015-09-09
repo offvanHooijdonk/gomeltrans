@@ -37,7 +37,13 @@
         <item>24г</item>
         <item>Толькі ўручную</item>
     </string-array>
-    <string name="pref_bel_title">Абраць беларускi язык</string>
+    <string name="pref_bel_title">Абраць беларускую мову</string>
     <string name="pref_bel_sum">Выкарыстоўваць беларускую мову замест мовы па змаўчанні</string>
     <string name="restart_app_for_locale">Перазапусціце, калі ласка, прыкладанне каб мова змянілася</string>
+    <string name="notif_updated_text">Расклад актуальны на %s</string>
+    <string name="notif_updated_title">Расклад абноўлены</string>
+    <string name="pref_category_data_title">Даныя</string>
+    <string name="pref_category_interface_title">Iнтэрфейс</string>
+    <string name="pref_show_update_notification_title">Паказваць абвестку аб абнаўленні</string>
+    <string name="pref_show_update_notification_summary">Паказваць абвестку калi расклад быў абноўлены ў фоне</string>
 </resources>

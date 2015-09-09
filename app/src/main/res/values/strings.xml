@@ -44,6 +44,13 @@
     <string name="pref_bel_key" translatable="false">pref_bel</string>
     <string name="pref_bel_title">Force Belarusian language</string>
     <string name="pref_bel_sum">Pick to use application in Belarusian language</string>
+    <string name="pref_category_data_title">Data</string>
+    <string name="pref_category_interface_title">Interface</string>
+    <string name="pref_show_update_notification_key" translatable="false">pref_show_update_notification_key</string>
+    <string name="pref_show_update_notification_title">Show update notification</string>
+    <string name="pref_show_update_notification_summary">Show notification when timetable has been updated in background</string>
+    <string name="notif_updated_title">Timetable updated</string>
+    <string name="notif_updated_text">Timetable actual for %s</string>
     <string-array name="pref_check_update_rate_entries">
         <item>1h</item>
         <item>3h</item>

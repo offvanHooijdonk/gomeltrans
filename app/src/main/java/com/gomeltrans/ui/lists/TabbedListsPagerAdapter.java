@@ -30,6 +30,11 @@ public class TabbedListsPagerAdapter extends FragmentPagerAdapter {
     }
 
     @Override
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
+    }
+
+    @Override
     public CharSequence getPageTitle(int position) {
         return ItemsListFragment.getTabTitle(ctx, position);
     }

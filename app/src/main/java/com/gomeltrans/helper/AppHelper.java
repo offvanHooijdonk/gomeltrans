@@ -2,6 +2,8 @@ package com.gomeltrans.helper;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.text.Spannable;
@@ -79,6 +81,10 @@ public class AppHelper {
                 baseContext.getResources().getDisplayMetrics());
     }
 
+    public static Bitmap bitmapFromResource(Context ctx, int resId) {
+        return BitmapFactory.decodeResource(ctx.getResources(), resId);
+    }
+
     public static class Pref {
         public static String getUpdateFrequency(Context ctx) {
             return PreferenceManager.getDefaultSharedPreferences(ctx).getString(ctx.getString(R.string.pref_check_update_rate_key), ctx.getString(R.string.pref_check_update_rate_default));
@@ -86,6 +92,10 @@ public class AppHelper {
 
         public static boolean getForceBelarus(Context ctx) {
             return PreferenceManager.getDefaultSharedPreferences(ctx).getBoolean(ctx.getString(R.string.pref_bel_key), Boolean.FALSE);
+        }
+
+        public static boolean getNotifyUpdated(Context ctx) {
+            return PreferenceManager.getDefaultSharedPreferences(ctx).getBoolean(ctx.getString(R.string.pref_show_update_notification_key), Boolean.FALSE);
         }
     }
 }
