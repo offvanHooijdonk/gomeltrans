@@ -21,6 +21,7 @@ import com.gomeltrans.Constants;
 import com.gomeltrans.R;
 import com.gomeltrans.data.dao.StopsDao;
 import com.gomeltrans.data.dao.TransportDao;
+import com.gomeltrans.helper.AppHelper;
 import com.gomeltrans.model.Stop;
 import com.gomeltrans.model.Transport;
 import com.gomeltrans.ui.actionbar.FavouriteFilterActionProvider;
@@ -167,10 +168,15 @@ public class ItemsListFragment extends Fragment implements FavouriteFilterAction
                 public boolean onQueryTextSubmit(String query) {
                     return false;
                 }
+
                 @Override
                 public boolean onQueryTextChange(String newText) {
-                    currentSearchText = newText;
-                    updateData(newText);
+                    if (newText.length() >= AppHelper.SEARCH_STOP_START_LETTERS_COUNT) {
+                        currentSearchText = newText;
+                    } else {
+                        currentSearchText = null;
+                    }
+                    updateData(currentSearchText);
                     return true;
                 }
             });

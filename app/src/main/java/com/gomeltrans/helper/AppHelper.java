@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 
 import com.gomeltrans.R;
 import com.gomeltrans.model.StopTable;
@@ -23,6 +24,7 @@ import java.util.Locale;
  * Created by Yahor_Fralou on 9/8/2015.
  */
 public class AppHelper {
+    public static final int SEARCH_STOP_START_LETTERS_COUNT = 2;
     private static final String DAY_INFO_DELIMITER = ", ";
 
     /**
@@ -83,6 +85,18 @@ public class AppHelper {
 
     public static Bitmap bitmapFromResource(Context ctx, int resId) {
         return BitmapFactory.decodeResource(ctx.getResources(), resId);
+    }
+
+    public static CharSequence styleStringWithSearch(String text, String search) {
+        SpannableStringBuilder ssb = new SpannableStringBuilder(text);
+
+        int lastFound = 0;
+        while((lastFound = text.toLowerCase().indexOf(search.toLowerCase(), lastFound)) != -1) {
+            ssb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), lastFound, lastFound + search.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+            lastFound += search.length();
+        }
+
+        return ssb;
     }
 
     public static class Pref {

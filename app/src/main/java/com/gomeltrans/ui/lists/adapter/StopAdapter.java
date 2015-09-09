@@ -2,10 +2,7 @@ package com.gomeltrans.ui.lists.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
-import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +11,9 @@ import android.widget.TextView;
 
 import com.gomeltrans.R;
 import com.gomeltrans.data.dao.StopsDao;
-import com.gomeltrans.model.Stop;
+import com.gomeltrans.helper.AppHelper;
 import com.gomeltrans.helper.IntentsHelper;
+import com.gomeltrans.model.Stop;
 
 import java.util.List;
 
@@ -49,11 +47,11 @@ public class StopAdapter extends RecyclerView.Adapter<StopAdapter.ViewHolder> {
         if (!TextUtils.isEmpty(searchText)) {
             // TODO implement for all text entries?
             String text = stop.getName();
-            SpannableStringBuilder ssb = new SpannableStringBuilder(text);
+            /*SpannableStringBuilder ssb = new SpannableStringBuilder(text);
             int start = text.toLowerCase().indexOf(searchText.toLowerCase());
             int end = start + searchText.length();
-            ssb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), start, end, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-            vh.name.setText(ssb);
+            ssb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), start, end, Spannable.SPAN_INCLUSIVE_INCLUSIVE);*/
+            vh.name.setText(AppHelper.styleStringWithSearch(text, searchText));
         } else {
             vh.name.setText(stop.getName());
         }
