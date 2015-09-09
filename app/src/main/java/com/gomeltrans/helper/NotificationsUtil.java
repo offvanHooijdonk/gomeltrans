@@ -46,6 +46,10 @@ public class NotificationsUtil {
             builder.setPriority(Notification.PRIORITY_LOW);
         }
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder.setColor(ctx.getResources().getColor(R.color.app_primary));
+        }
+
         manager.notify(UPDATED_ID, builder.build());
     }
 }

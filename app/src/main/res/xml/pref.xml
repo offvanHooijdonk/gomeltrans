@@ -13,17 +13,16 @@
     </PreferenceCategory>
     <PreferenceCategory
         android:title="@string/pref_category_interface_title">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/pref_show_update_notification_key"
+            android:summary="@string/pref_show_update_notification_summary"
+            android:title="@string/pref_show_update_notification_title"/>
 
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="@string/pref_bel_key"
             android:summary="@string/pref_bel_sum"
             android:title="@string/pref_bel_title"/>
-
-        <CheckBoxPreference
-            android:key="@string/pref_show_update_notification_key"
-            android:title="@string/pref_show_update_notification_title"
-            android:summary="@string/pref_show_update_notification_summary"
-            android:defaultValue="false"/>
     </PreferenceCategory>
 </PreferenceScreen>
