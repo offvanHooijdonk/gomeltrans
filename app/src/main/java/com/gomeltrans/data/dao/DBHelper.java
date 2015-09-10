@@ -3,6 +3,7 @@ package com.gomeltrans.data.dao;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.gomeltrans.Constants;
@@ -21,7 +22,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String WILDCARD_MULT = "%";
 
     private static final String DB_NAME = "gomeltrans";
-    private static final int DB_VERSION = 6;
+    private static final int DB_VERSION = 7;
 
     public DBHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -39,8 +40,9 @@ public class DBHelper extends SQLiteOpenHelper {
                 TransportStops.DIRECTION_INDEX + " integer not null, " + TransportStops.ORDER_NUMBER + " integer not null, " +
                 TransportStops.ACTIVE + " integer default 1 " + ");" +
                 " CREATE TABLE " + StopTable.TABLE + " (" + StopTable.ID + " integer primary key autoincrement, " +
-                StopTable.TRANSPORT_STOP_ID + " integer not null, " + StopTable.DAY_TYPE_CODE + " integer not null, " +
-                StopTable.TIME + " text not null, " + StopTable.ACTIVE + " integer default 1 " + ");";
+                StopTable.TRANSPORT_ID + " integer not null, " + StopTable.STOP_ID + " integer not null, " +
+                StopTable.DAY_TYPE_CODE + " integer not null, " + StopTable.TIME + " text not null, " +
+                StopTable.ACTIVE + " integer default 1 " + ");";
         String[] createQueries = createStatement.split(";");
         for (String q : createQueries) {
             try {
@@ -91,5 +93,45 @@ public class DBHelper extends SQLiteOpenHelper {
         }
 
         return array;
+    }
+
+    public static String shiftTimeForDB(String timeString) {
+        String res;
+        if (!TextUtils.isEmpty(timeString)) {
+            String[] timeSplit = timeString.split(StopTable.TIME_DELIMITER);
+            String hourString = timeSplit[0];
+            int hour = Integer.valueOf(hourString);
+            if (hour >= StopTable.HOUR_SHIFT_START_WITH && hour <= StopTable.HOUR_SHIFT_END_WITH) {
+                hour += StopTable.HOUR_SHIFT_BY;
+
+                res = timeString.replaceFirst(timeSplit[0], String.valueOf(hour));
+                //res = String.valueOf(hour) + TIME_DELIMITER + timeSplit[1];
+            } else {
+                res = timeString;
+            }
+        } else {
+            res = null;
+        }
+        return res;
+    }
+
+    public static String unshiftTimeFromDB(String timeDB) {
+        String res;
+        if (!TextUtils.isEmpty(timeDB)) {
+            String[] timeSplit = timeDB.split(StopTable.TIME_DELIMITER);
+            String hourString = timeSplit[0];
+            int hour = Integer.valueOf(hourString);
+
+            if (hour >= (StopTable.HOUR_SHIFT_START_WITH + StopTable.HOUR_SHIFT_BY)) {
+                hour = hour - StopTable.HOUR_SHIFT_BY;
+
+                res = timeDB.replaceFirst(timeSplit[0], String.valueOf(hour));
+            } else {
+                res = timeDB;
+            }
+        } else {
+            res = null;
+        }
+        return res;
     }
 }

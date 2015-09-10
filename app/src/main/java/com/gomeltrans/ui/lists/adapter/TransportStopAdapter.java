@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.gomeltrans.R;
+import com.gomeltrans.helper.AppHelper;
 import com.gomeltrans.model.TransportStops;
 import com.gomeltrans.helper.IntentsHelper;
 
@@ -53,7 +54,8 @@ public class TransportStopAdapter extends RecyclerView.Adapter<TransportStopAdap
         }
 
         if (ts.getStop().isFavourite()) {
-            vh.blockBackground.setBackgroundColor(0x3fffffff & ctx.getResources().getColor(R.color.fav_item_bckgr));
+            int colorTransparency = AppHelper.applyAlphaToColor(ctx.getResources().getColor(R.color.fav_item_bckgr), AppHelper.FAV_BACKGR_ALPHA);
+            vh.blockBackground.setBackgroundColor(colorTransparency);
         } else {
             vh.blockBackground.setBackgroundColor(ctx.getResources().getColor(android.R.color.transparent));
         }

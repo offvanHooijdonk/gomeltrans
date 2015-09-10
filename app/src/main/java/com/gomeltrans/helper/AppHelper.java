@@ -25,6 +25,8 @@ import java.util.Locale;
  */
 public class AppHelper {
     public static final int SEARCH_STOP_START_LETTERS_COUNT = 2;
+    public static final float FAV_BACKGR_ALPHA = 0.2f;
+
     private static final String DAY_INFO_DELIMITER = ", ";
 
     /**
@@ -85,6 +87,12 @@ public class AppHelper {
 
     public static Bitmap bitmapFromResource(Context ctx, int resId) {
         return BitmapFactory.decodeResource(ctx.getResources(), resId);
+    }
+
+    public static int applyAlphaToColor(int color, float alpha) {
+        int alphaHex =  (int)(0xff * alpha) * 0x1000000;
+        alphaHex |= 0xffffff;
+        return alphaHex & color;
     }
 
     public static CharSequence styleStringWithSearch(String text, String search) {

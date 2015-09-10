@@ -10,20 +10,25 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.DatePicker;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gomeltrans.R;
 import com.gomeltrans.data.dao.StopsDao;
+import com.gomeltrans.data.dao.TransportDao;
 import com.gomeltrans.helper.AppHelper;
 import com.gomeltrans.model.Stop;
 import com.gomeltrans.model.StopTable;
+import com.gomeltrans.model.TransportStops;
 import com.gomeltrans.ui.actionbar.FavouriteActionProvider;
+
+import org.apmem.tools.layouts.FlowLayout;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Yahor_Fralou on 8/31/2015.
@@ -33,15 +38,16 @@ public class StopInfoActivity extends AppCompatActivity implements FavouriteActi
 
     private Toolbar toolbar;
     private Menu optionsMenu;
-    private TextView textName;
-    private TextView textComment;
     private CoordinatorLayout coordinatorLayout;
+    private FlowLayout blockUpcomingTransport;
 
     private StopInfoActivity that;
     private StopsDao stopsDao;
     private Stop stopBean;
     private StopTable.DAY_TYPE dayType = null;
     private Date datePicked;
+    private List<TransportStops> upcomingTransportList = new ArrayList<>();
+    private TransportDao transportDao;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,11 +69,9 @@ public class StopInfoActivity extends AppCompatActivity implements FavouriteActi
                 getSupportActionBar().setSubtitle(stopBean.getComment());
 
                 coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinator);
-                textName = (TextView) findViewById(R.id.textStopName);
-                textComment = (TextView) findViewById(R.id.textStopComment);
+                blockUpcomingTransport = (FlowLayout) findViewById(R.id.blockUpcomingTransport);
 
-                textName.setText(stopBean.getName());
-                textComment.setText(stopBean.getComment());
+                transportDao = new TransportDao(that);
 
                 updateDayInfo();
             } else {
@@ -137,6 +141,11 @@ public class StopInfoActivity extends AppCompatActivity implements FavouriteActi
             dialog.show();
         }
         return false;
+    }
+
+    private void updateUpcomingTransport() {
+        upcomingTransportList.clear();
+        //upcomingTransportList.addAll();
     }
 
     private void onDayTypeChange() {

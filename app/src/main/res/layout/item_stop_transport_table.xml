@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    android:id="@+id/blockItem"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:selectableItemBackground">
+
+    <RelativeLayout
+        android:id="@+id/blockBackground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/abc_list_item_padding_horizontal_material"
+        android:paddingBottom="@dimen/list_padding_vertical"
+        android:paddingEnd="@dimen/abc_list_item_padding_horizontal_material"
+        android:paddingLeft="@dimen/abc_list_item_padding_horizontal_material"
+        android:paddingRight="@dimen/abc_list_item_padding_horizontal_material"
+        android:paddingStart="@dimen/abc_list_item_padding_horizontal_material"
+        android:paddingTop="@dimen/list_padding_vertical">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imageCircle"
+                android:layout_width="@dimen/list_icon_size"
+                android:layout_height="@dimen/list_icon_size"
+                android:src="@drawable/circle"/>
+
+            <TextView
+                android:id="@+id/numberName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:singleLine="true"
+                android:text="12a"
+                android:textColor="@color/transport_badge_text"
+                android:textSize="18sp"/>
+        </RelativeLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerInParent="true"
+            android:layout_marginEnd="@dimen/abc_list_item_padding_horizontal_material"
+            android:layout_marginLeft="@dimen/list_text_margin_start"
+            android:layout_marginRight="@dimen/abc_list_item_padding_horizontal_material"
+            android:layout_marginStart="@dimen/list_text_margin_start"
+            android:layout_toLeftOf="@+id/blockTime"
+            android:layout_toStartOf="@+id/blockTime">
+
+            <TextView
+                android:id="@+id/routeName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="Солнечная - Медгородок"
+                android:textSize="16sp"/>
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/blockTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true">
+
+            <TextView
+                android:id="@+id/textNextTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="16:47"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:id="@+id/textNextDay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="8:12"
+                android:textColor="@color/time_next_day"
+                android:textSize="16sp"/>
+        </FrameLayout>
+
+    </RelativeLayout>
+
+</FrameLayout>

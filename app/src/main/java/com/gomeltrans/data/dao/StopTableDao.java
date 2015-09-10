@@ -4,12 +4,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.text.TextUtils;
 
 import com.gomeltrans.Constants;
 import com.gomeltrans.model.Stop;
 import com.gomeltrans.model.StopTable;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -37,34 +37,43 @@ public class StopTableDao {
 
         for (StopTable table : stop.getStopTables()) {
             Long tsId = tsDao.findTransportStopId(table.getTransport().getId(), stop.getId());
-            if (tsId != null) {
-                for (String time : table.getTimes()) {
-                    saveTransportStopTime(db, tsId, time, table.getDayTypeCode());
-                }
-            } else {
-                // TODO implement custom exception and rollback system
+            for (String time : table.getTimes()) {
+                saveTransportStopTime(db, table.getTransport().getId(), stop.getId(), time, table.getDayTypeCode());
             }
         }
     }
 
     /**
-     * @param transportStopId
+     * @param
      * @param timeFrom
      * @return next time this transport comes to this stop, or null if it will not today
      */
-    public String getNextTimeThisDay(Long transportStopId, Date timeFrom, int dayType) {
+    public String getNextTimeThisDay(Long transportId, Long stopId, Date timeFrom, Integer minutes, int dayType) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String nextTime;
 
-        String timeFromShifted = shiftTimeForDB(Constants.getDBTimeFormat().format(timeFrom));
+        String[] params;
+        String timeFromShifted = DBHelper.shiftTimeForDB(Constants.getDBTimeFormat().format(timeFrom));
+        if (minutes != null) {
+            Calendar calendarTo = Calendar.getInstance();
+            calendarTo.setTime(timeFrom);
+            calendarTo.add(Calendar.MINUTE, minutes);
 
-        Cursor cursor = db.query(true, StopTable.TABLE, new String[]{"MIN(" + StopTable.TIME + ")"}, StopTable.TRANSPORT_STOP_ID + " =? AND " +
+            params = new String[]{String.valueOf(transportId), String.valueOf(stopId), DBHelper.shiftTimeForDB(timeFromShifted),
+                    DBHelper.shiftTimeForDB(Constants.getDBTimeFormat().format(calendarTo.getTime())), String.valueOf(dayType)};
+        } else {
+            params = new String[]{String.valueOf(transportId), String.valueOf(stopId), DBHelper.shiftTimeForDB(timeFromShifted), String.valueOf(dayType)};
+        }
+        // FIXME possible bug with transport day roll on 5 AM
+        Cursor cursor = db.query(true, StopTable.TABLE, new String[]{"MIN(" + StopTable.TIME + ")"},
+                StopTable.TRANSPORT_ID + " =? AND " + StopTable.STOP_ID + " =? AND " +
                         " CAST(" + StopTable.TIME + " as integer) >=CAST(? as integer) " +
+                        (minutes != null ? " AND CAST(" + StopTable.TIME + " as integer) <=CAST(? as integer) " : "") +
                         " AND " + StopTable.DAY_TYPE_CODE + " =? ",
-                new String[]{String.valueOf(transportStopId), shiftTimeForDB(timeFromShifted), String.valueOf(dayType)}, null, null, null, null);
+                params, null, null, null, null);
 
         if (cursor.moveToFirst()) {
-            nextTime = unshiftTimeFromDB(cursor.getString(0));
+            nextTime = DBHelper.unshiftTimeFromDB(cursor.getString(0));
         } else {
             nextTime = null;
         }
@@ -73,16 +82,17 @@ public class StopTableDao {
         return nextTime;
     }
 
-    public String getFirstTime(Long transportStopId, int dayTypeCode) {
+
+    public String getFirstTime(Long transportId, Long stopId, int dayTypeCode) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String nextTime;
 
-        Cursor cursor = db.query(true, StopTable.TABLE, new String[]{StopTable.TIME}, StopTable.TRANSPORT_STOP_ID + " =? AND " +
-                        StopTable.DAY_TYPE_CODE + " =? ",
-                new String[]{String.valueOf(transportStopId), String.valueOf(dayTypeCode)}, null, null, "CAST(" + StopTable.TIME + " as integer)", "1");
+        Cursor cursor = db.query(true, StopTable.TABLE, new String[]{StopTable.TIME}, StopTable.TRANSPORT_ID + " =? AND " +
+                        StopTable.STOP_ID + " =? AND " + StopTable.DAY_TYPE_CODE + " =? ",
+                new String[]{String.valueOf(transportId), String.valueOf(stopId), String.valueOf(dayTypeCode)}, null, null, "CAST(" + StopTable.TIME + " as integer)", "1");
 
         if (cursor.moveToFirst()) {
-            nextTime = unshiftTimeFromDB(cursor.getString(0));
+            nextTime = DBHelper.unshiftTimeFromDB(cursor.getString(0));
         } else {
             nextTime = null;
         }
@@ -91,52 +101,14 @@ public class StopTableDao {
         return nextTime;
     }
 
-    private void saveTransportStopTime(SQLiteDatabase db, Long transportStopId, String time, int dayType) {
+    private void saveTransportStopTime(SQLiteDatabase db, Long transportId, Long stopId, String time, int dayType) {
         ContentValues cv = new ContentValues();
-        cv.put(StopTable.TRANSPORT_STOP_ID, transportStopId);
-        cv.put(StopTable.TIME, shiftTimeForDB(time));
+        cv.put(StopTable.TRANSPORT_ID, transportId);
+        cv.put(StopTable.STOP_ID, stopId);
+        cv.put(StopTable.TIME, DBHelper.shiftTimeForDB(time));
         cv.put(StopTable.DAY_TYPE_CODE, dayType);
 
         db.insert(StopTable.TABLE, null, cv);
     }
 
-    private String shiftTimeForDB(String timeString) {
-        String res;
-        if (!TextUtils.isEmpty(timeString)) {
-            String[] timeSplit = timeString.split(StopTable.TIME_DELIMITER);
-            String hourString = timeSplit[0];
-            int hour = Integer.valueOf(hourString);
-            if (hour >= StopTable.HOUR_SHIFT_START_WITH && hour <= StopTable.HOUR_SHIFT_END_WITH) {
-                hour += StopTable.HOUR_SHIFT_BY;
-
-                res = timeString.replaceFirst(timeSplit[0], String.valueOf(hour));
-                //res = String.valueOf(hour) + TIME_DELIMITER + timeSplit[1];
-            } else {
-                res = timeString;
-            }
-        } else {
-            res = null;
-        }
-        return res;
-    }
-
-    private String unshiftTimeFromDB(String timeDB) {
-        String res;
-        if (!TextUtils.isEmpty(timeDB)) {
-            String[] timeSplit = timeDB.split(StopTable.TIME_DELIMITER);
-            String hourString = timeSplit[0];
-            int hour = Integer.valueOf(hourString);
-
-            if (hour >= (StopTable.HOUR_SHIFT_START_WITH + StopTable.HOUR_SHIFT_BY)) {
-                hour = hour - StopTable.HOUR_SHIFT_BY;
-
-                res = timeDB.replaceFirst(timeSplit[0], String.valueOf(hour));
-            } else {
-                res = timeDB;
-            }
-        } else {
-            res = null;
-        }
-        return res;
-    }
 }

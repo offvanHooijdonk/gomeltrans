@@ -144,12 +144,12 @@ public class TransportDao {
         StopTableDao stopTableDao = new StopTableDao(ctx);
         for (TransportStops ts : list) {
             int dayTypeCode = dayType == null ? StopTable.getDayType(date).getCode() : dayType.getCode();
-            String nextTime = stopTableDao.getNextTimeThisDay(ts.getId(), date, dayTypeCode);
+            String nextTime = stopTableDao.getNextTimeThisDay(transport.getId(), ts.getStop().getId(), date, null, dayTypeCode);
             if (!TextUtils.isEmpty(nextTime)) {
                 ts.setNextTime(nextTime);
             } else {
                 int nextDayTypeCode = dayType == null ? StopTable.getDayType(addDay(date)).getCode() : dayType.getCode();
-                String firstTime = stopTableDao.getFirstTime(ts.getId(), nextDayTypeCode);
+                String firstTime = stopTableDao.getFirstTime(transport.getId(), ts.getStop().getId(), nextDayTypeCode);
                 ts.setFirstTime(firstTime);
             }
         }

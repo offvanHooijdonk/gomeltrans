@@ -18,7 +18,8 @@ public class StopTable extends BaseBean {
 
     public static final String TABLE = "stop_table";
     public static final String ID = "id";
-    public static final String TRANSPORT_STOP_ID = "transport_stop_id";
+    public static final String TRANSPORT_ID = "transport_id";
+    public static final String STOP_ID = "stop_id";
     public static final String DAY_TYPE_CODE = "day_type";
     public static final String TIME = "times";
     public static final String ACTIVE = "active";
@@ -48,6 +49,16 @@ public class StopTable extends BaseBean {
     @Expose
     @SerializedName("dayType")
     private int dayTypeCode;
+
+    private String timeUpcoming;
+
+    public String getTimeUpcoming() {
+        return timeUpcoming;
+    }
+
+    public void setTimeUpcoming(String timeUpcoming) {
+        this.timeUpcoming = timeUpcoming;
+    }
 
     public Transport getTransport() {
         return transport;

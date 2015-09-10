@@ -19,6 +19,7 @@
 
     <color name="fav_on">#FFAB00</color>
     <color name="fav_item_bckgr">@color/fav_on</color>
+    <color name="transport_badge_text">@color/toolbar_text</color>
 
     <color name="text_primary">#de000000</color>
     <color name="text_secondary">@color/secondary_text_default_material_light</color>

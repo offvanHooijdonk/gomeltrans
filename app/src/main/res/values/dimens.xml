@@ -11,4 +11,5 @@
     <dimen name="list_fav_padding_end">8dp</dimen>
     <dimen name="list_text_margin_start">56dp</dimen>
     <dimen name="list_icon_size">40dp</dimen>
+    <dimen name="badge_small">28dp</dimen>
 </resources>
