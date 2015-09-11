@@ -92,10 +92,12 @@ public class StopAdapter extends RecyclerView.Adapter<StopAdapter.ViewHolder> {
         StopsDao dao = new StopsDao(ctx);
         if (favourite) {
             dao.setFavourite(stop.getId(), true);
+            stop.setFavourite(true);
             vh.imageFavFalse.setVisibility(View.GONE);
             vh.imageFavTrue.setVisibility(View.VISIBLE);
         } else {
             dao.setFavourite(stop.getId(), false);
+            stop.setFavourite(false);
             vh.imageFavFalse.setVisibility(View.VISIBLE);
             vh.imageFavTrue.setVisibility(View.GONE);
         }

@@ -2,6 +2,7 @@
 <RelativeLayout
     android:id="@+id/blockItem"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?android:selectableItemBackground"
@@ -10,7 +11,7 @@
     android:paddingStart="@dimen/abc_list_item_padding_horizontal_material"
     android:paddingTop="@dimen/list_padding_vertical">
 
-    <RelativeLayout
+    <!--<RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -29,7 +30,13 @@
             android:text="12a"
             android:textColor="@color/transport_badge_text"
             android:textSize="18sp"/>
-    </RelativeLayout>
+    </RelativeLayout>-->
+
+    <com.gomeltrans.ui.view.TransportBadgeView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:numberName="1"
+        app:type="bus"/>
 
     <FrameLayout
         android:layout_width="match_parent"

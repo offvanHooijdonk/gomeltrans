@@ -26,6 +26,7 @@ import java.util.Locale;
 public class AppHelper {
     public static final int SEARCH_STOP_START_LETTERS_COUNT = 2;
     public static final float FAV_BACKGR_ALPHA = 0.2f;
+    public static final int TABLE_UPCOMING_MINUTES =240;
 
     private static final String DAY_INFO_DELIMITER = ", ";
 

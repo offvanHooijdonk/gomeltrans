@@ -14,7 +14,7 @@ public class StopTable extends BaseBean {
     public static final int HOUR_SHIFT_START_WITH = 0;
     public static final int HOUR_SHIFT_END_WITH = 4;
     public static final int HOUR_SHIFT_BY = 24;
-    public static final String TIME_DELIMITER = ":";
+    public  static final String DELIMITER_TIME = ":";
 
     public static final String TABLE = "stop_table";
     public static final String ID = "id";

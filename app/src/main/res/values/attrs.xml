@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TransportBadgeView">
+        <attr name="numberName" format="string"/>
+        <attr name="type" format="enum">
+            <enum name="bus" value="0"/>
+            <enum name="trolley" value="1"/>
+        </attr>
+        <attr name="iconSize" format="dimension"/>
+        <attr name="textSize" format="dimension"/>
+    </declare-styleable>
+</resources>

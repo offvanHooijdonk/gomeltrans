@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="?android:selectableItemBackgroundBorderless">
+    android:background="?android:selectableItemBackground">
 
     <RelativeLayout
         android:id="@+id/blockBackground"
@@ -23,7 +23,7 @@
                 android:src="@drawable/circle"/>
 
             <TextView
-                android:id="@+id/numberName"
+                android:id="@+id/textNumberName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"

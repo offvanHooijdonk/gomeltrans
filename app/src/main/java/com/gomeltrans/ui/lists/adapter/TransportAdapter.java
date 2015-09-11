@@ -75,10 +75,12 @@ public class TransportAdapter extends RecyclerView.Adapter<TransportAdapter.View
         TransportDao dao = new TransportDao(ctx);
         if (favourite) {
             dao.setFavourite(transport.getId(), true);
+            transport.setFavourite(true);
             vh.imageFavFalse.setVisibility(View.GONE);
             vh.imageFavTrue.setVisibility(View.VISIBLE);
         } else {
             dao.setFavourite(transport.getId(), false);
+            transport.setFavourite(false);
             vh.imageFavFalse.setVisibility(View.VISIBLE);
             vh.imageFavTrue.setVisibility(View.GONE);
         }

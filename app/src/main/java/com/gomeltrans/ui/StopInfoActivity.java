@@ -7,18 +7,21 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.DatePicker;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gomeltrans.R;
 import com.gomeltrans.data.dao.StopsDao;
-import com.gomeltrans.data.dao.TransportDao;
+import com.gomeltrans.data.service.StopService;
 import com.gomeltrans.helper.AppHelper;
 import com.gomeltrans.model.Stop;
 import com.gomeltrans.model.StopTable;
-import com.gomeltrans.model.TransportStops;
 import com.gomeltrans.ui.actionbar.FavouriteActionProvider;
 
 import org.apmem.tools.layouts.FlowLayout;
@@ -43,11 +46,12 @@ public class StopInfoActivity extends AppCompatActivity implements FavouriteActi
 
     private StopInfoActivity that;
     private StopsDao stopsDao;
+    private StopService stopService;
     private Stop stopBean;
     private StopTable.DAY_TYPE dayType = null;
     private Date datePicked;
-    private List<TransportStops> upcomingTransportList = new ArrayList<>();
-    private TransportDao transportDao;
+    private List<StopTable> upcomingTransportTable = new ArrayList<>();
+    //private TransportDao transportDao;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -71,8 +75,10 @@ public class StopInfoActivity extends AppCompatActivity implements FavouriteActi
                 coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinator);
                 blockUpcomingTransport = (FlowLayout) findViewById(R.id.blockUpcomingTransport);
 
-                transportDao = new TransportDao(that);
+                //transportDao = new TransportDao(that);
+                stopService = new StopService(that);
 
+                updateUpcomingTransport();
                 updateDayInfo();
             } else {
                 onNoStop();
@@ -144,8 +150,33 @@ public class StopInfoActivity extends AppCompatActivity implements FavouriteActi
     }
 
     private void updateUpcomingTransport() {
-        upcomingTransportList.clear();
-        //upcomingTransportList.addAll();
+        upcomingTransportTable.clear();
+        upcomingTransportTable.addAll(stopService.getUpcomingTransport(stopBean, new Date(), AppHelper.TABLE_UPCOMING_MINUTES, null));
+
+        displayUpcomingTable();
+    }
+
+    private void displayUpcomingTable() {
+        blockUpcomingTransport.removeAllViews();
+        for (final StopTable st : upcomingTransportTable) {
+            ViewGroup v = (ViewGroup) LayoutInflater.from(that).inflate(R.layout.item_upcoming_transport_time, blockUpcomingTransport, false);
+
+            ((TextView) v.findViewById(R.id.textNumberName)).setText(st.getTransport().getNumberName());
+            ((TextView) v.findViewById(R.id.textNextTime)).setText(st.getTimeUpcoming());
+
+            if (st.getTransport().isFavourite()) {
+                v.findViewById(R.id.blockBackground).setBackgroundColor(AppHelper.applyAlphaToColor(that.getResources().getColor(R.color.fav_item_bckgr),
+                        AppHelper.FAV_BACKGR_ALPHA));
+            }
+
+            v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(that, "We'll show you info on " + st.getTransport().getNumberName(), Toast.LENGTH_LONG).show();
+                }
+            });
+            blockUpcomingTransport.addView(v);
+        }
     }
 
     private void onDayTypeChange() {

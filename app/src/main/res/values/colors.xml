@@ -20,6 +20,9 @@
     <color name="fav_on">#FFAB00</color>
     <color name="fav_item_bckgr">@color/fav_on</color>
     <color name="transport_badge_text">@color/toolbar_text</color>
+    <color name="stop_badge">@color/app_primary</color>
+    <color name="transport_badge_bus">@color/app_primary</color>
+    <color name="transport_badge_trolley">#03A9F4</color>
 
     <color name="text_primary">#de000000</color>
     <color name="text_secondary">@color/secondary_text_default_material_light</color>

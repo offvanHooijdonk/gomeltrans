@@ -98,14 +98,14 @@ public class DBHelper extends SQLiteOpenHelper {
     public static String shiftTimeForDB(String timeString) {
         String res;
         if (!TextUtils.isEmpty(timeString)) {
-            String[] timeSplit = timeString.split(StopTable.TIME_DELIMITER);
+            String[] timeSplit = timeString.split(StopTable.DELIMITER_TIME);
             String hourString = timeSplit[0];
             int hour = Integer.valueOf(hourString);
             if (hour >= StopTable.HOUR_SHIFT_START_WITH && hour <= StopTable.HOUR_SHIFT_END_WITH) {
                 hour += StopTable.HOUR_SHIFT_BY;
 
                 res = timeString.replaceFirst(timeSplit[0], String.valueOf(hour));
-                //res = String.valueOf(hour) + TIME_DELIMITER + timeSplit[1];
+                //res = String.valueOf(hour) + DELIMITER_TIME + timeSplit[1];
             } else {
                 res = timeString;
             }
@@ -118,7 +118,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static String unshiftTimeFromDB(String timeDB) {
         String res;
         if (!TextUtils.isEmpty(timeDB)) {
-            String[] timeSplit = timeDB.split(StopTable.TIME_DELIMITER);
+            String[] timeSplit = timeDB.split(StopTable.DELIMITER_TIME);
             String hourString = timeSplit[0];
             int hour = Integer.valueOf(hourString);
 

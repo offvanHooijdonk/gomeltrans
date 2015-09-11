@@ -12,4 +12,6 @@
     <dimen name="list_text_margin_start">56dp</dimen>
     <dimen name="list_icon_size">40dp</dimen>
     <dimen name="badge_small">28dp</dimen>
+    <dimen name="badgeText_medium">18sp</dimen>
+    <dimen name="badgeText_small">12sp</dimen>
 </resources>
