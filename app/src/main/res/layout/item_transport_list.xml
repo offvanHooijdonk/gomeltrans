@@ -11,32 +11,10 @@
     android:paddingStart="@dimen/abc_list_item_padding_horizontal_material"
     android:paddingTop="@dimen/list_padding_vertical">
 
-    <!--<RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/imageCircle"
-            android:layout_width="@dimen/list_icon_size"
-            android:layout_height="@dimen/list_icon_size"
-            android:src="@drawable/circle"/>
-
-        <TextView
-            android:id="@+id/numberName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:singleLine="true"
-            android:text="12a"
-            android:textColor="@color/transport_badge_text"
-            android:textSize="18sp"/>
-    </RelativeLayout>-->
-
     <com.gomeltrans.ui.view.TransportBadgeView
+        android:id="@+id/transportBadge"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:numberName="1"
-        app:type="bus"/>
+        android:layout_height="wrap_content"/>
 
     <FrameLayout
         android:layout_width="match_parent"

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="?android:selectableItemBackground">
@@ -11,27 +12,12 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/list_padding_vertical">
 
-        <RelativeLayout
+        <com.gomeltrans.ui.view.TransportBadgeView
             android:id="@+id/blockBadge"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/imageCircle"
-                android:layout_width="@dimen/badge_small"
-                android:layout_height="@dimen/badge_small"
-                android:src="@drawable/circle"/>
-
-            <TextView
-                android:id="@+id/textNumberName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:singleLine="true"
-                android:text="12a"
-                android:textColor="@color/transport_badge_text"
-                android:textSize="14sp"/>
-        </RelativeLayout>
+            android:layout_height="wrap_content"
+            app:iconSize="@dimen/badgeIcon_small"
+            app:textSize="@dimen/badgeText_small"/>
 
         <FrameLayout
             android:layout_width="wrap_content"

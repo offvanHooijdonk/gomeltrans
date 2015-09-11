@@ -23,6 +23,7 @@ import com.gomeltrans.helper.AppHelper;
 import com.gomeltrans.model.Stop;
 import com.gomeltrans.model.StopTable;
 import com.gomeltrans.ui.actionbar.FavouriteActionProvider;
+import com.gomeltrans.ui.view.TransportBadgeView;
 
 import org.apmem.tools.layouts.FlowLayout;
 
@@ -161,7 +162,9 @@ public class StopInfoActivity extends AppCompatActivity implements FavouriteActi
         for (final StopTable st : upcomingTransportTable) {
             ViewGroup v = (ViewGroup) LayoutInflater.from(that).inflate(R.layout.item_upcoming_transport_time, blockUpcomingTransport, false);
 
-            ((TextView) v.findViewById(R.id.textNumberName)).setText(st.getTransport().getNumberName());
+            TransportBadgeView badgeView = (TransportBadgeView) v.findViewById(R.id.blockBadge);
+            badgeView.setNumberName(st.getTransport().getNumberName());
+            badgeView.setTransportType(st.getTransport().getTypeNumber());
             ((TextView) v.findViewById(R.id.textNextTime)).setText(st.getTimeUpcoming());
 
             if (st.getTransport().isFavourite()) {

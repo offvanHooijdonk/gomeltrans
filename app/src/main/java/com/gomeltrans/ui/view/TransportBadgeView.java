@@ -3,8 +3,9 @@ package com.gomeltrans.ui.view;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
-import android.view.View;
+import android.util.TypedValue;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,14 +14,19 @@ import com.gomeltrans.R;
 /**
  * Created by Yahor_Fralou on 9/11/2015.
  */
-public class TransportBadgeView extends View {
+public class TransportBadgeView extends FrameLayout {
 
     public static final int DIMENSION_UNSET = -1;
 
     private String numberName;
     private int transportType;
     private int iconSize;
-    private float textSize;
+    private float textSizeSP;
+
+    private ImageView imageBadgeBus;
+    private ImageView imageBadgeTrolley;
+    private TextView textNumberName;
+    private ViewGroup container;
 
     public TransportBadgeView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -31,7 +37,7 @@ public class TransportBadgeView extends View {
             numberName = a.getString(R.styleable.TransportBadgeView_numberName);
             transportType = a.getInt(R.styleable.TransportBadgeView_type, 0);
             iconSize = a.getDimensionPixelOffset(R.styleable.TransportBadgeView_iconSize, DIMENSION_UNSET);
-            textSize = a.getDimension(R.styleable.TransportBadgeView_textSize, DIMENSION_UNSET);
+            textSizeSP = a.getDimension(R.styleable.TransportBadgeView_textSize, DIMENSION_UNSET);
         } finally {
             a.recycle();
         }
@@ -39,11 +45,19 @@ public class TransportBadgeView extends View {
         init();
     }
 
-    private void init() {
-        inflate(getContext(), R.layout.view_transport_badge, null);
+    public void setNumberName(String numberName) {
+        this.numberName = numberName;
 
-        ImageView imageBadgeBus = (ImageView) findViewById(R.id.imageBadge_Bus);
-        ImageView imageBadgeTrolley = (ImageView) findViewById(R.id.imageBadge_Trolley);
+        if (numberName != null) {
+            textNumberName.setText(numberName);
+            invalidate();
+            requestLayout();
+        }
+    }
+
+    public void setTransportType(int transportType) {
+        this.transportType = transportType;
+
         if (transportType == 1) { // trolley
             imageBadgeBus.setVisibility(GONE);
             imageBadgeTrolley.setVisibility(VISIBLE);
@@ -52,26 +66,50 @@ public class TransportBadgeView extends View {
             imageBadgeTrolley.setVisibility(GONE);
         }
 
+        invalidate();
+        requestLayout();
+    }
+
+    public void setIconSize(int iconSize) {
+        this.iconSize = iconSize;
+
         if (iconSize != DIMENSION_UNSET) {
-            ViewGroup container = (ViewGroup) findViewById(R.id.blockBadgeContainer);
             ViewGroup.LayoutParams params = container.getLayoutParams();
             params.width = iconSize;
             params.height = iconSize;
             container.setLayoutParams(params);
-        }
 
-        TextView textNumberName = (TextView) findViewById(R.id.textNumberName);
-        textNumberName.setText(numberName);
-
-        if (textSize != DIMENSION_UNSET) {
-            textNumberName.setTextSize(textSize);
+            invalidate();
+            requestLayout();
         }
     }
 
-    /*@Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
+    public void setTextSizeSP(float textSizeSP) {
+        this.textSizeSP = textSizeSP;
 
-        this.draw(canvas);
-    }*/
+        if (textSizeSP != DIMENSION_UNSET) {
+            textNumberName.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSizeSP);
+
+            invalidate();
+            requestLayout();
+        }
+    }
+
+    private void init() {
+        inflate(getContext(), R.layout.view_transport_badge, this);
+
+        container = (ViewGroup) findViewById(R.id.blockBadgeContainer);
+        setIconSize(iconSize);
+
+        imageBadgeBus = (ImageView) findViewById(R.id.imageBadge_Bus);
+        imageBadgeTrolley = (ImageView) findViewById(R.id.imageBadge_Trolley);
+
+        setTransportType(transportType);
+
+        textNumberName = (TextView) findViewById(R.id.textNumberName);
+        setNumberName(numberName);
+
+        setTextSizeSP(textSizeSP);
+    }
+
 }

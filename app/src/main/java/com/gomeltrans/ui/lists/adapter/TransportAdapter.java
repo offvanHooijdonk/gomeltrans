@@ -12,6 +12,7 @@ import com.gomeltrans.R;
 import com.gomeltrans.data.dao.TransportDao;
 import com.gomeltrans.model.Transport;
 import com.gomeltrans.helper.IntentsHelper;
+import com.gomeltrans.ui.view.TransportBadgeView;
 
 import java.util.List;
 
@@ -37,7 +38,10 @@ public class TransportAdapter extends RecyclerView.Adapter<TransportAdapter.View
     public void onBindViewHolder(final ViewHolder vh, int position) {
         final Transport transport = buses.get(position);
 
-        vh.numberName.setText(transport.getNumberName());
+        //vh.numberName.setText(transport.getNumberName());
+        vh.badgeView.setNumberName(transport.getNumberName());
+        vh.badgeView.setTransportType(transport.getTypeNumber());
+
         vh.routeName.setText(transport.getRouteName());
 
         vh.imageFavFalse.setVisibility(transport.isFavourite() ? View.GONE : View.VISIBLE);
@@ -87,7 +91,8 @@ public class TransportAdapter extends RecyclerView.Adapter<TransportAdapter.View
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView numberName;
+        //public TextView numberName;
+        public TransportBadgeView badgeView;
         public TextView routeName;
         public ViewGroup blockItem;
         public ViewGroup blockFav;
@@ -97,7 +102,8 @@ public class TransportAdapter extends RecyclerView.Adapter<TransportAdapter.View
         public ViewHolder(View v) {
             super(v);
 
-            numberName = (TextView) v.findViewById(R.id.numberName);
+            //numberName = (TextView) v.findViewById(R.id.numberName);
+            badgeView = (TransportBadgeView) v.findViewById(R.id.transportBadge);
             routeName = (TextView) v.findViewById(R.id.routeName);
             blockItem = (ViewGroup) v.findViewById(R.id.blockItem);
             blockFav = (ViewGroup) v.findViewById(R.id.blockFav);
