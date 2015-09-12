@@ -99,4 +99,9 @@ public class Transport extends BaseBean {
     public void setTypeNumber(int typeNumber) {
         this.typeNumber = typeNumber;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        return o!= null && o instanceof Transport && this.getId() != null && this.getId().equals(((Transport)o).getId());
+    }
 }

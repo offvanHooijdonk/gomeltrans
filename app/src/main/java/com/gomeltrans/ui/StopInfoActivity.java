@@ -159,18 +159,24 @@ public class StopInfoActivity extends AppCompatActivity implements FavouriteActi
 
     private void displayUpcomingTable() {
         blockUpcomingTransport.removeAllViews();
+        int index = 0;
         for (final StopTable st : upcomingTransportTable) {
             ViewGroup v = (ViewGroup) LayoutInflater.from(that).inflate(R.layout.item_upcoming_transport_time, blockUpcomingTransport, false);
 
             TransportBadgeView badgeView = (TransportBadgeView) v.findViewById(R.id.blockBadge);
-            badgeView.setNumberName(st.getTransport().getNumberName());
-            badgeView.setTransportType(st.getTransport().getTypeNumber());
+            // if previous item is the same transport - do not show badge for that item
+            if (index > 0 && (st.getTransport().equals(upcomingTransportTable.get(index -1).getTransport()))) {
+                badgeView.setVisibility(View.GONE);
+            } else {
+                badgeView.setNumberName(st.getTransport().getNumberName());
+                badgeView.setTransportType(st.getTransport().getTypeNumber());
+            }
             ((TextView) v.findViewById(R.id.textNextTime)).setText(st.getTimeUpcoming());
 
-            if (st.getTransport().isFavourite()) {
+            /*if (st.getTransport().isFavourite()) {
                 v.findViewById(R.id.blockBackground).setBackgroundColor(AppHelper.applyAlphaToColor(that.getResources().getColor(R.color.fav_item_bckgr),
                         AppHelper.FAV_BACKGR_ALPHA));
-            }
+            }*/
 
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -179,6 +185,7 @@ public class StopInfoActivity extends AppCompatActivity implements FavouriteActi
                 }
             });
             blockUpcomingTransport.addView(v);
+            index++;
         }
     }
 

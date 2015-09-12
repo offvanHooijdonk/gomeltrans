@@ -25,8 +25,8 @@ import com.gomeltrans.helper.AppHelper;
 import com.gomeltrans.model.Stop;
 import com.gomeltrans.model.Transport;
 import com.gomeltrans.ui.actionbar.FavouriteFilterActionProvider;
-import com.gomeltrans.ui.lists.adapter.StopAdapter;
-import com.gomeltrans.ui.lists.adapter.TransportAdapter;
+import com.gomeltrans.ui.adapter.StopAdapter;
+import com.gomeltrans.ui.adapter.TransportAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

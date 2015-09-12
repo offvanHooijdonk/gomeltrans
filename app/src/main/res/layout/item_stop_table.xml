@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    android:id="@+id/blockItem"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:selectableItemBackground">
+
+    <RelativeLayout
+        android:id="@+id/blockBackground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/abc_list_item_padding_horizontal_material">
+
+            <com.gomeltrans.ui.view.TransportBadgeView
+                android:id="@+id/transportBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerInParent="true"
+                android:layout_marginEnd="@dimen/abc_list_item_padding_horizontal_material"
+                android:layout_marginLeft="@dimen/list_text_margin_start"
+                android:layout_marginRight="@dimen/abc_list_item_padding_horizontal_material"
+                android:layout_marginStart="@dimen/list_text_margin_start"
+                android:layout_toLeftOf="@+id/textNextTime"
+                android:layout_toStartOf="@id/textNextTime">
+
+                <TextView
+                    android:id="@+id/routeName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:text="Солнечная - Медгородок"
+                    android:textSize="16sp"/>
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/textNextTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="16:22"
+                android:textSize="16sp"/>
+        </RelativeLayout>
+</FrameLayout>

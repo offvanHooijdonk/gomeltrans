@@ -1,4 +1,4 @@
-package com.gomeltrans.ui.lists.adapter;
+package com.gomeltrans.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -21,11 +21,11 @@ import java.util.List;
  */
 public class TransportAdapter extends RecyclerView.Adapter<TransportAdapter.ViewHolder> {
     private Context ctx;
-    private List<Transport> buses;
+    private List<Transport> transportList;
 
-    public TransportAdapter(Context context, List<Transport> buses) {
+    public TransportAdapter(Context context, List<Transport> transportList) {
         this.ctx = context;
-        this.buses = buses;
+        this.transportList = transportList;
     }
 
     @Override
@@ -35,10 +35,9 @@ public class TransportAdapter extends RecyclerView.Adapter<TransportAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder vh, int position) {
-        final Transport transport = buses.get(position);
+    public void onBindViewHolder(final ViewHolder vh, final int position) {
+        final Transport transport = transportList.get(position);
 
-        //vh.numberName.setText(transport.getNumberName());
         vh.badgeView.setNumberName(transport.getNumberName());
         vh.badgeView.setTransportType(transport.getTypeNumber());
 
@@ -50,13 +49,13 @@ public class TransportAdapter extends RecyclerView.Adapter<TransportAdapter.View
         vh.imageFavFalse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setItemFavourite(transport, true, vh);
+                setItemFavourite(position, true, vh);
             }
         });
         vh.imageFavTrue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setItemFavourite(transport, false, vh);
+                setItemFavourite(position, false, vh);
             }
         });
 
@@ -72,26 +71,24 @@ public class TransportAdapter extends RecyclerView.Adapter<TransportAdapter.View
 
     @Override
     public int getItemCount() {
-        return buses.size();
+        return transportList.size();
     }
 
-    private void setItemFavourite(Transport transport, boolean favourite, ViewHolder vh) {
+    private void setItemFavourite(int position, boolean favourite, ViewHolder vh) {
+        Transport transport = transportList.get(position);
         TransportDao dao = new TransportDao(ctx);
         if (favourite) {
             dao.setFavourite(transport.getId(), true);
             transport.setFavourite(true);
-            vh.imageFavFalse.setVisibility(View.GONE);
-            vh.imageFavTrue.setVisibility(View.VISIBLE);
         } else {
             dao.setFavourite(transport.getId(), false);
             transport.setFavourite(false);
-            vh.imageFavFalse.setVisibility(View.VISIBLE);
-            vh.imageFavTrue.setVisibility(View.GONE);
         }
+
+        notifyItemChanged(position);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        //public TextView numberName;
         public TransportBadgeView badgeView;
         public TextView routeName;
         public ViewGroup blockItem;
@@ -102,7 +99,6 @@ public class TransportAdapter extends RecyclerView.Adapter<TransportAdapter.View
         public ViewHolder(View v) {
             super(v);
 
-            //numberName = (TextView) v.findViewById(R.id.numberName);
             badgeView = (TransportBadgeView) v.findViewById(R.id.transportBadge);
             routeName = (TextView) v.findViewById(R.id.routeName);
             blockItem = (ViewGroup) v.findViewById(R.id.blockItem);

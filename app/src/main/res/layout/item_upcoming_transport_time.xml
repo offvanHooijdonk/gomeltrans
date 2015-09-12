@@ -12,10 +12,17 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/list_padding_vertical">
 
+        <View
+            android:layout_width="0dp"
+            android:layout_height="@dimen/badgeIcon_small"
+            android:visibility="invisible"/>
+
         <com.gomeltrans.ui.view.TransportBadgeView
             android:id="@+id/blockBadge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/list_padding_vertical"
+            android:layout_marginEnd="@dimen/list_padding_vertical"
             app:iconSize="@dimen/badgeIcon_small"
             app:textSize="@dimen/badgeText_small"/>
 
@@ -24,8 +31,6 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/blockBadge"
             android:layout_toEndOf="@id/blockBadge"
-            android:layout_marginLeft="@dimen/list_padding_vertical"
-            android:layout_marginStart="@dimen/list_padding_vertical"
             android:layout_centerVertical="true">
 
             <TextView

@@ -17,7 +17,7 @@ import com.gomeltrans.data.dao.TransportDao;
 import com.gomeltrans.model.Transport;
 import com.gomeltrans.model.TransportStops;
 import com.gomeltrans.ui.TransportInfoActivity;
-import com.gomeltrans.ui.lists.adapter.TransportStopAdapter;
+import com.gomeltrans.ui.adapter.TransportStopAdapter;
 
 import java.util.ArrayList;
 import java.util.Date;

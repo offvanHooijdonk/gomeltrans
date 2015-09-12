@@ -1,4 +1,4 @@
-package com.gomeltrans.ui.lists.adapter;
+package com.gomeltrans.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -41,7 +41,7 @@ public class StopAdapter extends RecyclerView.Adapter<StopAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder vh, int position) {
+    public void onBindViewHolder(final ViewHolder vh, final int position) {
         final Stop stop = stops.get(position);
 
         if (!TextUtils.isEmpty(searchText)) {
@@ -63,13 +63,13 @@ public class StopAdapter extends RecyclerView.Adapter<StopAdapter.ViewHolder> {
         vh.imageFavFalse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setItemFavourite(stop, true, vh);
+                setItemFavourite(position, true, vh);
             }
         });
         vh.imageFavTrue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setItemFavourite(stop, false, vh);
+                setItemFavourite(position, false, vh);
             }
         });
 
@@ -88,19 +88,18 @@ public class StopAdapter extends RecyclerView.Adapter<StopAdapter.ViewHolder> {
         return stops.size();
     }
 
-    private void setItemFavourite(Stop stop, boolean favourite, ViewHolder vh) {
+    private void setItemFavourite(int position, boolean favourite, ViewHolder vh) {
+        Stop stop = stops.get(position);
         StopsDao dao = new StopsDao(ctx);
         if (favourite) {
             dao.setFavourite(stop.getId(), true);
             stop.setFavourite(true);
-            vh.imageFavFalse.setVisibility(View.GONE);
-            vh.imageFavTrue.setVisibility(View.VISIBLE);
         } else {
             dao.setFavourite(stop.getId(), false);
             stop.setFavourite(false);
-            vh.imageFavFalse.setVisibility(View.VISIBLE);
-            vh.imageFavTrue.setVisibility(View.GONE);
         }
+
+        notifyItemChanged(position);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
