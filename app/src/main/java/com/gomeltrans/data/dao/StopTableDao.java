@@ -53,16 +53,16 @@ public class StopTableDao {
         String nextTime;
 
         String[] params;
-        String timeFromShifted = DBHelper.shiftTimeForDB(Constants.getDBTimeFormat().format(timeFrom));
+        String timeFromShifted = DBHelper.codeTimeForDB(Constants.getDBTimeFormat().format(timeFrom));
         if (minutes != null) {
             Calendar calendarTo = Calendar.getInstance();
             calendarTo.setTime(timeFrom);
             calendarTo.add(Calendar.MINUTE, minutes);
 
-            params = new String[]{String.valueOf(transportId), String.valueOf(stopId), DBHelper.shiftTimeForDB(timeFromShifted),
-                    DBHelper.shiftTimeForDB(Constants.getDBTimeFormat().format(calendarTo.getTime())), String.valueOf(dayType)};
+            params = new String[]{String.valueOf(transportId), String.valueOf(stopId), DBHelper.codeTimeForDB(timeFromShifted),
+                    DBHelper.codeTimeForDB(Constants.getDBTimeFormat().format(calendarTo.getTime())), String.valueOf(dayType)};
         } else {
-            params = new String[]{String.valueOf(transportId), String.valueOf(stopId), DBHelper.shiftTimeForDB(timeFromShifted), String.valueOf(dayType)};
+            params = new String[]{String.valueOf(transportId), String.valueOf(stopId), DBHelper.codeTimeForDB(timeFromShifted), String.valueOf(dayType)};
         }
         // FIXME possible bug with transport day roll on 5 AM
         Cursor cursor = db.query(true, StopTable.TABLE, new String[]{"MIN(" + StopTable.TIME + ")"},
@@ -73,7 +73,7 @@ public class StopTableDao {
                 params, null, null, null, null);
 
         if (cursor.moveToFirst()) {
-            nextTime = DBHelper.unshiftTimeFromDB(cursor.getString(0));
+            nextTime = DBHelper.decodeTimeFromDB(cursor.getString(0));
         } else {
             nextTime = null;
         }
@@ -92,7 +92,7 @@ public class StopTableDao {
                 new String[]{String.valueOf(transportId), String.valueOf(stopId), String.valueOf(dayTypeCode)}, null, null, "CAST(" + StopTable.TIME + " as integer)", "1");
 
         if (cursor.moveToFirst()) {
-            nextTime = DBHelper.unshiftTimeFromDB(cursor.getString(0));
+            nextTime = DBHelper.decodeTimeFromDB(cursor.getString(0));
         } else {
             nextTime = null;
         }
@@ -105,7 +105,7 @@ public class StopTableDao {
         ContentValues cv = new ContentValues();
         cv.put(StopTable.TRANSPORT_ID, transportId);
         cv.put(StopTable.STOP_ID, stopId);
-        cv.put(StopTable.TIME, DBHelper.shiftTimeForDB(time));
+        cv.put(StopTable.TIME, DBHelper.codeTimeForDB(time));
         cv.put(StopTable.DAY_TYPE_CODE, dayType);
 
         db.insert(StopTable.TABLE, null, cv);

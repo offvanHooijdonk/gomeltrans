@@ -10,12 +10,10 @@
         android:id="@+id/blockBackground"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="@dimen/list_padding_vertical">
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="@dimen/badgeIcon_small"
-            android:visibility="invisible"/>
+        android:paddingLeft="@dimen/list_padding_vertical"
+        android:paddingRight="@dimen/list_padding_vertical"
+        android:paddingBottom="@dimen/time_list_padding_vertical"
+        android:paddingTop="@dimen/time_list_padding_vertical">
 
         <com.gomeltrans.ui.view.TransportBadgeView
             android:id="@+id/blockBadge"
@@ -25,6 +23,11 @@
             android:layout_marginEnd="@dimen/list_padding_vertical"
             app:iconSize="@dimen/badgeIcon_small"
             app:textSize="@dimen/badgeText_small"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="@dimen/badgeIcon_small"
+            android:visibility="invisible"/>
 
         <FrameLayout
             android:layout_width="wrap_content"

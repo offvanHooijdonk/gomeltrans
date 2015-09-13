@@ -35,6 +35,40 @@
     ]
   },
   {
+    "id": 14,
+    "number": "16",
+    "typeNumber": 0,
+    "routeName": "Медгородок - м-р Клёнковский",
+    "stopsForward": [
+      5,
+      2,
+      9
+    ],
+    "stopsBackward": [
+      20,
+      23,
+      26,
+      25
+    ]
+  },
+  {
+    "id": 33,
+    "number": "33",
+    "typeNumber": 0,
+    "routeName": "Медгородок - м-р Клёнковский",
+    "stopsForward": [
+      5,
+      2,
+      9
+    ],
+    "stopsBackward": [
+      20,
+      23,
+      26,
+      25
+    ]
+  },
+  {
     "id": 3,
     "number": "1",
     "typeNumber": 0,

@@ -15,4 +15,5 @@
     <dimen name="badgeIcon_small">28dp</dimen>
     <dimen name="badgeText_medium">18sp</dimen>
     <dimen name="badgeText_small">14sp</dimen>
+    <dimen name="time_list_padding_vertical">4dp</dimen>
 </resources>

@@ -21,6 +21,7 @@ import com.gomeltrans.data.ReloadDataBean;
 import com.gomeltrans.data.ScheduleHelper;
 import com.gomeltrans.helper.AppHelper;
 import com.gomeltrans.helper.IntentsHelper;
+import com.gomeltrans.helper.NotificationsUtil;
 import com.gomeltrans.ui.lists.TabbedListsFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ReloadDataBean.OnReloadFinishedListener {
@@ -161,6 +162,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (fragmentCurrent != null && (fragmentCurrent instanceof TabbedListsFragment)) {
             ((TabbedListsFragment) fragmentCurrent).refreshLists();
         }
+
+        /*NotificationsUtil notificationsUtil = new NotificationsUtil(that);
+        notificationsUtil.notifyUpdateIfEnabled();*/
     }
 
     private void startDataUpdate() {

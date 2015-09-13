@@ -20,6 +20,7 @@ import java.util.List;
  */
 public class DBHelper extends SQLiteOpenHelper {
     public static final String WILDCARD_MULT = "%";
+    public  static final String DELIMITER_TIME = ":";
 
     private static final String DB_NAME = "gomeltrans";
     private static final int DB_VERSION = 7;
@@ -95,10 +96,10 @@ public class DBHelper extends SQLiteOpenHelper {
         return array;
     }
 
-    public static String shiftTimeForDB(String timeString) {
+    public static String codeTimeForDB(String timeString) {
         String res;
         if (!TextUtils.isEmpty(timeString)) {
-            String[] timeSplit = timeString.split(StopTable.DELIMITER_TIME);
+            String[] timeSplit = timeString.split(DELIMITER_TIME);
             String hourString = timeSplit[0];
             int hour = Integer.valueOf(hourString);
             if (hour >= StopTable.HOUR_SHIFT_START_WITH && hour <= StopTable.HOUR_SHIFT_END_WITH) {
@@ -109,25 +110,33 @@ public class DBHelper extends SQLiteOpenHelper {
             } else {
                 res = timeString;
             }
+            res = res.replace(DELIMITER_TIME, "");
+            if (res.length() == 3) {
+                res = String.format("0%s", res);
+            }
         } else {
             res = null;
         }
         return res;
     }
 
-    public static String unshiftTimeFromDB(String timeDB) {
+    public static String decodeTimeFromDB(String timeDB) {
         String res;
         if (!TextUtils.isEmpty(timeDB)) {
-            String[] timeSplit = timeDB.split(StopTable.DELIMITER_TIME);
+            String timeDecoded = timeDB.substring(0, 2) + DELIMITER_TIME + timeDB.substring(2);
+            if (timeDecoded.startsWith("0")) {
+                timeDecoded = timeDecoded.substring(1);
+            }
+            String[] timeSplit = timeDecoded.split(DELIMITER_TIME);
             String hourString = timeSplit[0];
             int hour = Integer.valueOf(hourString);
 
             if (hour >= (StopTable.HOUR_SHIFT_START_WITH + StopTable.HOUR_SHIFT_BY)) {
                 hour = hour - StopTable.HOUR_SHIFT_BY;
 
-                res = timeDB.replaceFirst(timeSplit[0], String.valueOf(hour));
+                res = timeDecoded.replaceFirst(timeSplit[0], String.valueOf(hour));
             } else {
-                res = timeDB;
+                res = timeDecoded;
             }
         } else {
             res = null;

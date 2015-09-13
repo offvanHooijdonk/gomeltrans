@@ -38,12 +38,12 @@ public class StopService {
         Calendar calendarTo = Calendar.getInstance();
         calendarTo.setTime(dateFrom);
         calendarTo.add(Calendar.MINUTE, minutes);
-
+// TODO need to order by transport name also
         Cursor cursor = db.query(StopTable.TABLE, null, StopTable.STOP_ID + "=? AND " + StopTable.DAY_TYPE_CODE + "=? AND " +
                         "CAST(" + StopTable.TIME + " as integer)>=CAST(? as integer) AND " +
                         "CAST(" + StopTable.TIME + " as integer)<=CAST(? as integer)",
                 new String[]{String.valueOf(stop.getId()), String.valueOf(queryDayType.getCode()),
-                        DBHelper.shiftTimeForDB(Constants.getDBTimeFormat().format(dateFrom)), DBHelper.shiftTimeForDB(Constants.getDBTimeFormat().format(calendarTo.getTime()))},
+                        DBHelper.codeTimeForDB(Constants.getDBTimeFormat().format(dateFrom)), DBHelper.codeTimeForDB(Constants.getDBTimeFormat().format(calendarTo.getTime()))},
                 null, null, "CAST(" + StopTable.TIME + " as integer)");
 
         while (cursor.moveToNext()) {
@@ -52,7 +52,7 @@ public class StopService {
             table.setId(cursor.getLong(cursor.getColumnIndex(StopTable.ID)));
             Long transportId = cursor.getLong(cursor.getColumnIndex(StopTable.TRANSPORT_ID));
             table.setTransport(transportDao.getById(transportId));
-            table.setTimeUpcoming(DBHelper.unshiftTimeFromDB(cursor.getString(cursor.getColumnIndex(StopTable.TIME))));
+            table.setTimeUpcoming(DBHelper.decodeTimeFromDB(cursor.getString(cursor.getColumnIndex(StopTable.TIME))));
 
             stopTableList.add(table);
         }

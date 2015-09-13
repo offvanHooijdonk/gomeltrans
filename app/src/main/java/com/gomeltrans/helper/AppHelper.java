@@ -26,7 +26,7 @@ import java.util.Locale;
 public class AppHelper {
     public static final int SEARCH_STOP_START_LETTERS_COUNT = 2;
     public static final float FAV_BACKGR_ALPHA = 0.2f;
-    public static final int TABLE_UPCOMING_MINUTES =240;
+    public static final int TABLE_UPCOMING_MINUTES =90;
 
     private static final String DAY_INFO_DELIMITER = ", ";
 
@@ -44,9 +44,9 @@ public class AppHelper {
         if (dayType == null) {
             if (datePicked == null) {
                 Calendar now = Calendar.getInstance();
-                Date nowDate = StopTable.getDateWithShift(now);
-                str.append(ctx.getString(R.string.info_today)).append(DAY_INFO_DELIMITER).append(SimpleDateFormat.getDateInstance(DateFormat.MEDIUM).format(nowDate));
-                dt = StopTable.getDayType(nowDate);
+                Date todayWithShift = StopTable.getDateWithShift(now);
+                str.append(ctx.getString(R.string.info_today)).append(DAY_INFO_DELIMITER).append(SimpleDateFormat.getDateInstance(DateFormat.MEDIUM).format(todayWithShift));
+                dt = StopTable.getDayType(now.getTime());
             } else {
                 str.append(SimpleDateFormat.getDateInstance(DateFormat.MEDIUM).format(datePicked));
                 dt = StopTable.getDayType(datePicked);

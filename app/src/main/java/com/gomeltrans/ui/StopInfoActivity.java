@@ -25,8 +25,6 @@ import com.gomeltrans.model.StopTable;
 import com.gomeltrans.ui.actionbar.FavouriteActionProvider;
 import com.gomeltrans.ui.view.TransportBadgeView;
 
-import org.apmem.tools.layouts.FlowLayout;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -43,7 +41,7 @@ public class StopInfoActivity extends AppCompatActivity implements FavouriteActi
     private Toolbar toolbar;
     private Menu optionsMenu;
     private CoordinatorLayout coordinatorLayout;
-    private FlowLayout blockUpcomingTransport;
+    private com.wefika.flowlayout.FlowLayout blockUpcomingTransport;
 
     private StopInfoActivity that;
     private StopsDao stopsDao;
@@ -74,7 +72,7 @@ public class StopInfoActivity extends AppCompatActivity implements FavouriteActi
                 getSupportActionBar().setSubtitle(stopBean.getComment());
 
                 coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinator);
-                blockUpcomingTransport = (FlowLayout) findViewById(R.id.blockUpcomingTransport);
+                blockUpcomingTransport = (com.wefika.flowlayout.FlowLayout) findViewById(R.id.blockUpcomingTransport);
 
                 //transportDao = new TransportDao(that);
                 stopService = new StopService(that);
@@ -151,8 +149,22 @@ public class StopInfoActivity extends AppCompatActivity implements FavouriteActi
     }
 
     private void updateUpcomingTransport() {
+        Date dateQuery = new Date();
+        if (datePicked != null) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(dateQuery);
+
+            Calendar calendarPicked = Calendar.getInstance();
+            calendarPicked.setTime(datePicked);
+
+            calendar.set(Calendar.YEAR, calendarPicked.get(Calendar.YEAR));
+            calendar.set(Calendar.MONTH, calendarPicked.get(Calendar.MONTH));
+            calendar.set(Calendar.DAY_OF_MONTH, calendarPicked.get(Calendar.DAY_OF_MONTH));
+
+            dateQuery = calendar.getTime();
+        }
         upcomingTransportTable.clear();
-        upcomingTransportTable.addAll(stopService.getUpcomingTransport(stopBean, new Date(), AppHelper.TABLE_UPCOMING_MINUTES, null));
+        upcomingTransportTable.addAll(stopService.getUpcomingTransport(stopBean, dateQuery, AppHelper.TABLE_UPCOMING_MINUTES, dayType));
 
         displayUpcomingTable();
     }
@@ -190,6 +202,7 @@ public class StopInfoActivity extends AppCompatActivity implements FavouriteActi
     }
 
     private void onDayTypeChange() {
+        updateUpcomingTransport();
         //refreshLists();
         updateDayInfo();
     }

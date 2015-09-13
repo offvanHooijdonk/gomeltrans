@@ -35,19 +35,25 @@ public class NotificationsUtil {
 
     public void showUpdatedSuccess() {
         // TODO date the data actual for will be a parameter
+
+        String title = ctx.getString(R.string.notif_updated_title);
+        String message = ctx.getString(R.string.notif_updated_text, SimpleDateFormat.getDateInstance(DateFormat.MEDIUM).format(new Date()));
+
+        NotificationCompat.BigTextStyle bigTextStyle = new NotificationCompat.BigTextStyle()
+                .setBigContentTitle(title).bigText(message);
+
         NotificationCompat.Builder builder = new NotificationCompat.Builder(ctx).setContentTitle(ctx.getString(R.string.notif_updated_title))
-                .setContentText(ctx.getString(R.string.notif_updated_text, SimpleDateFormat.getDateInstance(DateFormat.MEDIUM).format(new Date())))
+                .setContentText(message)
+                .setStyle(bigTextStyle)
                 .setTicker(ctx.getString(R.string.notif_updated_title))
                 .setSmallIcon(R.drawable.ic_refresh_white_24dp)
                 .setLargeIcon(AppHelper.bitmapFromResource(ctx, R.mipmap.ic_launcher))
-                .setAutoCancel(true);
+                .setAutoCancel(true)
+                .setShowWhen(true)
+                .setColor(ctx.getResources().getColor(R.color.app_primary));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             builder.setPriority(Notification.PRIORITY_LOW);
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder.setColor(ctx.getResources().getColor(R.color.app_primary));
         }
 
         manager.notify(UPDATED_ID, builder.build());
