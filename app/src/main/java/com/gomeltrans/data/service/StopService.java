@@ -6,9 +6,12 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.gomeltrans.Constants;
 import com.gomeltrans.data.dao.DBHelper;
+import com.gomeltrans.data.dao.StopTableDao;
+import com.gomeltrans.data.dao.StopsDao;
 import com.gomeltrans.data.dao.TransportDao;
 import com.gomeltrans.model.Stop;
 import com.gomeltrans.model.StopTable;
+import com.gomeltrans.model.Transport;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -57,6 +60,24 @@ public class StopService {
             stopTableList.add(table);
         }
         cursor.close();
+
+        return stopTableList;
+    }
+
+    public List<StopTable> getStopTransportWithUpcomingTime(Stop stop, Date dateFrom, StopTable.DAY_TYPE dayType) {
+        List<StopTable> stopTableList = new ArrayList<>();
+        StopsDao stopsDao = new StopsDao(ctx);
+        List<Transport> transportList = stopsDao.getStopTransportList(stop);
+
+        StopTableDao stopTableDao = new StopTableDao(ctx);
+        for (Transport tr : transportList) {
+            StopTable table = new StopTable();
+            table.setTransport(tr);
+            String time = stopTableDao.getNextTimeThisDay(tr.getId(), stop.getId(), dateFrom, null, dayType.getCode());
+            table.setTimeUpcoming(time);
+
+            stopTableList.add(table);
+        }
 
         return stopTableList;
     }

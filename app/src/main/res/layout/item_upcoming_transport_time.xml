@@ -10,16 +10,48 @@
         android:id="@+id/blockBackground"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/list_padding_vertical"
-        android:paddingRight="@dimen/list_padding_vertical"
         android:paddingBottom="@dimen/time_list_padding_vertical"
+        android:paddingEnd="@dimen/list_padding_vertical"
+        android:paddingStart="@dimen/list_padding_vertical"
         android:paddingTop="@dimen/time_list_padding_vertical">
 
-        <com.gomeltrans.ui.view.TransportBadgeView
-            android:id="@+id/blockBadge"
+        <FrameLayout
+            android:id="@+id/blockNumberName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/list_padding_vertical"
+            android:layout_marginEnd="@dimen/list_padding_vertical">
+
+            <TextView
+                android:id="@+id/textNumberNameBus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="17"
+                android:textColor="@color/transport_badge_bus"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:id="@+id/textNumberNameTrolley"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="17"
+                android:textColor="@color/transport_badge_trolley"
+                android:textSize="14sp"/>
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/textNextTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/blockNumberName"
+            android:layout_toEndOf="@id/blockNumberName"
+            android:text="12:35"
+            android:textSize="14sp"/>
+
+        <!--<com.gomeltrans.ui.view.TransportBadgeView
+            android:id="@+id/blockBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/list_padding_vertical"
             app:iconSize="@dimen/badgeIcon_small"
             app:textSize="@dimen/badgeText_small"/>
@@ -27,12 +59,11 @@
         <View
             android:layout_width="0dp"
             android:layout_height="@dimen/badgeIcon_small"
-            android:visibility="invisible"/>
+            android:visibility="invisible"/>-->
 
-        <FrameLayout
+        <!--<FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/blockBadge"
             android:layout_toEndOf="@id/blockBadge"
             android:layout_centerVertical="true">
 
@@ -42,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:text="12:35"
                 android:textSize="14sp"/>
-        </FrameLayout>
+        </FrameLayout>-->
 
     </RelativeLayout>
 
