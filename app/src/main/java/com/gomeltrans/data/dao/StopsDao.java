@@ -7,8 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
 
 import com.gomeltrans.model.Stop;
-import com.gomeltrans.model.StopTable;
 import com.gomeltrans.model.Transport;
+import com.gomeltrans.model.TransportStops;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -151,11 +151,11 @@ public class StopsDao {
         List<Transport> list = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        Cursor cursor = db.query(true, StopTable.TABLE, null, StopTable.STOP_ID + " = ?", new String[]{String.valueOf(stop.getId())}, null, null, null, null);
+        Cursor cursor = db.query(true, TransportStops.TABLE, null, TransportStops.STOP_ID + " = ?", new String[]{String.valueOf(stop.getId())}, null, null, null, null);
 
         TransportDao transportDao = new TransportDao(ctx);
         while (cursor.moveToNext()) {
-            Long transportId = cursor.getLong(cursor.getColumnIndex(StopTable.TRANSPORT_ID));
+            Long transportId = cursor.getLong(cursor.getColumnIndex(TransportStops.TRANSPORT_ID));
             Transport t = transportDao.getById(transportId);
             list.add(t);
         }

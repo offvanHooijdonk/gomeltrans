@@ -10,15 +10,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v4.widget.NestedScrollView
+        <!--<android.support.v4.widget.NestedScrollView
             android:id="@+id/blockForm"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
                 <LinearLayout
                     android:id="@+id/blockUpcomingContainer"
@@ -29,14 +30,6 @@
                     android:paddingLeft="@dimen/activity_horizontal_margin"
                     android:paddingRight="@dimen/activity_horizontal_margin"
                     android:paddingStart="@dimen/activity_horizontal_margin">
-
-                    <!--<org.apmem.tools.layouts.FlowLayout
-                        android:id="@+id/blockUpcomingTransport"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:padding="@dimen/activity_horizontal_margin"/>-->
 
                     <com.wefika.flowlayout.FlowLayout
                         android:id="@+id/blockUpcomingTransport"
@@ -57,10 +50,12 @@
                     android:id="@+id/recyclerList"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_below="@id/blockUpcomingContainer"/>
+
+                    android:layout_below="@id/blockUpcomingContainer"
+                    />
             </RelativeLayout>
 
-        </android.support.v4.widget.NestedScrollView>
+        <!--</android.support.v4.widget.NestedScrollView>-->
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"

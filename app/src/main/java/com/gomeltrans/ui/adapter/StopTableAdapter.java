@@ -27,8 +27,8 @@ public class StopTableAdapter extends RecyclerView.Adapter<StopTableAdapter.View
     }
 
     @Override
-    public StopTableAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(ctx).inflate(R.layout.item_stop_table, parent);
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(ctx).inflate(R.layout.item_stop_table, parent, false);
         return new ViewHolder(v);
     }
 
