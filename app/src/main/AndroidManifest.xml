@@ -28,6 +28,11 @@
         </activity>
 
         <activity
+            android:name=".ui.StopTransportTableActivity"
+            android:label="@string/table_title">
+        </activity>
+
+        <activity
             android:name=".ui.preferences.PreferenceActivity"
             android:label="@string/action_settings"
             android:parentActivityName=".ui.MainActivity"

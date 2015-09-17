@@ -38,8 +38,7 @@ public class StopTable extends BaseBean {
         }
     }
 
-    ;
-
+    private Stop stop;
     @Expose
     private Transport transport;
     @Expose
@@ -77,6 +76,14 @@ public class StopTable extends BaseBean {
 
     public int getDayTypeCode() {
         return dayTypeCode;
+    }
+
+    public Stop getStop() {
+        return stop;
+    }
+
+    public void setStop(Stop stop) {
+        this.stop = stop;
     }
 
     public void setDayTypeCode(int dayTypeCode) {

@@ -72,6 +72,7 @@ public class StopService {
         StopTableDao stopTableDao = new StopTableDao(ctx);
         for (Transport tr : transportList) {
             StopTable table = new StopTable();
+            table.setStop(stop);
             table.setTransport(tr);
             String time = stopTableDao.getNextTimeThisDay(tr.getId(), stop.getId(), dateFrom, null, dayType.getCode());
             table.setTimeUpcoming(time);

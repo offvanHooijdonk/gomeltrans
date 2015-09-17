@@ -51,6 +51,7 @@
     <string name="pref_show_update_notification_summary">Show notification when timetable has been updated in background</string>
     <string name="notif_updated_title">Timetable updated</string>
     <string name="notif_updated_text">Timetable actual for %s</string>
+    <string name="table_title">Schedule</string>
     <string-array name="pref_check_update_rate_entries">
         <item>1h</item>
         <item>3h</item>

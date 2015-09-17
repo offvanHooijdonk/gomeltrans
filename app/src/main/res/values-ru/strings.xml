@@ -48,4 +48,5 @@
     <string name="pref_category_interface_title">Интерфейс</string>
     <string name="pref_show_update_notification_title">Показывать оповещение об обновлении</string>
     <string name="pref_show_update_notification_summary">Показывать оповещение когда расписание было обновлено в фоне</string>
+    <string name="table_title">Расписание</string>
 </resources>

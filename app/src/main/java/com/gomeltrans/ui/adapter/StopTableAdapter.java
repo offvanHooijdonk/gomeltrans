@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.gomeltrans.R;
+import com.gomeltrans.helper.AppHelper;
+import com.gomeltrans.helper.IntentsHelper;
 import com.gomeltrans.model.StopTable;
 import com.gomeltrans.ui.view.TransportBadgeView;
 
@@ -34,12 +36,23 @@ public class StopTableAdapter extends RecyclerView.Adapter<StopTableAdapter.View
 
     @Override
     public void onBindViewHolder(StopTableAdapter.ViewHolder vh, int position) {
-        StopTable st = stopTableList.get(position);
+        final StopTable st = stopTableList.get(position);
         vh.badgeView.setTransportType(st.getTransport().getTypeNumber());
         vh.badgeView.setNumberName(st.getTransport().getNumberName());
 
         vh.textRouteName.setText(st.getTransport().getRouteName());
         vh.textNextTime.setText(st.getTimeUpcoming());
+
+        if (st.getTransport().isFavourite()) {
+            vh.blockBackground.setBackgroundColor(AppHelper.applyAlphaToColor(ctx.getResources().getColor(R.color.fav_item_bckgr), AppHelper.FAV_BACKGR_ALPHA));
+        }
+
+        vh.blockItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IntentsHelper.startStopTransportTable(ctx, st.getStop().getId(), st.getTransport().getId());
+            }
+        });
     }
 
     @Override
@@ -48,7 +61,8 @@ public class StopTableAdapter extends RecyclerView.Adapter<StopTableAdapter.View
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-
+        ViewGroup blockItem;
+        ViewGroup blockBackground;
         TransportBadgeView badgeView;
         TextView textRouteName;
         TextView textNextTime;
@@ -56,6 +70,8 @@ public class StopTableAdapter extends RecyclerView.Adapter<StopTableAdapter.View
         public ViewHolder(View v) {
             super(v);
 
+            blockItem = (ViewGroup) v.findViewById(R.id.blockItem);
+            blockBackground = (ViewGroup) v.findViewById(R.id.blockBackground);
             badgeView = (TransportBadgeView) v.findViewById(R.id.transportBadge);
             textRouteName = (TextView) v.findViewById(R.id.routeName);
             textNextTime = (TextView) v.findViewById(R.id.textNextTime);

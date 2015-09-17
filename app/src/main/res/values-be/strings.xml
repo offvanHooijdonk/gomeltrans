@@ -46,4 +46,5 @@
     <string name="pref_category_interface_title">Iнтэрфейс</string>
     <string name="pref_show_update_notification_title">Паказваць абвестку аб абнаўленні</string>
     <string name="pref_show_update_notification_summary">Паказваць абвестку калi расклад быў абноўлены ў фоне</string>
+    <string name="table_title">Расклад</string>
 </resources>
