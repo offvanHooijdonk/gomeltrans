@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/time_list_padding_vertical"
+    android:layout_marginStart="@dimen/time_list_padding_vertical"
+    android:layout_marginRight="@dimen/time_list_padding_vertical"
+    android:layout_marginEnd="@dimen/time_list_padding_vertical">
+
+    <TextView
+        android:id="@+id/textMinute"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</FrameLayout>

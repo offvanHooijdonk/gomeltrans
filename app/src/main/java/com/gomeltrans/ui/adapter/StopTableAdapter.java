@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.gomeltrans.R;
 import com.gomeltrans.helper.AppHelper;
-import com.gomeltrans.helper.IntentsHelper;
 import com.gomeltrans.model.StopTable;
 import com.gomeltrans.ui.view.TransportBadgeView;
 
@@ -22,10 +21,15 @@ public class StopTableAdapter extends RecyclerView.Adapter<StopTableAdapter.View
 
     private Context ctx;
     private List<StopTable> stopTableList;
+    private OnItemSelected listener;
 
     public StopTableAdapter(Context context, List<StopTable> stopTableList) {
         this.ctx = context;
         this.stopTableList = stopTableList;
+    }
+
+    public void setListener(OnItemSelected listener) {
+        this.listener = listener;
     }
 
     @Override
@@ -45,12 +49,16 @@ public class StopTableAdapter extends RecyclerView.Adapter<StopTableAdapter.View
 
         if (st.getTransport().isFavourite()) {
             vh.blockBackground.setBackgroundColor(AppHelper.applyAlphaToColor(ctx.getResources().getColor(R.color.fav_item_bckgr), AppHelper.FAV_BACKGR_ALPHA));
+        } else {
+            vh.blockBackground.setBackgroundColor(ctx.getResources().getColor(android.R.color.transparent));
         }
 
         vh.blockItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                IntentsHelper.startStopTransportTable(ctx, st.getStop().getId(), st.getTransport().getId());
+                if (listener != null) {
+                    listener.onStopScheduleSelected(st.getTransport().getId());
+                }
             }
         });
     }
@@ -76,5 +84,9 @@ public class StopTableAdapter extends RecyclerView.Adapter<StopTableAdapter.View
             textRouteName = (TextView) v.findViewById(R.id.routeName);
             textNextTime = (TextView) v.findViewById(R.id.textNextTime);
         }
+    }
+
+    public interface OnItemSelected {
+        void onStopScheduleSelected(Long transportId);
     }
 }

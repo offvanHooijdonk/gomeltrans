@@ -36,6 +36,16 @@ public class StopTable extends BaseBean {
         public int getCode() {
             return code;
         }
+
+        public static DAY_TYPE create(int num) {
+            if (num == WORKING.getCode()) {
+                return WORKING;
+            } else if (num == WEEKEND.getCode()) {
+                return WEEKEND;
+            } else {
+                return WORKING;
+            }
+        }
     }
 
     private Stop stop;

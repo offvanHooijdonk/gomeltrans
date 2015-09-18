@@ -22,6 +22,7 @@ import com.gomeltrans.R;
 import com.gomeltrans.data.dao.StopsDao;
 import com.gomeltrans.data.service.StopService;
 import com.gomeltrans.helper.AppHelper;
+import com.gomeltrans.helper.IntentsHelper;
 import com.gomeltrans.model.Stop;
 import com.gomeltrans.model.StopTable;
 import com.gomeltrans.model.Transport;
@@ -38,7 +39,7 @@ import java.util.List;
 /**
  * Created by Yahor_Fralou on 8/31/2015.
  */
-public class StopInfoActivity extends AppCompatActivity implements FavouriteActionProvider.ToggleListener, DatePickerDialog.OnDateSetListener {
+public class StopInfoActivity extends AppCompatActivity implements FavouriteActionProvider.ToggleListener, DatePickerDialog.OnDateSetListener, StopTableAdapter.OnItemSelected {
     public static final String EXTRA_STOP_ID = "extra_stop_id";
 
     private Toolbar toolbar;
@@ -82,6 +83,7 @@ public class StopInfoActivity extends AppCompatActivity implements FavouriteActi
                 recyclerView = (RecyclerView) findViewById(R.id.recyclerList);
                 recyclerView.setLayoutManager(new LinearLayoutManager(that));
                 stopTableAdapter = new StopTableAdapter(that, transportTableList);
+                stopTableAdapter.setListener(that);
                 recyclerView.setAdapter(stopTableAdapter);
 
                 //transportDao = new TransportDao(that);
@@ -259,5 +261,10 @@ public class StopInfoActivity extends AppCompatActivity implements FavouriteActi
     @Override
     public void onFavTogglerStateChanged(boolean newValue) {
         stopsDao.setFavourite(stopBean.getId(), newValue);
+    }
+
+    @Override
+    public void onStopScheduleSelected(Long transportId) {
+        IntentsHelper.startStopTransportSchedule(that, stopBean.getId(), transportId, datePicked, dayType);
     }
 }

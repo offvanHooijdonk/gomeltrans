@@ -9,8 +9,10 @@ import com.gomeltrans.Constants;
 import com.gomeltrans.model.Stop;
 import com.gomeltrans.model.StopTable;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Yahor_Fralou on 8/28/2015.
@@ -99,6 +101,22 @@ public class StopTableDao {
         cursor.close();
 
         return nextTime;
+    }
+
+    public List<String> getTimeSchedule(Long stopId, Long transportId, int dayTypeCode) {
+        List<String> timeList = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        Cursor cursor = db.query(StopTable.TABLE, null, StopTable.TRANSPORT_ID + " = ? AND " + StopTable.STOP_ID + " = ? AND " + StopTable.DAY_TYPE_CODE + " = ? ",
+                new String[]{String.valueOf(transportId), String.valueOf(stopId), String.valueOf(dayTypeCode)}, null, null,
+                "CAST(" + StopTable.TIME + " as integer)");
+
+        while (cursor.moveToNext()) {
+            String time = DBHelper.decodeTimeFromDB(cursor.getString(cursor.getColumnIndex(StopTable.TIME)));
+            timeList.add(time);
+        }
+        cursor.close();
+        return timeList;
     }
 
     private void saveTransportStopTime(SQLiteDatabase db, Long transportId, Long stopId, String time, int dayType) {
