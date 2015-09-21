@@ -31,6 +31,8 @@ import com.gomeltrans.ui.adapter.TransportAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import xyz.danoz.recyclerviewfastscroller.vertical.VerticalRecyclerViewFastScroller;
+
 /**
  * Created by Yahor_Fralou on 8/25/2015.
  */
@@ -92,6 +94,13 @@ public class ItemsListFragment extends Fragment implements FavouriteFilterAction
 
             transportAdapter = new TransportAdapter(ctx, transportList);
             recyclerList.setAdapter(transportAdapter);
+
+            VerticalRecyclerViewFastScroller fastScroller = (VerticalRecyclerViewFastScroller) v.findViewById(R.id.fast_scroller);
+            // Connect the recycler to the scroller (to let the scroller scroll the list)
+            fastScroller.setRecyclerView(recyclerList);
+            // Connect the scroller to the recycler (to let the recycler scroll the scroller's handle)
+            recyclerList.addOnScrollListener(fastScroller.getOnScrollListener());
+
             updateData();
         } else if (pageNumber == TAB_POS_STOPS) {
             stopsDao = new StopsDao(ctx);
@@ -224,9 +233,15 @@ public class ItemsListFragment extends Fragment implements FavouriteFilterAction
         switch (pageNumber) {
             case TAB_POS_BUS: {
                 transportList.clear();
-                transportList.addAll(transportDao.getList(Transport.TRANSPORT_TYPE.BUS.getCode(),
+                List<Transport> list = transportDao.getList(Transport.TRANSPORT_TYPE.BUS.getCode(),
                         showMode == FavouriteFilterActionProvider.SHOW_MODE.FAV_ONLY, showMode == FavouriteFilterActionProvider.SHOW_MODE
-                                .FAV_FIRST));
+                                .FAV_FIRST);
+                /*transportList.addAll(transportDao.getList(Transport.TRANSPORT_TYPE.BUS.getCode(),
+                        showMode == FavouriteFilterActionProvider.SHOW_MODE.FAV_ONLY, showMode == FavouriteFilterActionProvider.SHOW_MODE
+                                .FAV_FIRST));*/
+                for (int i = 0; i < 10; i++) {
+                    transportList.addAll(list);
+                }
                 transportAdapter.notifyDataSetChanged();
             } break;
             case TAB_POS_TROLLEY: {
