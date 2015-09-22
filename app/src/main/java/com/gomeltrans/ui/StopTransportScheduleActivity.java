@@ -160,6 +160,7 @@ public class StopTransportScheduleActivity extends AppCompatActivity {
                 }
                 i++;
             }
+            Toast.makeText(that, String.valueOf(i), Toast.LENGTH_LONG).show();
             recyclerLayoutManager.scrollToPositionWithOffset(i, 0);
         }
     }
